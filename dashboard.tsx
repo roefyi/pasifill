@@ -771,109 +771,60 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            {/* Weather & Field Conditions - Moved to top */}
+            {/* This Month Stats */}
             <div className="mb-4">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {/* Stats Overview - Split with weather */}
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
-                  <div className="grid grid-cols-2 gap-4 flex-1">
-                    <Card className="bg-white border-gray-200">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-6 pt-6">
-                        <CardTitle className="text-sm font-medium text-gray-700">CEP-5 Forms</CardTitle>
-                        <FileText className="h-4 w-4 text-gray-500" />
-                      </CardHeader>
-                      <CardContent className="px-6 pb-6">
-                        <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
-                        <p className="text-xs text-gray-500">
-                          +{mockData.stats.monthlyForms - 20} from last month
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-gray-200">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-6 pt-6">
-                        <CardTitle className="text-sm font-medium text-gray-700">Time Saved</CardTitle>
-                        <Clock className="h-4 w-4 text-gray-500" />
-                      </CardHeader>
-                      <CardContent className="px-6 pb-6">
-                        <div className="text-2xl font-bold text-gray-900">{mockData.stats.timeSaved}h</div>
-                        <p className="text-xs text-gray-500">
-                          {Math.round((parseFloat(mockData.stats.timeSaved) / 40) * 100)}% of workday
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-gray-200">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-6 pt-6">
-                        <CardTitle className="text-sm font-medium text-gray-700">Total Customers</CardTitle>
-                        <Users className="h-4 w-4 text-gray-500" />
-                      </CardHeader>
-                      <CardContent className="px-6 pb-6">
-                        <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
-                        <p className="text-xs text-gray-500">
-                          Across {mockData.contractor.counties.length} counties
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-gray-200">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-6 pt-6">
-                        <CardTitle className="text-sm font-medium text-gray-700">Compliance Rate</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-gray-500" />
-                      </CardHeader>
-                      <CardContent className="px-6 pb-6">
-                        <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
-                        <p className="text-xs text-gray-500">
-                          ADPH acceptance rate
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-
-                {/* Weather Card */}
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Weather</h3>
-                  <Card className="bg-white border-gray-200 flex-1">
-                    <CardContent className="px-6 py-6">
-                      <div className="space-y-4">
-                        {/* Current Weather */}
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-3xl font-bold text-gray-900">{mockData.weather.current}</div>
-                            <div className="text-sm text-gray-600">{mockData.weather.condition}</div>
-                            <div className="text-xs text-gray-500 mt-1">Forecast: {mockData.weather.forecast}</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-sm font-medium text-gray-900">Ideal for:</div>
-                            <div className="text-xs text-gray-600">Soil evaluation</div>
-                            <div className="text-xs text-gray-600">Groundwater testing</div>
-                          </div>
-                        </div>
-                        
-                        {/* Hourly Forecast */}
-                        <div className="border-t border-gray-100 pt-4">
-                          <div className="text-xs font-medium text-gray-700 mb-3">Today's Forecast</div>
-                          <div className="flex space-x-4 overflow-x-auto pb-2">
-                            {mockData.weather.hourlyForecast.map((hour, index) => (
-                              <div key={index} className="flex flex-col items-center space-y-1 min-w-0">
-                                <div className="text-xs text-gray-500">{hour.time}</div>
-                                <div className="w-6 h-6 flex items-center justify-center">
-                                  {hour.icon === 'sun' ? (
-                                    <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>
-                                  ) : hour.icon === 'cloud-sun' ? (
-                                    <div className="w-4 h-4 bg-blue-400 rounded-full"></div>
-                                  ) : (
-                                    <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-                                  )}
-                                </div>
-                                <div className="text-xs font-medium text-gray-900">{hour.temp}</div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-4 py-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-xs font-medium text-gray-700">CEP-5 Forms</CardTitle>
+                        <FileText className="h-3 w-3 text-gray-500" />
                       </div>
+                      <div className="text-lg font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                      <p className="text-xs text-gray-500">
+                        +{mockData.stats.monthlyForms - 20} from last month
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-4 py-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-xs font-medium text-gray-700">Time Saved</CardTitle>
+                        <Clock className="h-3 w-3 text-gray-500" />
+                      </div>
+                      <div className="text-lg font-bold text-gray-900">{mockData.stats.timeSaved}h</div>
+                      <p className="text-xs text-gray-500">
+                        {Math.round((parseFloat(mockData.stats.timeSaved) / 40) * 100)}% of workday
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-4 py-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-xs font-medium text-gray-700">Total Customers</CardTitle>
+                        <Users className="h-3 w-3 text-gray-500" />
+                      </div>
+                      <div className="text-lg font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                      <p className="text-xs text-gray-500">
+                        Across {mockData.contractor.counties.length} counties
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-4 py-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-xs font-medium text-gray-700">Compliance Rate</CardTitle>
+                        <TrendingUp className="h-3 w-3 text-gray-500" />
+                      </div>
+                      <div className="text-lg font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                      <p className="text-xs text-gray-500">
+                        ADPH acceptance rate
+                      </p>
                     </CardContent>
                   </Card>
                 </div>
@@ -889,38 +840,36 @@ const DashboardPage = () => {
                   View Schedule
                 </Button>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {mockData.todayJobs.map((job) => (
                   <Card key={job.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
-                    <CardHeader className="px-6 pt-6 pb-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <CalendarDays className="w-5 h-5 text-blue-600" />
+                    <CardContent className="px-4 py-3">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                            <CalendarDays className="w-3 h-3 text-blue-600" />
                           </div>
                           <div>
-                            <div className="font-semibold text-sm text-gray-900">{job.time}</div>
-                            <div className="text-sm text-gray-600">{job.type}</div>
+                            <div className="font-semibold text-xs text-gray-900">{job.time}</div>
+                            <div className="text-xs text-gray-600">{job.type}</div>
                           </div>
                         </div>
-                        <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200">
+                        <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
                           {job.status}
                         </Badge>
                       </div>
-                    </CardHeader>
-                    <CardContent className="px-6 pb-6">
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <div className="flex items-center space-x-2">
-                          <Users className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm font-medium text-gray-900">{job.customer}</span>
+                          <Users className="w-3 h-3 text-gray-500" />
+                          <span className="text-xs font-medium text-gray-900">{job.customer}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <MapPin className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm text-gray-600">{job.address}</span>
+                          <MapPin className="w-3 h-3 text-gray-500" />
+                          <span className="text-xs text-gray-600">{job.address}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Building2 className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm text-gray-600">{job.county} County</span>
+                          <Building2 className="w-3 h-3 text-gray-500" />
+                          <span className="text-xs text-gray-600">{job.county} County</span>
                         </div>
                       </div>
                     </CardContent>
@@ -938,47 +887,24 @@ const DashboardPage = () => {
                   View All Pending
                 </Button>
               </div>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {mockData.pendingForms.map((form) => (
                   <Card key={form.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
-                    <CardHeader className="px-6 pt-6 pb-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                            <FileText className="w-5 h-5 text-amber-600" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-sm text-gray-900">{form.customer}</div>
-                            <div className="text-sm text-gray-600">Form ID: {form.id}</div>
-                          </div>
+                    <CardContent className="px-6 py-4">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                          <FileText className="w-4 h-4 text-amber-600" />
                         </div>
-                        <div className="text-right">
-                          <Badge variant="outline" className="text-xs bg-amber-100 text-amber-800 border-amber-200 mb-2">
-                            {form.status}
-                          </Badge>
-                          <div className="text-xs text-gray-500">Open {form.daysOpen} day{form.daysOpen !== 1 ? 's' : ''}</div>
+                        <div>
+                          <div className="font-semibold text-sm text-gray-900">{form.customer}</div>
+                          <div className="text-xs text-gray-500">ID: {form.id}</div>
                         </div>
                       </div>
-                    </CardHeader>
-                    <CardContent className="px-6 pb-6">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600">Progress</span>
-                          <span className="font-medium text-gray-900">{form.progress}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className={`h-2 rounded-full transition-all duration-300 ${
-                              form.progress >= 80 ? 'bg-green-500' : 
-                              form.progress >= 60 ? 'bg-blue-500' : 'bg-amber-500'
-                            }`}
-                            style={{ width: `${form.progress}%` }}
-                          ></div>
-                        </div>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span>County: {form.county}</span>
-                          <span>Updated: {form.lastUpdated}</span>
-                        </div>
+                      <div className="flex items-center justify-between text-xs">
+                        <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                          {form.status}
+                        </Badge>
+                        <span className="text-gray-500">{form.county} County</span>
                       </div>
                     </CardContent>
                   </Card>
@@ -1190,7 +1116,7 @@ const DashboardPage = () => {
                   <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
                     <div className="w-4 h-4 bg-white rounded-sm"></div>
                   </div>
-                  <h1 className="text-lg font-bold text-gray-800">Pasifill</h1>
+                  <h1 className="text-lg font-bold text-gray-800">Formifil</h1>
                 </div>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
                   <Bell className="h-4 w-4" />

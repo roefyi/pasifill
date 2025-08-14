@@ -1,4 +1,4 @@
-# Pasifill Dashboard
+# Formifil Dashboard
 
 A comprehensive dashboard for Alabama septic contractors to automate CEP-5 form completion, built with Next.js, React, and shadcn/ui.
 
@@ -49,7 +49,7 @@ A comprehensive dashboard for Alabama septic contractors to automate CEP-5 form 
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd pasifill-dashboard
+   cd formifil-dashboard
    ```
 
 2. **Install dependencies**
@@ -73,7 +73,7 @@ A comprehensive dashboard for Alabama septic contractors to automate CEP-5 form 
 ## Project Structure
 
 ```
-pasifill-dashboard/
+formifil-dashboard/
 ├── components/
 │   └── ui/                 # shadcn/ui components
 │       ├── card.tsx
@@ -90,7 +90,7 @@ pasifill-dashboard/
 ## Dashboard Sections
 
 ### 1. **Header**
-- Company branding and Pasifill logo
+- Company branding and Formifil logo
 - Alabama contractor license display
 - County coverage indicator
 - User profile avatar
@@ -215,10 +215,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Support
 
 For support and questions:
-- Email: support@pasifill.com
-- Documentation: docs.pasifill.com
-- Alabama Contractor Hotline: 1-800-PASIFILL
+- Email: support@formifil.com
+- Documentation: docs.formifil.com
+- Alabama Contractor Hotline: 1-800-FORMIFIL
 
 ---
 
-**Built specifically for Alabama septic contractors by Pasifill Team**
+**Built specifically for Alabama septic contractors by Formifil Team**

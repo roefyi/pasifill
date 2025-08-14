@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Setting up Pasifill Dashboard..."
+echo "🚀 Setting up Formifil Dashboard..."
 
 # Install dependencies
 echo "📦 Installing dependencies..."

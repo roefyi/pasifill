@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Complete Pasifill Dashboard Setup Starting..."
+echo "🚀 Complete Formifil Dashboard Setup Starting..."
 echo "================================================"
 
 # Check if we're in the right directory
@@ -83,7 +83,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Pasifill Dashboard',
+          title: 'Formifil Dashboard',
   description: 'Alabama Septic Contractor CEP-5 Automation Dashboard',
 }
 
