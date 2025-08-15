@@ -1461,54 +1461,75 @@ const DashboardPage = () => {
 
             <Card className="bg-white border-gray-200">
               <CardContent className="p-0">
+                {/* Column Headers */}
+                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+                  <div className="flex items-center space-x-8">
+                    <div className="min-w-[180px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-left">Customer Name</div>
+                    <div className="min-w-[140px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-left">Contact</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Property</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Forms</div>
+                    <div className="min-w-[100px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">County</div>
+                    <div className="min-w-[120px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Status</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Actions</div>
+                  </div>
+                </div>
+                
                 <Accordion type="single" collapsible className="w-full">
                   {mockData.customers.map((customer) => (
                     <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
                       <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                        <div className="flex items-center justify-between w-full pr-4">
-                          {/* Customer Info Section - Better Aligned */}
+                        <div className="flex items-center w-full">
+                          {/* Customer Info Section - Column Layout */}
                           <div className="flex items-center space-x-8">
-                            {/* Name and ID - Fixed Width */}
-                            <div className="min-w-[220px] flex items-center space-x-2">
-                              <span className="text-sm font-semibold text-gray-900">{customer.name}</span>
-                              <span className="text-xs text-gray-500 font-mono">({customer.id})</span>
+                            {/* Customer Name and ID */}
+                            <div className="min-w-[180px] text-left">
+                              <div className="text-sm font-semibold text-gray-900">{customer.name}</div>
+                              <div className="text-xs text-gray-500 font-mono">{customer.id}</div>
                             </div>
                             
-                            {/* Contact Info - Fixed Width */}
-                            <div className="min-w-[200px] flex items-center space-x-2">
-                              <span className="text-sm text-gray-900">{customer.contact}</span>
-                              <span className="text-xs text-gray-500">•</span>
-                              <span className="text-sm text-gray-600">{customer.phone}</span>
+                            {/* Contact Person */}
+                            <div className="min-w-[140px] text-left">
+                              <div className="text-sm font-medium text-gray-900">{customer.contact}</div>
                             </div>
                             
-                            {/* Business Metrics - Fixed Width */}
-                            <div className="min-w-[180px] flex items-center space-x-3 text-sm text-gray-600">
-                              <span><span className="font-semibold text-gray-900">{customer.properties}</span> properties</span>
-                              <span className="text-gray-400">•</span>
-                              <span><span className="font-semibold text-gray-900">{customer.forms}</span> forms</span>
-                              <span className="text-gray-400">•</span>
-                              <span>{customer.county} County</span>
+                            {/* Property Count */}
+                            <div className="min-w-[80px] text-center">
+                              <div className="text-sm font-medium text-gray-900">{customer.properties}</div>
                             </div>
-                          </div>
-                          
-                          {/* Status and Actions */}
-                          <div className="flex items-center space-x-4">
-                            <Badge 
-                              variant="outline" 
-                              className={`${getCustomerStatusColor(customer.status)} border`}
-                            >
-                              <span className="flex items-center space-x-1">
-                                {getCustomerStatusIcon(customer.status)}
-                                <span className="capitalize">{customer.status}</span>
-                              </span>
-                            </Badge>
-                            <div className="flex items-center space-x-2">
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <Mail className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <FileText className="h-4 w-4" />
-                              </Button>
+                            
+                            {/* Forms Count */}
+                            <div className="min-w-[80px] text-center">
+                              <div className="text-sm font-medium text-gray-900">{customer.forms}</div>
+                            </div>
+                            
+                            {/* County */}
+                            <div className="min-w-[100px] text-center">
+                              <div className="text-sm font-medium text-gray-700">{customer.county}</div>
+                            </div>
+                            
+                            {/* Status */}
+                            <div className="min-w-[120px] text-center">
+                              <Badge 
+                                variant="outline" 
+                                className={`${getCustomerStatusColor(customer.status)} border text-xs`}
+                              >
+                                <span className="flex items-center space-x-1">
+                                  {getCustomerStatusIcon(customer.status)}
+                                  <span className="capitalize">{customer.status}</span>
+                                </span>
+                              </Badge>
+                            </div>
+                            
+                            {/* Actions */}
+                            <div className="min-w-[80px] text-center">
+                              <div className="flex items-center justify-center space-x-1">
+                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                  <Mail className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                  <FileText className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
