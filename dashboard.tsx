@@ -775,14 +775,14 @@ const DashboardPage = () => {
             <div className="mb-4">
               <div className="flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card className="bg-white border-gray-200">
-                    <CardContent className="px-4 py-3">
+                    <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-xs font-medium text-gray-700">CEP-5 Forms</CardTitle>
-                        <FileText className="h-3 w-3 text-gray-500" />
+                        <CardTitle className="text-sm font-medium text-gray-700">CEP-5 Forms</CardTitle>
+                        <FileText className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-lg font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
                       <p className="text-xs text-gray-500">
                         +{mockData.stats.monthlyForms - 20} from last month
                       </p>
@@ -790,25 +790,12 @@ const DashboardPage = () => {
                   </Card>
 
                   <Card className="bg-white border-gray-200">
-                    <CardContent className="px-4 py-3">
+                    <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-xs font-medium text-gray-700">Time Saved</CardTitle>
-                        <Clock className="h-3 w-3 text-gray-500" />
+                        <CardTitle className="text-sm font-medium text-gray-700">Total Customers</CardTitle>
+                        <Users className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-lg font-bold text-gray-900">{mockData.stats.timeSaved}h</div>
-                      <p className="text-xs text-gray-500">
-                        {Math.round((parseFloat(mockData.stats.timeSaved) / 40) * 100)}% of workday
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-4 py-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-xs font-medium text-gray-700">Total Customers</CardTitle>
-                        <Users className="h-3 w-3 text-gray-500" />
-                      </div>
-                      <div className="text-lg font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
                       <p className="text-xs text-gray-500">
                         Across {mockData.contractor.counties.length} counties
                       </p>
@@ -816,12 +803,12 @@ const DashboardPage = () => {
                   </Card>
 
                   <Card className="bg-white border-gray-200">
-                    <CardContent className="px-4 py-3">
+                    <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-xs font-medium text-gray-700">Compliance Rate</CardTitle>
-                        <TrendingUp className="h-3 w-3 text-gray-500" />
+                        <CardTitle className="text-sm font-medium text-gray-700">Compliance Rate</CardTitle>
+                        <TrendingUp className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-lg font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
                       <p className="text-xs text-gray-500">
                         ADPH acceptance rate
                       </p>
@@ -840,10 +827,10 @@ const DashboardPage = () => {
                   View Schedule
                 </Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {mockData.todayJobs.map((job) => (
                   <Card key={job.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
-                    <CardContent className="px-4 py-3">
+                    <CardContent className="px-6 py-4">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center space-x-2">
                           <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
