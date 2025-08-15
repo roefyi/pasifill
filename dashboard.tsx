@@ -36,7 +36,12 @@ import {
   Bell,
   Settings,
   User,
-  CalendarDays
+  CalendarDays,
+  Filter,
+  SlidersHorizontal,
+  ArrowUpDown,
+  Save,
+  Printer
 } from "lucide-react"
 import { DatePicker } from "@/components/ui/date-picker"
 import { 
@@ -160,6 +165,80 @@ const mockData = {
       timeSaved: "45"
     }
   ],
+  cep5Forms: [
+    {
+      id: "CEP-001",
+      customer: "John Smith",
+      property: "123 Oak Street, Birmingham",
+      county: "Jefferson",
+      status: "completed",
+      date: "2024-01-15",
+      type: "New Installation"
+    },
+    {
+      id: "CEP-002", 
+      customer: "Sarah Johnson",
+      property: "456 Pine Ave, Hoover",
+      county: "Shelby",
+      status: "draft",
+      date: "2024-01-14",
+      type: "System Replacement"
+    },
+    {
+      id: "CEP-003",
+      customer: "Mike Davis",
+      property: "789 Elm Road, Tuscaloosa",
+      county: "Tuscaloosa",
+      status: "completed",
+      date: "2024-01-13",
+      type: "New Installation"
+    },
+    {
+      id: "CEP-004",
+      customer: "Williams Property",
+      property: "321 Maple Drive, Vestavia",
+      county: "Jefferson",
+      status: "in_progress",
+      date: "2024-01-16",
+      type: "System Upgrade"
+    },
+    {
+      id: "CEP-005",
+      customer: "Johnson Farm",
+      property: "654 Oak Lane, Birmingham",
+      county: "Shelby",
+      status: "draft",
+      date: "2024-01-12",
+      type: "New Installation"
+    },
+    {
+      id: "CEP-006",
+      customer: "Davis Property",
+      property: "987 Pine Street, Hoover",
+      county: "Tuscaloosa",
+      status: "completed",
+      date: "2024-01-11",
+      type: "System Replacement"
+    },
+    {
+      id: "CEP-007",
+      customer: "Miller Residence",
+      property: "147 Elm Avenue, Birmingham",
+      county: "Jefferson",
+      status: "in_progress",
+      date: "2024-01-17",
+      type: "New Installation"
+    },
+    {
+      id: "CEP-008",
+      customer: "Wilson Farm",
+      property: "258 Cedar Road, Hoover",
+      county: "Shelby",
+      status: "draft",
+      date: "2024-01-10",
+      type: "System Upgrade"
+    }
+  ],
   weather: {
     current: "72°F",
     condition: "Partly Cloudy",
@@ -240,39 +319,44 @@ const DashboardPage = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-emerald-100 text-emerald-800 border-emerald-200"
+        return "bg-green-50 text-green-700 border-green-200"
       case "draft":
-        return "bg-amber-100 text-amber-800 border-amber-200"
+        return "bg-amber-50 text-amber-700 border-amber-200"
+      case "in_progress":
+        return "bg-blue-50 text-blue-700 border-blue-200"
       case "pending":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-blue-50 text-blue-700 border-blue-200"
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-gray-50 text-gray-700 border-gray-200"
     }
   }
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-3 w-3" />
       case "draft":
-        return <ClockIcon className="h-4 w-4" />
+        return <ClockIcon className="h-3 w-3" />
+      case "in_progress":
+        return <AlertCircle className="h-3 w-3" />
       case "pending":
-        return <AlertCircle className="h-4 w-4" />
+        return <AlertCircle className="h-3 w-3" />
       default:
-        return <ClockIcon className="h-4 w-4" />
+        return <ClockIcon className="h-3 w-3" />
     }
   }
 
   const renderContent = () => {
     if (showNewForm) {
-      return (
+  return (
         <div className="space-y-6">
-          {/* Header */}
+      {/* Header */}
           <div className="space-y-4">
             <Button 
-              variant="ghost" 
+              variant="outline"
               onClick={handleBackButtonClick}
-              className="text-gray-600 hover:text-gray-900"
+              size="sm"
+              className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
@@ -283,16 +367,25 @@ const DashboardPage = () => {
                 <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
               </div>
               <div className="flex items-center space-x-3">
-                <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <Button 
+                  onClick={handleSaveDraft}
+                  size="sm"
+                  className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                >
+                  <Save className="w-4 h-4 mr-2" />
                   Save Draft
                 </Button>
-                <Button className="bg-sky-500 hover:bg-sky-600 text-white">
+                <Button 
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Printer className="w-4 h-4 mr-2" />
                   Print Form
                 </Button>
               </div>
             </div>
           </div>
-
+          
           {/* Form Sections */}
           <div className="space-y-6">
             {/* Basic Information */}
@@ -311,15 +404,15 @@ const DashboardPage = () => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Enter permit number"
                       />
-                    </div>
+            </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Date Received</label>
                       <DatePicker
                         placeholder="Select date received"
                         className="w-full"
                       />
-                    </div>
-                  </div>
+          </div>
+        </div>
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Owner/Applicant's Name</label>
@@ -741,40 +834,42 @@ const DashboardPage = () => {
       case 'dashboard':
         return (
           <>
-            {/* Welcome Section */}
+        {/* Welcome Section */}
             <div className="mb-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    Welcome back, {mockData.contractor.name.split(" ")[0]}!
-                  </h2>
-                  <p className="text-gray-600">
-                    Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
-                  </p>
-                </div>
-                <div className="flex items-center space-x-3 ml-6">
-                  <Button 
-                    onClick={handleNewForm}
-                    className="h-12 px-6 bg-sky-500 hover:bg-sky-600 text-white"
-                  >
-                    <Plus className="w-5 h-5 mr-2" />
-                    New CEP-5 Form
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    className="h-12 px-6 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-                  >
-                    <Users className="w-5 h-5 mr-2" />
-                    New Customer
-                  </Button>
-                </div>
-              </div>
-            </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Welcome back, {mockData.contractor.name.split(" ")[0]}!
+          </h2>
+          <p className="text-gray-600">
+            Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
+          </p>
+        </div>
+                                  <div className="flex items-center space-x-3 ml-6">
+                    <Button 
+                      onClick={handleNewForm}
+                      size="sm"
+                      className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      New CEP-5 Form
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                    >
+                      <Users className="w-4 h-4 mr-2" />
+                      New Customer
+                    </Button>
+                  </div>
+          </div>
+        </div>
 
             {/* This Month Stats */}
             <div className="mb-4">
               <div className="flex flex-col">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
@@ -784,10 +879,10 @@ const DashboardPage = () => {
                       </div>
                       <div className="text-xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
                       <p className="text-xs text-gray-500">
-                        +{mockData.stats.monthlyForms - 20} from last month
-                      </p>
-                    </CardContent>
-                  </Card>
+                  +{mockData.stats.monthlyForms - 20} from last month
+                </p>
+              </CardContent>
+            </Card>
 
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
@@ -797,10 +892,10 @@ const DashboardPage = () => {
                       </div>
                       <div className="text-xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
                       <p className="text-xs text-gray-500">
-                        Across {mockData.contractor.counties.length} counties
-                      </p>
-                    </CardContent>
-                  </Card>
+                  Across {mockData.contractor.counties.length} counties
+                </p>
+              </CardContent>
+            </Card>
 
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
@@ -810,19 +905,19 @@ const DashboardPage = () => {
                       </div>
                       <div className="text-xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
                       <p className="text-xs text-gray-500">
-                        ADPH acceptance rate
-                      </p>
-                    </CardContent>
-                  </Card>
+                  ADPH acceptance rate
+                </p>
+              </CardContent>
+            </Card>
                 </div>
-              </div>
-            </div>
+          </div>
+        </div>
 
             {/* Job Overview */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Today's Jobs</h3>
-                <Button variant="outline" size="sm" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                   <CalendarDays className="w-4 h-4 mr-2" />
                   View Schedule
                 </Button>
@@ -836,10 +931,10 @@ const DashboardPage = () => {
                           <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
                             <CalendarDays className="w-3 h-3 text-blue-600" />
                           </div>
-                          <div>
+                <div>
                             <div className="text-sm font-medium text-gray-900">{job.time}</div>
                             <div className="text-xs text-gray-500">{job.type}</div>
-                          </div>
+                </div>
                         </div>
                         <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
                           {job.status}
@@ -857,10 +952,10 @@ const DashboardPage = () => {
                         <div className="flex items-center space-x-2">
                           <Building2 className="w-3 h-3 text-gray-500" />
                           <span className="text-xs text-gray-600">{job.county} County</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
                 ))}
               </div>
             </div>
@@ -869,7 +964,7 @@ const DashboardPage = () => {
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Pending CEP-5 Forms</h3>
-                <Button variant="outline" size="sm" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                   <FileText className="w-4 h-4 mr-2" />
                   View All Pending
                 </Button>
@@ -882,135 +977,135 @@ const DashboardPage = () => {
                         <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
                           <FileText className="w-4 h-4 text-amber-600" />
                         </div>
-                        <div>
+                    <div>
                           <div className="text-sm font-medium text-gray-900">{form.customer}</div>
                           <div className="text-xs text-gray-500">ID: {form.id}</div>
-                        </div>
+                    </div>
                       </div>
                       <div className="flex items-center justify-between text-xs">
                         <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
                           {form.status}
-                        </Badge>
+                    </Badge>
                         <span className="text-gray-500">{form.county} County</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+              </div>
+            </CardContent>
+          </Card>
                 ))}
               </div>
-            </div>
+        </div>
 
-            {/* Recent CEP-5 Forms */}
+        {/* Recent CEP-5 Forms */}
             <div className="mb-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
-                <Button variant="outline" size="sm" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  View All
-                </Button>
-              </div>
-              
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
+                                  <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                    View All
+                  </Button>
+          </div>
+          
               <Card className="bg-white border-gray-200">
-                <CardContent className="p-0">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
-                        <tr>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Form ID
-                          </th>
+                        Form ID
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Customer
-                          </th>
+                        Customer
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Property
-                          </th>
+                        Property
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            County
-                          </th>
+                        County
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Status
-                          </th>
+                        Status
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Date
-                          </th>
+                        Date
+                      </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {mockData.recentForms.map((form) => (
-                          <tr key={form.id} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              {form.id}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {form.customer}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
-                              {form.property}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                              {form.county}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <Badge 
-                                variant="outline" 
-                                className={`${getStatusColor(form.status)} border`}
-                              >
-                                <span className="flex items-center space-x-1">
-                                  {getStatusIcon(form.status)}
-                                  <span className="capitalize">{form.status}</span>
-                                </span>
-                              </Badge>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                              {form.date}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <div className="flex items-center space-x-2">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {mockData.recentForms.map((form) => (
+                      <tr key={form.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {form.id}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {form.customer}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
+                          {form.property}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          {form.county}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Badge 
+                            variant="outline" 
+                            className={`${getStatusColor(form.status)} border`}
+                          >
+                            <span className="flex items-center space-x-1">
+                              {getStatusIcon(form.status)}
+                              <span className="capitalize">{form.status}</span>
+                            </span>
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          {form.date}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
                                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <Download className="h-4 w-4" />
-                                </Button>
+                              <Download className="h-4 w-4" />
+                            </Button>
                                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <Mail className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                              <Mail className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-            {/* Mobile Optimization Notice */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <FileText className="w-4 h-4 text-blue-600" />
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-blue-900">
-                    Mobile-Optimized for Field Work
-                  </h4>
-                  <p className="text-sm text-blue-700 mt-1">
-                    Complete CEP-5 forms offline on your tablet or smartphone. All data syncs automatically when you're back online.
-                  </p>
-                  <div className="mt-3 flex space-x-2">
-                    <Button size="sm" variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+        {/* Mobile Optimization Notice */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start space-x-3">
+            <div className="flex-shrink-0">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <FileText className="w-4 h-4 text-blue-600" />
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-blue-900">
+                Mobile-Optimized for Field Work
+              </h4>
+              <p className="text-sm text-blue-700 mt-1">
+                Complete CEP-5 forms offline on your tablet or smartphone. All data syncs automatically when you're back online.
+              </p>
+                                <div className="mt-3 flex space-x-2">
+                    <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                       Download Mobile App
                     </Button>
-                    <Button size="sm" variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                    <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                       View Offline Guide
                     </Button>
                   </div>
-                </div>
-              </div>
             </div>
+          </div>
+        </div>
           </>
         )
       case 'cep5':
@@ -1021,21 +1116,124 @@ const DashboardPage = () => {
                 <h1 className="text-3xl font-bold text-gray-900">CEP-5 Forms</h1>
                 <p className="text-gray-600 mt-2">Manage and track your environmental compliance forms</p>
               </div>
-              <Button 
-                onClick={handleNewForm}
-                className="h-12 px-6 bg-sky-500 hover:bg-sky-600 text-white"
-              >
-                <Plus className="w-5 h-5 mr-2" />
-                New CEP-5 Form
-              </Button>
+            </div>
+
+            {/* Search and Filter Controls */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <span>Showing {mockData.cep5Forms.length} forms</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <Search className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <ArrowUpDown className="h-4 w-4" />
+                </Button>
+                <Button 
+                  onClick={handleNewForm}
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New CEP-5 Form
+                </Button>
+              </div>
             </div>
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
-                <CardTitle className="text-gray-900">CEP-5 Form Management</CardTitle>
-                <CardDescription className="text-gray-600">Create, edit, and manage your Alabama CEP-5 forms</CardDescription>
-              </CardHeader>
-              <CardContent className="px-6 pb-6">
-                <p className="text-gray-600">CEP-5 form management interface coming soon...</p>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Form ID
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Customer
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Property
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          County
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Type
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Date
+                        </th>
+                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {mockData.cep5Forms.map((form) => (
+                        <tr key={form.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {form.id}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {form.customer}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
+                            {form.property}
+                          </td>
+                          <td className="px-6 py-4 pr-2 whitespace-nowrap text-sm text-gray-600">
+                            {form.county}
+                          </td>
+                          <td className="px-6 py-4 pl-2 whitespace-nowrap text-sm text-gray-600">
+                            {form.type}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Badge 
+                              variant="outline" 
+                              className={`${getStatusColor(form.status)} border`}
+                            >
+                              <span className="flex items-center space-x-1">
+                                {getStatusIcon(form.status)}
+                                <span className="capitalize">{form.status.replace('_', ' ')}</span>
+                              </span>
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {form.date}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div className="flex items-center space-x-2">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <Download className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <Mail className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -1272,15 +1470,15 @@ const DashboardPage = () => {
         {/* Page Content */}
         <main className="flex-1 px-6 py-6 overflow-y-auto">
           {renderContent()}
-        </main>
+      </main>
       </div>
 
       {/* Confirmation Dialog */}
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
           <DialogHeader>
-            <DialogTitle>Unsaved Changes</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-gray-900">Unsaved Changes</DialogTitle>
+            <DialogDescription className="text-gray-600">
               You have unsaved changes. Are you sure you want to leave? You can save your work as a draft or delete the form.
             </DialogDescription>
           </DialogHeader>
@@ -1288,14 +1486,13 @@ const DashboardPage = () => {
             <Button
               variant="outline"
               onClick={handleCancelDialog}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
             >
               Cancel
             </Button>
             <Button
-              variant="destructive"
               onClick={handleDeleteForm}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
             >
               Delete Form
             </Button>
