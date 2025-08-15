@@ -52,6 +52,20 @@ import {
   DialogHeader, 
   DialogTitle 
 } from "@/components/ui/dialog"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -239,6 +253,80 @@ const mockData = {
       type: "System Upgrade"
     }
   ],
+  customers: [
+    {
+      id: "CUST-001",
+      name: "Williams Property",
+      contact: "John Williams",
+      phone: "(205) 555-0101",
+      email: "john@williamsproperty.com",
+      county: "Jefferson",
+      properties: 3,
+      forms: 8,
+      status: "active",
+      lastContact: "2024-01-15"
+    },
+    {
+      id: "CUST-002",
+      name: "Johnson Farm",
+      contact: "Sarah Johnson",
+      phone: "(205) 555-0102",
+      email: "sarah@johnsonfarm.com",
+      county: "Shelby",
+      properties: 1,
+      forms: 2,
+      status: "active",
+      lastContact: "2024-01-14"
+    },
+    {
+      id: "CUST-003",
+      name: "Davis Property",
+      contact: "Mike Davis",
+      phone: "(205) 555-0103",
+      email: "mike@davisproperty.com",
+      county: "Tuscaloosa",
+      properties: 2,
+      forms: 5,
+      status: "active",
+      lastContact: "2024-01-13"
+    },
+    {
+      id: "CUST-004",
+      name: "Miller Estate",
+      contact: "Lisa Miller",
+      phone: "(205) 555-0104",
+      email: "lisa@millerestate.com",
+      county: "Jefferson",
+      properties: 1,
+      forms: 3,
+      status: "inactive",
+      lastContact: "2023-12-20"
+    },
+    {
+      id: "CUST-005",
+      name: "Smith Residence",
+      contact: "Robert Smith",
+      phone: "(205) 555-0105",
+      email: "robert@smithresidence.com",
+      county: "Shelby",
+      properties: 1,
+      forms: 1,
+      status: "active",
+      lastContact: "2024-01-11"
+    },
+    {
+      id: "CUST-006",
+      name: "Brown Property",
+      contact: "Jennifer Brown",
+      phone: "(205) 555-0106",
+      email: "jennifer@brownproperty.com",
+      county: "Jefferson",
+      properties: 2,
+      forms: 4,
+      status: "active",
+      lastContact: "2024-01-10"
+    }
+  ],
   weather: {
     current: "72°F",
     condition: "Partly Cloudy",
@@ -275,13 +363,17 @@ const DashboardPage = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false)
   const [showNewForm, setShowNewForm] = React.useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = React.useState(false)
+  const [formSource, setFormSource] = React.useState('dashboard')
+  const [showSearch, setShowSearch] = React.useState(false)
 
   const handleNewForm = () => {
+    setFormSource(activeTab)
     setShowNewForm(true)
   }
 
-  const handleBackToDashboard = () => {
+  const handleBackToSource = () => {
     setShowNewForm(false)
+    setActiveTab(formSource)
   }
 
   const handleBackButtonClick = () => {
@@ -293,6 +385,7 @@ const DashboardPage = () => {
     console.log("Saving draft...")
     setShowConfirmDialog(false)
     setShowNewForm(false)
+    setActiveTab(formSource)
   }
 
   const handleDeleteForm = () => {
@@ -300,10 +393,15 @@ const DashboardPage = () => {
     console.log("Deleting form...")
     setShowConfirmDialog(false)
     setShowNewForm(false)
+    setActiveTab(formSource)
   }
 
   const handleCancelDialog = () => {
     setShowConfirmDialog(false)
+  }
+
+  const handleSearchToggle = () => {
+    setShowSearch(!showSearch)
   }
 
   const handleFindCustomer = () => {
@@ -346,21 +444,67 @@ const DashboardPage = () => {
     }
   }
 
+  const getCustomerStatusColor = (status: string) => {
+    switch (status) {
+      case "active":
+        return "bg-green-50 text-green-700 border-green-200"
+      case "inactive":
+        return "bg-gray-50 text-gray-700 border-gray-200"
+      default:
+        return "bg-gray-50 text-gray-700 border-gray-200"
+    }
+  }
+
+  const getCustomerStatusIcon = (status: string) => {
+    switch (status) {
+      case "active":
+        return <CheckCircle className="h-3 w-3" />
+      case "inactive":
+        return <ClockIcon className="h-3 w-3" />
+      default:
+        return <ClockIcon className="h-3 w-3" />
+    }
+  }
+
   const renderContent = () => {
     if (showNewForm) {
   return (
         <div className="space-y-6">
       {/* Header */}
           <div className="space-y-4">
-            <Button 
-              variant="outline"
-              onClick={handleBackButtonClick}
-              size="sm"
-              className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink onClick={handleBackToSource}>
+                    {formSource === 'dashboard' ? (
+                      <>
+                        <Home className="w-4 h-4 mr-1" />
+                        Dashboard
+                      </>
+                    ) : formSource === 'cep5' ? (
+                      <>
+                        <FileText className="w-4 h-4 mr-1" />
+                        CEP-5
+                      </>
+                    ) : formSource === 'customers' ? (
+                      <>
+                        <Users className="w-4 h-4 mr-1" />
+                        Customers
+                      </>
+                    ) : (
+                      <>
+                        <Building2 className="w-4 h-4 mr-1" />
+                        Properties
+                      </>
+                    )}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>New CEP-5 Form</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">New CEP-5 Form</h2>
@@ -382,7 +526,7 @@ const DashboardPage = () => {
                   <Printer className="w-4 h-4 mr-2" />
                   Print Form
                 </Button>
-              </div>
+            </div>
             </div>
           </div>
           
@@ -846,22 +990,22 @@ const DashboardPage = () => {
           </p>
         </div>
                                   <div className="flex items-center space-x-3 ml-6">
-                    <Button 
-                      onClick={handleNewForm}
+            <Button 
+              onClick={handleNewForm}
                       size="sm"
                       className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                    >
+            >
                       <Plus className="w-4 h-4 mr-2" />
                       New CEP-5 Form
-                    </Button>
-                    <Button 
-                      variant="outline"
+            </Button>
+            <Button 
+              variant="outline"
                       size="sm"
                       className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
                     >
                       <Users className="w-4 h-4 mr-2" />
                       New Customer
-                    </Button>
+            </Button>
                   </div>
           </div>
         </div>
@@ -999,8 +1143,8 @@ const DashboardPage = () => {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
                                   <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                    View All
-                  </Button>
+              View All
+            </Button>
           </div>
           
               <Card className="bg-white border-gray-200">
@@ -1095,14 +1239,14 @@ const DashboardPage = () => {
               <p className="text-sm text-blue-700 mt-1">
                 Complete CEP-5 forms offline on your tablet or smartphone. All data syncs automatically when you're back online.
               </p>
-                                <div className="mt-3 flex space-x-2">
+              <div className="mt-3 flex space-x-2">
                     <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                      Download Mobile App
-                    </Button>
+                  Download Mobile App
+                </Button>
                     <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                      View Offline Guide
-                    </Button>
-                  </div>
+                  View Offline Guide
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -1127,6 +1271,7 @@ const DashboardPage = () => {
                 <Button 
                   variant="ghost" 
                   size="sm"
+                  onClick={handleSearchToggle}
                   className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
                 >
                   <Search className="h-4 w-4" />
@@ -1155,6 +1300,20 @@ const DashboardPage = () => {
                 </Button>
               </div>
             </div>
+            
+            {/* Search Bar */}
+            {showSearch && (
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search forms by customer, property, or ID..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            )}
             <Card className="bg-white border-gray-200">
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
@@ -1241,20 +1400,195 @@ const DashboardPage = () => {
       case 'customers':
         return (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Customers</h2>
-              <Button onClick={handleFindCustomer} variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                <Search className="w-4 h-4 mr-2" />
-                Find Customer
-              </Button>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
+                <p className="text-gray-600 mt-2">Manage your customer database and relationships</p>
+              </div>
             </div>
+
+            {/* Search and Filter Controls */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <span>Showing {mockData.customers.length} customers</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={handleSearchToggle}
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <Search className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <ArrowUpDown className="h-4 w-4" />
+                </Button>
+                <Button 
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Customer
+                </Button>
+              </div>
+            </div>
+            
+            {/* Search Bar */}
+            {showSearch && (
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search customers by name, contact, or email..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            )}
+
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
-                <CardTitle className="text-gray-900">Customer Management</CardTitle>
-                <CardDescription className="text-gray-600">Manage your customer database and information</CardDescription>
-              </CardHeader>
-              <CardContent className="px-6 pb-6">
-                <p className="text-gray-600">Customer management interface coming soon...</p>
+              <CardContent className="p-0">
+                <Accordion type="single" collapsible className="w-full">
+                  {mockData.customers.map((customer) => (
+                    <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
+                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                          {/* Customer Info Section - Better Aligned */}
+                          <div className="flex items-center space-x-8">
+                            {/* Name and ID - Fixed Width */}
+                            <div className="min-w-[220px] flex items-center space-x-2">
+                              <span className="text-sm font-semibold text-gray-900">{customer.name}</span>
+                              <span className="text-xs text-gray-500 font-mono">({customer.id})</span>
+                            </div>
+                            
+                            {/* Contact Info - Fixed Width */}
+                            <div className="min-w-[200px] flex items-center space-x-2">
+                              <span className="text-sm text-gray-900">{customer.contact}</span>
+                              <span className="text-xs text-gray-500">•</span>
+                              <span className="text-sm text-gray-600">{customer.phone}</span>
+                            </div>
+                            
+                            {/* Business Metrics - Fixed Width */}
+                            <div className="min-w-[180px] flex items-center space-x-3 text-sm text-gray-600">
+                              <span><span className="font-semibold text-gray-900">{customer.properties}</span> properties</span>
+                              <span className="text-gray-400">•</span>
+                              <span><span className="font-semibold text-gray-900">{customer.forms}</span> forms</span>
+                              <span className="text-gray-400">•</span>
+                              <span>{customer.county} County</span>
+                            </div>
+                          </div>
+                          
+                          {/* Status and Actions */}
+                          <div className="flex items-center space-x-4">
+                            <Badge 
+                              variant="outline" 
+                              className={`${getCustomerStatusColor(customer.status)} border`}
+                            >
+                              <span className="flex items-center space-x-1">
+                                {getCustomerStatusIcon(customer.status)}
+                                <span className="capitalize">{customer.status}</span>
+                              </span>
+                            </Badge>
+                            <div className="flex items-center space-x-2">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <Mail className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <FileText className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {/* Contact Information */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
+                              <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                              Contact Information
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Email:</span>
+                                <span className="text-gray-900 truncate ml-2 max-w-[200px]">{customer.email}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Phone:</span>
+                                <span className="text-gray-900">{customer.phone}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Contact:</span>
+                                <span className="text-gray-900">{customer.contact}</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Business Details */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
+                              <Building2 className="h-4 w-4 mr-2 text-gray-500" />
+                              Business Details
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">County:</span>
+                                <span className="text-gray-900">{customer.county}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Properties:</span>
+                                <span className="text-gray-900 font-semibold">{customer.properties}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Total Forms:</span>
+                                <span className="text-gray-900 font-semibold">{customer.forms}</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Activity & Status */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
+                              <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                              Activity & Status
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Last Contact:</span>
+                                <span className="text-gray-900">{customer.lastContact}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-700">Status:</span>
+                                <Badge 
+                                  variant="outline" 
+                                  className={`${getCustomerStatusColor(customer.status)} border`}
+                                >
+                                  <span className="flex items-center space-x-1">
+                                    {getCustomerStatusIcon(customer.status)}
+                                    <span className="capitalize">{customer.status}</span>
+                                  </span>
+                                </Badge>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </CardContent>
             </Card>
           </div>
