@@ -782,7 +782,7 @@ const DashboardPage = () => {
                         <CardTitle className="text-sm font-medium text-gray-700">CEP-5 Forms</CardTitle>
                         <FileText className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
                       <p className="text-xs text-gray-500">
                         +{mockData.stats.monthlyForms - 20} from last month
                       </p>
@@ -795,7 +795,7 @@ const DashboardPage = () => {
                         <CardTitle className="text-sm font-medium text-gray-700">Total Customers</CardTitle>
                         <Users className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
                       <p className="text-xs text-gray-500">
                         Across {mockData.contractor.counties.length} counties
                       </p>
@@ -808,7 +808,7 @@ const DashboardPage = () => {
                         <CardTitle className="text-sm font-medium text-gray-700">Compliance Rate</CardTitle>
                         <TrendingUp className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
                       <p className="text-xs text-gray-500">
                         ADPH acceptance rate
                       </p>
@@ -837,8 +837,8 @@ const DashboardPage = () => {
                             <CalendarDays className="w-3 h-3 text-blue-600" />
                           </div>
                           <div>
-                            <div className="font-semibold text-xs text-gray-900">{job.time}</div>
-                            <div className="text-xs text-gray-600">{job.type}</div>
+                            <div className="text-sm font-medium text-gray-900">{job.time}</div>
+                            <div className="text-xs text-gray-500">{job.type}</div>
                           </div>
                         </div>
                         <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
@@ -848,7 +848,7 @@ const DashboardPage = () => {
                       <div className="space-y-1.5">
                         <div className="flex items-center space-x-2">
                           <Users className="w-3 h-3 text-gray-500" />
-                          <span className="text-xs font-medium text-gray-900">{job.customer}</span>
+                          <span className="text-sm font-medium text-gray-900">{job.customer}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <MapPin className="w-3 h-3 text-gray-500" />
@@ -883,7 +883,7 @@ const DashboardPage = () => {
                           <FileText className="w-4 h-4 text-amber-600" />
                         </div>
                         <div>
-                          <div className="font-semibold text-sm text-gray-900">{form.customer}</div>
+                          <div className="text-sm font-medium text-gray-900">{form.customer}</div>
                           <div className="text-xs text-gray-500">ID: {form.id}</div>
                         </div>
                       </div>
@@ -914,25 +914,25 @@ const DashboardPage = () => {
                     <table className="w-full">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Form ID
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Customer
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Property
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             County
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Status
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Date
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                             Actions
                           </th>
                         </tr>
