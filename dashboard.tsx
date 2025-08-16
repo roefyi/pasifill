@@ -66,6 +66,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { CEP5Form } from "@/components/cep5-form"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -369,10 +370,24 @@ const DashboardPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
   const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
   const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
+  
+  // Debug useEffect to monitor state changes
+  React.useEffect(() => {
+    console.log("State changed - showNewForm:", showNewForm, "showAddCustomer:", showAddCustomer)
+  }, [showNewForm, showAddCustomer])
 
   const handleNewForm = () => {
+    console.log("handleNewForm called")
+    console.log("activeTab:", activeTab)
+    console.log("Before state change - showNewForm:", showNewForm)
     setFormSource(activeTab)
     setShowNewForm(true)
+    console.log("After state change - showNewForm set to true")
+    
+    // Force a re-render check
+    setTimeout(() => {
+      console.log("After timeout - showNewForm:", showNewForm)
+    }, 100)
   }
 
   const handleAddCustomer = () => {
@@ -505,7 +520,10 @@ const DashboardPage = () => {
   }
 
   const renderContent = () => {
+    console.log("renderContent called, showNewForm:", showNewForm, "showAddCustomer:", showAddCustomer)
+    
     if (showNewForm) {
+      console.log("Rendering CEP5 form section")
       return (
         <div className="space-y-6">
           {/* Header */}
@@ -556,124 +574,21 @@ const DashboardPage = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="text-lg font-semibold">New CEP-5 Form</h2>
-                <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Button 
-                  onClick={handleSaveDraft}
-                  size="sm"
-                  className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Draft
-                </Button>
-                <Button 
-                  size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  <Printer className="w-4 h-4 mr-2" />
-                  Print Form
-                </Button>
-              </div>
-            </div>
           </div>
           
-          {/* Form Sections */}
-          <div className="space-y-6">
-            {/* Basic Information */}
-            <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
-                <CardTitle className="text-gray-900">Basic Information</CardTitle>
-                <CardDescription className="text-gray-600">LHD permit and owner details</CardDescription>
-              </CardHeader>
-              <CardContent className="px-6 pb-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">LHD Permit #</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Enter permit number"
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Date Received</label>
-                      <DatePicker
-                        placeholder="Select date received"
-                        className="w-full"
-                        onDateChange={() => handleFormInputChange()}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Owner/Applicant's Name</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Full name"
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Property (911) Address</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Street address"
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">City, State, Zip</label>
-                    <input 
-                      type="text" 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                      placeholder="City, State, Zip"
-                      onChange={handleFormInputChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Subdivision Name</label>
-                    <input 
-                      type="text" 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                      placeholder="Subdivision name"
-                      onChange={handleFormInputChange}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Lot</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Lot #"
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Block</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Block #"
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {/* CEP5 Form Component */}
+          <CEP5Form 
+            onSave={async (data) => {
+              console.log("Saving CEP5 form:", data)
+              setHasUnsavedChanges(false)
+              setShowNewForm(false)
+              setActiveTab(formSource)
+            }}
+            onPrint={(data) => {
+              console.log("Printing CEP5 form:", data)
+              // Implement print functionality
+            }}
+          />
         </div>
       )
     } else if (showAddCustomer) {
@@ -898,46 +813,28 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="px-6 pb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Customer Status</label>
-                      <select 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        onChange={handleFormInputChange}
-                      >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="prospect">Prospect</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Notes</label>
-                      <textarea 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        rows={3}
-                        placeholder="Additional notes about this customer..."
-                        onChange={handleFormInputChange}
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Business Type</label>
+                    <select 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      onChange={handleFormInputChange}
+                    >
+                      <option value="">Select business type</option>
+                      <option value="LLC">LLC</option>
+                      <option value="Corporation">Corporation</option>
+                      <option value="Sole Proprietorship">Sole Proprietorship</option>
+                      <option value="Partnership">Partnership</option>
+                    </select>
                   </div>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Preferred Contact Method</label>
-                      <div className="space-y-2">
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="email" className="mr-2" defaultChecked />
-                          <span className="text-sm font-medium">Email</span>
-                        </label>
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="phone" className="mr-2" />
-                          <span className="text-sm font-medium">Phone</span>
-                        </label>
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="text" className="mr-2" />
-                          <span className="text-sm font-medium">Text Message</span>
-                        </label>
-                      </div>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Years in Business</label>
+                    <input 
+                      type="number" 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="Number of years"
+                      min="0"
+                      onChange={handleFormInputChange}
+                    />
                   </div>
                 </div>
               </CardContent>
@@ -945,672 +842,203 @@ const DashboardPage = () => {
           </div>
         </div>
       )
-    }
-    
-    switch (activeTab) {
-      case 'dashboard':
-        return (
-          <>
-        {/* Welcome Section */}
-            <div className="mb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-          <h2 className="text-lg font-semibold mb-2">
-            Welcome back, {mockData.contractor.name.split(" ")[0]}!
-          </h2>
-          <p className="text-gray-600">
-            Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
-          </p>
-        </div>
-                                  <div className="flex items-center space-x-3 ml-6">
-            <Button 
-              onClick={handleNewForm}
-                      size="sm"
-                      className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-            >
-                      <Plus className="w-4 h-4 mr-2" />
-                      New CEP-5 Form
-            </Button>
-            <Button 
-              variant="outline"
-                      size="sm"
-                      className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-                    >
-                      <Users className="w-4 h-4 mr-2" />
-                      New Customer
-            </Button>
-                  </div>
-          </div>
-        </div>
-
-            {/* This Month Stats */}
-            <div className="mb-4">
-              <div className="flex flex-col">
-                          <h3 className="text-lg font-semibold mb-4">This Month</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">CEP-5 Forms</CardTitle>
-                        <FileText className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
-                      <p className="text-xs text-gray-500">
-                  +{mockData.stats.monthlyForms - 20} from last month
-                </p>
-              </CardContent>
-            </Card>
-
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
-                        <Users className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
-                      <p className="text-xs text-gray-500">
-                  Across {mockData.contractor.counties.length} counties
-                </p>
-              </CardContent>
-            </Card>
-
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
-                      <p className="text-xs text-gray-500">
-                  ADPH acceptance rate
-                </p>
-              </CardContent>
-            </Card>
-                </div>
-          </div>
-        </div>
-
-            {/* Job Overview */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Today's Jobs</h3>
-                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  <CalendarDays className="w-4 h-4 mr-2" />
-                  View Schedule
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {mockData.todayJobs.map((job) => (
-                  <Card key={job.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                            <CalendarDays className="w-3 h-3 text-blue-600" />
-                          </div>
-                <div>
-                            <div className="text-sm font-medium text-gray-900">{job.time}</div>
-                            <div className="text-xs text-gray-500">{job.type}</div>
-                </div>
-                        </div>
-                        <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
-                          {job.status}
-                        </Badge>
-                      </div>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center space-x-2">
-                          <Users className="w-3 h-3 text-gray-500" />
-                          <span className="text-sm font-medium text-gray-900">{job.customer}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <MapPin className="w-3 h-3 text-gray-500" />
-                          <span className="text-xs text-gray-600">{job.address}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Building2 className="w-3 h-3 text-gray-500" />
-                          <span className="text-xs text-gray-600">{job.county} County</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Pending Forms Status */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Pending CEP-5 Forms</h3>
-                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  <FileText className="w-4 h-4 mr-2" />
-                  View All Pending
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {mockData.pendingForms.map((form) => (
-                  <Card key={form.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center space-x-3 mb-3">
-                        <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                          <FileText className="w-4 h-4 text-amber-600" />
-                        </div>
-                    <div>
-                          <div className="text-sm font-medium text-gray-900">{form.customer}</div>
-                          <div className="text-xs text-gray-500">ID: {form.id}</div>
-                    </div>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
-                          {form.status}
-                    </Badge>
-                        <span className="text-gray-500">{form.county} County</span>
-              </div>
-            </CardContent>
-          </Card>
-                ))}
-              </div>
-        </div>
-
-        {/* Recent CEP-5 Forms */}
-            <div className="mb-4">
-          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold">Recent CEP-5 Forms</h3>
-                                  <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-              View All
-            </Button>
-          </div>
-          
-              <Card className="bg-white border-gray-200">
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Form ID
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Customer
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Property
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        County
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Status
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Date
-                      </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {mockData.recentForms.map((form) => (
-                      <tr key={form.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {form.id}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {form.customer}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
-                          {form.property}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                          {form.county}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge 
-                            variant="outline" 
-                            className={`${getStatusColor(form.status)} border`}
-                          >
-                            <span className="flex items-center space-x-1">
-                              {getStatusIcon(form.status)}
-                              <span className="capitalize">{form.status}</span>
-                            </span>
-                          </Badge>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                          {form.date}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                              <Download className="h-4 w-4" />
-                            </Button>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                              <Mail className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Mobile Optimization Notice */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <FileText className="w-4 h-4 text-blue-600" />
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-blue-900">
-                Mobile-Optimized for Field Work
-              </h4>
-              <p className="text-sm text-blue-700 mt-1">
-                Complete CEP-5 forms offline on your tablet or smartphone. All data syncs automatically when you're back online.
+    } else {
+      return (
+        <div className="space-y-6">
+          {/* Welcome Section */}
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold mb-2">
+                Welcome back, {mockData.contractor.name.split(" ")[0]}!
+              </h2>
+              <p className="text-gray-600">
+                Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
               </p>
-              <div className="mt-3 flex space-x-2">
-                    <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  Download Mobile App
-                </Button>
-                    <Button size="sm" variant="outline" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  View Offline Guide
-                </Button>
-              </div>
             </div>
-          </div>
-        </div>
-          </>
-        )
-      case 'cep5':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-lg font-semibold">CEP-5 Forms</h1>
-                <p className="text-gray-600 mt-2">Manage and track your environmental compliance forms</p>
-              </div>
-            </div>
-
-            {/* Search and Filter Controls */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <span>Showing {mockData.cep5Forms.length} forms</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={handleSearchToggle}
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <SlidersHorizontal className="h-4 w-4" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-                <Button 
-                  onClick={handleNewForm}
-                  size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  New CEP-5 Form
-                </Button>
-              </div>
-            </div>
-            
-            {/* Search Bar */}
-            {showSearch && (
-              <div className="mb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search forms by customer, property, or ID..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            )}
-            <Card className="bg-white border-gray-200">
-              <CardContent className="p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Form ID
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Customer
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Property
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          County
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Type
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Date
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {mockData.cep5Forms.map((form) => (
-                        <tr key={form.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {form.id}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {form.customer}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
-                            {form.property}
-                          </td>
-                          <td className="px-6 py-4 pr-2 whitespace-nowrap text-sm text-gray-600">
-                            {form.county}
-                          </td>
-                          <td className="px-6 py-4 pl-2 whitespace-nowrap text-sm text-gray-600">
-                            {form.type}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge 
-                              variant="outline" 
-                              className={`${getStatusColor(form.status)} border`}
-                            >
-                              <span className="flex items-center space-x-1">
-                                {getStatusIcon(form.status)}
-                                <span className="capitalize">{form.status.replace('_', ' ')}</span>
-                              </span>
-                            </Badge>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            {form.date}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex items-center space-x-2">
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <Download className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <Mail className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )
-      case 'customers':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-lg font-semibold">Customers</h1>
-                <p className="text-gray-600 mt-2">Manage your customer database and relationships</p>
-              </div>
-            </div>
-
-            {/* Search and Filter Controls */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <span>Showing {mockData.customers.length} customers</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={handleSearchToggle}
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <SlidersHorizontal className="h-4 w-4" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-                <Button 
-                  onClick={handleAddCustomer}
-                  size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  New Customer
-                </Button>
-              </div>
-            </div>
-            
-            {/* Search Bar */}
-            {showSearch && (
-              <div className="mb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search customers by name, contact, or email..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            )}
-
-            <Card className="bg-white border-gray-200">
-              <CardContent className="p-0">
-                {/* Column Headers */}
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-                  <div className="flex items-center space-x-8">
-                                                              <div className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Customer Name</div>
-                     <div className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Contact</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Property</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Forms</div>
-                     <div className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">County</div>
-                     <div className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Status</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Actions</div>
-                  </div>
-                </div>
-                
-                <Accordion type="single" collapsible className="w-full">
-                  {mockData.customers.map((customer) => (
-                    <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
-                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                        <div className="flex items-center w-full">
-                          {/* Customer Info Section - Column Layout */}
-                          <div className="flex items-center space-x-8">
-                            {/* Customer Name and ID */}
-                            <div className="min-w-[180px] text-left">
-                              <div className="text-sm font-medium text-gray-900">{customer.name}</div>
-                              <div className="text-sm text-gray-600">{customer.id}</div>
-                            </div>
-                            
-                            {/* Contact Person */}
-                            <div className="min-w-[140px] text-left">
-                              <div className="text-sm font-medium text-gray-900">{customer.contact}</div>
-                            </div>
-                            
-                            {/* Property Count */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.properties}</div>
-                            </div>
-                            
-                            {/* Forms Count */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.forms}</div>
-                            </div>
-                            
-                            {/* County */}
-                            <div className="min-w-[100px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.county}</div>
-                            </div>
-                            
-                            {/* Status */}
-                            <div className="min-w-[120px] text-center">
-                              <Badge 
-                                variant="outline" 
-                                className={`${getCustomerStatusColor(customer.status)} border text-xs`}
-                              >
-                                <span className="flex items-center space-x-1">
-                                  {getCustomerStatusIcon(customer.status)}
-                                  <span className="capitalize">{customer.status}</span>
-                                </span>
-                              </Badge>
-                            </div>
-                            
-                            {/* Actions */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="flex items-center justify-center space-x-1">
-                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <Mail className="h-4 w-4" />
-                                </Button>
-                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <FileText className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="px-6 pb-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          {/* Contact Information */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Mail className="h-4 w-4 mr-2 text-gray-500" />
-                              Contact Information
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Email:</span>
-                                <span className="text-gray-900 truncate ml-2 max-w-[200px]">{customer.email}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Phone:</span>
-                                <span className="text-gray-900">{customer.phone}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Contact:</span>
-                                <span className="text-gray-900">{customer.contact}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Business Details */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Building2 className="h-4 w-4 mr-2 text-gray-500" />
-                              Business Details
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">County:</span>
-                                <span className="text-gray-900">{customer.county}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Properties:</span>
-                                <span className="text-gray-900 font-medium">{customer.properties}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Total Forms:</span>
-                                <span className="text-gray-900 font-medium">{customer.forms}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Activity & Status */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                              Activity & Status
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Last Contact:</span>
-                                <span className="text-gray-900">{customer.lastContact}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Status:</span>
-                                <Badge 
-                                  variant="outline" 
-                                  className={`${getCustomerStatusColor(customer.status)} border`}
-                                >
-                                  <span className="flex items-center space-x-1">
-                                    {getCustomerStatusIcon(customer.status)}
-                                    <span className="capitalize">{customer.status}</span>
-                                  </span>
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
-          </div>
-        )
-      case 'properties':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                              <h2 className="text-lg font-semibold">Properties</h2>
-              <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+            <div className="flex items-center space-x-3 ml-6">
+              <Button 
+                onClick={handleNewForm}
+                size="sm"
+                className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+              >
                 <Plus className="w-4 h-4 mr-2" />
-                Add Property
+                New CEP-5 Form
+              </Button>
+              <Button 
+                variant="outline"
+                size="sm"
+                className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+              >
+                <Users className="w-4 h-4 mr-2" />
+                New Customer
               </Button>
             </div>
-            <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
-                <CardTitle className="text-gray-900">Property Management</CardTitle>
-                <CardDescription className="text-gray-600">Track properties and their CEP-5 requirements</CardDescription>
-              </CardHeader>
-              <CardContent className="px-6 pb-6">
-                <p className="text-gray-600">Property management interface coming soon...</p>
+          </div>
+
+          {/* This Month Stats */}
+          <div className="mb-4">
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold mb-4">This Month</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium">CEP-5 Forms</CardTitle>
+                      <FileText className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                    <p className="text-xs text-gray-500">
+                      +{mockData.stats.monthlyForms - 20} from last month
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+                      <Users className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                    <p className="text-xs text-gray-500">
+                      Across {mockData.contractor.counties.length} counties
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
+                      <TrendingUp className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                    <p className="text-xs text-gray-500">
+                      ADPH acceptance rate
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Job Overview */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Today's Jobs</h3>
+              <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <CalendarDays className="w-4 h-4 mr-2" />
+                View Schedule
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {mockData.todayJobs.map((job) => (
+                <Card key={job.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                          <CalendarDays className="w-3 h-3 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{job.time}</div>
+                          <div className="text-xs text-gray-500">{job.type}</div>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
+                        {job.status}
+                      </Badge>
+                    </div>
+                    <div className="text-sm font-medium text-gray-900 mb-1">{job.customer}</div>
+                    <div className="text-xs text-gray-500 mb-2">{job.address}</div>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      {job.county} County
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Recent Activity</h3>
+              <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <Clock className="w-4 h-4 mr-2" />
+                View All
+              </Button>
+            </div>
+            <div className="space-y-3">
+              {mockData.recentForms.map((form) => (
+                <div key={form.id} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
+                      <FileText className="w-4 h-4 text-sky-600" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">{form.customer}</div>
+                      <div className="text-xs text-gray-500">{form.property}</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium text-gray-900">{form.status}</div>
+                    <div className="text-xs text-gray-500">{form.date}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card className="bg-white border-gray-200 hover:shadow-sm transition-shadow cursor-pointer">
+              <CardContent className="px-6 py-4 text-center">
+                <div className="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <FileText className="w-6 h-6 text-sky-600" />
+                </div>
+                <div className="text-sm font-medium text-gray-900">Forms</div>
+                <div className="text-2xl font-bold text-gray-900">{mockData.stats.formsCompleted}</div>
+                <div className="text-xs text-gray-500">Total completed</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:shadow-sm transition-shadow cursor-pointer">
+              <CardContent className="px-6 py-4 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Users className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="text-sm font-medium text-gray-900">Customers</div>
+                <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                <div className="text-xs text-gray-500">Active accounts</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:shadow-sm transition-shadow cursor-pointer">
+              <CardContent className="px-6 py-4 text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="text-sm font-medium text-gray-900">Properties</div>
+                <div className="text-2xl font-bold text-gray-900">{mockData.stats.activeProperties}</div>
+                <div className="text-xs text-gray-500">Sites managed</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:shadow-sm transition-shadow cursor-pointer">
+              <CardContent className="px-6 py-4 text-center">
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <TrendingUp className="w-6 h-6 text-orange-600" />
+                </div>
+                <div className="text-sm font-medium text-gray-900">Growth</div>
+                <div className="text-2xl font-bold text-gray-900">+{mockData.stats.monthlyForms - 20}</div>
+                <div className="text-xs text-gray-500">This month</div>
               </CardContent>
             </Card>
           </div>
-        )
-      default:
-        return null
+        </div>
+      )
     }
   }
 
