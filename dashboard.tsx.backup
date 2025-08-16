@@ -366,9 +366,6 @@ const DashboardPage = () => {
   const [showConfirmDialog, setShowConfirmDialog] = React.useState(false)
   const [formSource, setFormSource] = React.useState('dashboard')
   const [showSearch, setShowSearch] = React.useState(false)
-  const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
-  const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
-  const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
 
   const handleNewForm = () => {
     setFormSource(activeTab)
@@ -381,21 +378,9 @@ const DashboardPage = () => {
   }
 
   const handleBackToSource = () => {
-    if (hasUnsavedChanges) {
-      setShowLeaveConfirmDialog(true)
-      setPendingNavigation(() => () => {
-        setShowNewForm(false)
-        setShowAddCustomer(false)
-        setActiveTab(formSource)
-        setHasUnsavedChanges(false)
-        setShowLeaveConfirmDialog(false)
-        setPendingNavigation(null)
-      })
-    } else {
-      setShowNewForm(false)
-      setShowAddCustomer(false)
-      setActiveTab(formSource)
-    }
+    setShowNewForm(false)
+    setShowAddCustomer(false)
+    setActiveTab(formSource)
   }
 
   const handleBackButtonClick = () => {
@@ -408,7 +393,6 @@ const DashboardPage = () => {
     setShowConfirmDialog(false)
     setShowNewForm(false)
     setActiveTab(formSource)
-    setHasUnsavedChanges(false)
   }
 
   const handleDeleteForm = () => {
@@ -421,21 +405,6 @@ const DashboardPage = () => {
 
   const handleCancelDialog = () => {
     setShowConfirmDialog(false)
-  }
-
-  const handleFormInputChange = () => {
-    setHasUnsavedChanges(true)
-  }
-
-  const handleConfirmLeave = () => {
-    if (pendingNavigation) {
-      pendingNavigation()
-    }
-  }
-
-  const handleCancelLeave = () => {
-    setShowLeaveConfirmDialog(false)
-    setPendingNavigation(null)
   }
 
   const handleSearchToggle = () => {
@@ -513,20 +482,7 @@ const DashboardPage = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink onClick={() => {
-                    if (hasUnsavedChanges) {
-                      setShowLeaveConfirmDialog(true)
-                      setPendingNavigation(() => () => {
-                        setShowNewForm(false)
-                        setActiveTab(formSource)
-                        setHasUnsavedChanges(false)
-                        setShowLeaveConfirmDialog(false)
-                        setPendingNavigation(null)
-                      })
-                    } else {
-                      handleBackToSource()
-                    }
-                  }}>
+                  <BreadcrumbLink onClick={handleBackToSource}>
                     {formSource === 'dashboard' ? (
                       <>
                         <Home className="w-4 h-4 mr-1" />
@@ -558,7 +514,7 @@ const DashboardPage = () => {
             </Breadcrumb>
             <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-lg font-semibold">New CEP-5 Form</h2>
+                <h2 className="text-2xl font-bold text-gray-900">New CEP-5 Form</h2>
                 <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
               </div>
               <div className="flex items-center space-x-3">
@@ -593,80 +549,72 @@ const DashboardPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">LHD Permit #</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">LHD Permit #</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Enter permit number"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Date Received</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Date Received</label>
                       <DatePicker
                         placeholder="Select date received"
                         className="w-full"
-                        onDateChange={() => handleFormInputChange()}
                       />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Owner/Applicant's Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Owner/Applicant's Name</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Full name"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Property (911) Address</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Property (911) Address</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Street address"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">City, State, Zip</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">City, State, Zip</label>
                     <input 
                       type="text" 
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="City, State, Zip"
-                      onChange={handleFormInputChange}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Subdivision Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subdivision Name</label>
                     <input 
                       type="text" 
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="Subdivision name"
-                      onChange={handleFormInputChange}
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Lot</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Lot</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Lot #"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Block</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Block</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Block #"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
@@ -684,20 +632,7 @@ const DashboardPage = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink onClick={() => {
-                    if (hasUnsavedChanges) {
-                      setShowLeaveConfirmDialog(true)
-                      setPendingNavigation(() => () => {
-                        setShowAddCustomer(false)
-                        setActiveTab(formSource)
-                        setHasUnsavedChanges(false)
-                        setShowLeaveConfirmDialog(false)
-                        setPendingNavigation(null)
-                      })
-                    } else {
-                      handleBackToSource()
-                    }
-                  }}>
+                  <BreadcrumbLink onClick={handleBackToSource}>
                     {formSource === 'dashboard' ? (
                       <>
                         <Home className="w-4 h-4 mr-1" />
@@ -729,25 +664,12 @@ const DashboardPage = () => {
             </Breadcrumb>
             <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-lg font-semibold">Add New Customer</h2>
+                <h2 className="text-2xl font-bold text-gray-900">Add New Customer</h2>
                 <p className="text-gray-600">Create a new customer profile for your business</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Button 
-                  onClick={() => {
-                    if (hasUnsavedChanges) {
-                      setShowLeaveConfirmDialog(true)
-                      setPendingNavigation(() => () => {
-                        setShowAddCustomer(false)
-                        setActiveTab(formSource)
-                        setHasUnsavedChanges(false)
-                        setShowLeaveConfirmDialog(false)
-                        setPendingNavigation(null)
-                      })
-                    } else {
-                      handleBackToSource()
-                    }
-                  }}
+                  onClick={handleBackToSource}
                   size="sm"
                   className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
                 >
@@ -755,12 +677,6 @@ const DashboardPage = () => {
                   Cancel
                 </Button>
                 <Button 
-                  onClick={() => {
-                    // Here you would implement the actual create customer logic
-                    console.log("Creating customer...")
-                    setHasUnsavedChanges(false)
-                    handleBackToSource()
-                  }}
                   size="sm"
                   className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
                 >
@@ -783,41 +699,37 @@ const DashboardPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Business Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Enter business name"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Contact Person</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Contact Person</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Full name"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Phone Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                       <input 
                         type="tel" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="(205) 555-0000"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Email Address</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                       <input 
                         type="email" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="contact@business.com"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
@@ -834,49 +746,44 @@ const DashboardPage = () => {
               <CardContent className="px-6 pb-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Business Address</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
                     <input 
                       type="text" 
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="Street address"
-                      onChange={handleFormInputChange}
                     />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">City</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="City"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">State</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="State"
                         defaultValue="AL"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">ZIP Code</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="ZIP code"
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Primary Service County</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Primary Service County</label>
                     <select 
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                      onChange={handleFormInputChange}
                     >
                       <option value="">Select county</option>
                       <option value="Jefferson">Jefferson County</option>
@@ -900,10 +807,9 @@ const DashboardPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Customer Status</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Customer Status</label>
                       <select 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        onChange={handleFormInputChange}
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -911,32 +817,498 @@ const DashboardPage = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Notes</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
                       <textarea 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         rows={3}
                         placeholder="Additional notes about this customer..."
-                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Preferred Contact Method</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Contact Method</label>
                       <div className="space-y-2">
                         <label className="flex items-center">
                           <input type="radio" name="contactMethod" value="email" className="mr-2" defaultChecked />
-                          <span className="text-sm font-medium">Email</span>
+                          <span className="text-sm text-gray-700">Email</span>
                         </label>
                         <label className="flex items-center">
                           <input type="radio" name="contactMethod" value="phone" className="mr-2" />
-                          <span className="text-sm font-medium">Phone</span>
+                          <span className="text-sm text-gray-700">Phone</span>
                         </label>
                         <label className="flex items-center">
                           <input type="radio" name="contactMethod" value="text" className="mr-2" />
-                          <span className="text-sm font-medium">Text Message</span>
+                          <span className="text-sm text-gray-700">Text Message</span>
                         </label>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">New CEP-5 Form</h2>
+                <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Button 
+                  onClick={handleSaveDraft}
+                  size="sm"
+                  className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Draft
+                </Button>
+                <Button 
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Printer className="w-4 h-4 mr-2" />
+                  Print Form
+                </Button>
+            </div>
+            </div>
+          </div>
+          
+          {/* Form Sections */}
+          <div className="space-y-6">
+            {/* Basic Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Basic Information</CardTitle>
+                <CardDescription className="text-gray-600">LHD permit and owner details</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">LHD Permit #</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Enter permit number"
+                      />
+            </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Date Received</label>
+                      <DatePicker
+                        placeholder="Select date received"
+                        className="w-full"
+                      />
+          </div>
+        </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Owner/Applicant's Name</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Full name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Property (911) Address</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Street address"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">City, State, Zip</label>
+                    <input 
+                      type="text" 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="City, State, Zip"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subdivision Name</label>
+                    <input 
+                      type="text" 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="Subdivision name"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Lot</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Lot #"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Block</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Block #"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Installation Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Installation Information</CardTitle>
+                <CardDescription className="text-gray-600">System installation details and specifications</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Installation Date</label>
+                      <DatePicker
+                        placeholder="Select installation date"
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Installation Type</label>
+                      <div className="flex space-x-4">
+                        <label className="flex items-center">
+                          <input type="radio" name="installType" className="mr-2" />
+                          <span className="text-sm text-gray-700">New</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="radio" name="installType" className="mr-2" />
+                          <span className="text-sm text-gray-700">Repair</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Septic Tank Size (Gallons)</label>
+                      <input 
+                        type="number" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="e.g., 1000"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Manufacturer's #</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Manufacturer number"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Septic Tank Filter (NSF 46)</label>
+                    <div className="flex space-x-4">
+                      <label className="flex items-center">
+                        <input type="radio" name="filter" className="mr-2" />
+                        <span className="text-sm text-gray-700">Yes</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="filter" className="mr-2" />
+                        <span className="text-sm text-gray-700">No/Not Required</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Advanced Treatment Unit (if applicable)</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Make"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Model</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Model"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Type of Distribution System</label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <label className="flex items-center">
+                        <input type="radio" name="distribution" className="mr-2" />
+                        <span className="text-sm text-gray-700">Level Header</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="distribution" className="mr-2" />
+                        <span className="text-sm text-gray-700">Serial Distribution</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="distribution" className="mr-2" />
+                        <span className="text-sm text-gray-700">Distribution Box</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="distribution" className="mr-2" />
+                        <span className="text-sm text-gray-700">Other</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Type */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">System Type</CardTitle>
+                <CardDescription className="text-gray-600">Select the type of sewage disposal system</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Gravel</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Equivalent Product</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="radio" className="mr-2" />
+                      <span className="text-sm text-gray-700">Control Fill</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">LPP</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Drip</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Bed</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Combined Treatment/Disposal</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Pad</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">EDS</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="radio" name="systemType" className="mr-2" />
+                      <span className="text-sm text-gray-700">Other</span>
+                    </label>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Product Manufacturer(s)</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Manufacturer name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Model/Configuration</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Model or configuration"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Effluent Distribution Field */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Effluent Distribution Field</CardTitle>
+                <CardDescription className="text-gray-600">EDF specifications and measurements</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">EDF Depth/Height (Inches)</label>
+                      <input 
+                        type="number" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Depth in inches"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">NGS Position</label>
+                      <div className="flex space-x-4">
+                        <label className="flex items-center">
+                          <input type="radio" name="ngs" className="mr-2" />
+                          <span className="text-sm text-gray-700">Below NGS</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="radio" name="ngs" className="mr-2" />
+                          <span className="text-sm text-gray-700">Above NGS</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Fill (if applicable) Inches</label>
+                      <input 
+                        type="number" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Fill inches"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">EDF Size</label>
+                      <div className="flex space-x-4">
+                        <label className="flex items-center">
+                          <input type="radio" name="edfSize" className="mr-2" />
+                          <span className="text-sm text-gray-700">Linear Feet</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="radio" name="edfSize" className="mr-2" />
+                          <span className="text-sm text-gray-700">Square Feet</span>
+                        </label>
+                      </div>
+                      <input 
+                        type="number" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
+                        placeholder="Size value"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Trench Width (if applicable) Inches</label>
+                      <input 
+                        type="number" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Trench width"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Separate Washer Line (if installed)</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <input 
+                          type="number" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="Width"
+                        />
+                        <input 
+                          type="number" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="Length (linear feet)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Installer Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Installer Information</CardTitle>
+                <CardDescription className="text-gray-600">Your company and contact details</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Installer Name / Company</label>
+                    <input 
+                      type="text" 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="Company name"
+                      defaultValue={mockData.contractor.name}
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
+                    <input 
+                      type="text" 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="Business address"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Telephone</label>
+                      <input 
+                        type="tel" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Phone number"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="City"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="State"
+                          defaultValue="AL"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Zip</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="Zip code"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                      <DatePicker
+                        placeholder="Select date"
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">License No.</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="License number"
+                        defaultValue={mockData.contractor.license}
+                      />
                     </div>
                   </div>
                 </div>
@@ -955,7 +1327,7 @@ const DashboardPage = () => {
             <div className="mb-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-          <h2 className="text-lg font-semibold mb-2">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Welcome back, {mockData.contractor.name.split(" ")[0]}!
           </h2>
           <p className="text-gray-600">
@@ -986,15 +1358,15 @@ const DashboardPage = () => {
             {/* This Month Stats */}
             <div className="mb-4">
               <div className="flex flex-col">
-                          <h3 className="text-lg font-semibold mb-4">This Month</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">CEP-5 Forms</CardTitle>
+                        <CardTitle className="text-sm font-medium text-gray-700">CEP-5 Forms</CardTitle>
                         <FileText className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
                       <p className="text-xs text-gray-500">
                   +{mockData.stats.monthlyForms - 20} from last month
                 </p>
@@ -1004,10 +1376,10 @@ const DashboardPage = () => {
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+                        <CardTitle className="text-sm font-medium text-gray-700">Total Customers</CardTitle>
                         <Users className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
                       <p className="text-xs text-gray-500">
                   Across {mockData.contractor.counties.length} counties
                 </p>
@@ -1017,10 +1389,10 @@ const DashboardPage = () => {
                   <Card className="bg-white border-gray-200">
                     <CardContent className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
+                        <CardTitle className="text-sm font-medium text-gray-700">Compliance Rate</CardTitle>
                         <TrendingUp className="h-4 w-4 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                      <div className="text-xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
                       <p className="text-xs text-gray-500">
                   ADPH acceptance rate
                 </p>
@@ -1033,7 +1405,7 @@ const DashboardPage = () => {
             {/* Job Overview */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Today's Jobs</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Today's Jobs</h3>
                 <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                   <CalendarDays className="w-4 h-4 mr-2" />
                   View Schedule
@@ -1080,7 +1452,7 @@ const DashboardPage = () => {
             {/* Pending Forms Status */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Pending CEP-5 Forms</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Pending CEP-5 Forms</h3>
                 <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                   <FileText className="w-4 h-4 mr-2" />
                   View All Pending
@@ -1114,7 +1486,7 @@ const DashboardPage = () => {
         {/* Recent CEP-5 Forms */}
             <div className="mb-4">
           <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold">Recent CEP-5 Forms</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
                                   <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
               View All
             </Button>
@@ -1230,7 +1602,7 @@ const DashboardPage = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-lg font-semibold">CEP-5 Forms</h1>
+                <h1 className="text-3xl font-bold text-gray-900">CEP-5 Forms</h1>
                 <p className="text-gray-600 mt-2">Manage and track your environmental compliance forms</p>
               </div>
             </div>
@@ -1375,7 +1747,7 @@ const DashboardPage = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-lg font-semibold">Customers</h1>
+                <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
                 <p className="text-gray-600 mt-2">Manage your customer database and relationships</p>
               </div>
             </div>
@@ -1438,13 +1810,13 @@ const DashboardPage = () => {
                 {/* Column Headers */}
                 <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
                   <div className="flex items-center space-x-8">
-                                                              <div className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Customer Name</div>
-                     <div className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Contact</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Property</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Forms</div>
-                     <div className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">County</div>
-                     <div className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Status</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Actions</div>
+                    <div className="min-w-[180px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-left">Customer Name</div>
+                    <div className="min-w-[140px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-left">Contact</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Property</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Forms</div>
+                    <div className="min-w-[100px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">County</div>
+                    <div className="min-w-[120px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Status</div>
+                    <div className="min-w-[80px] text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">Actions</div>
                   </div>
                 </div>
                 
@@ -1457,8 +1829,8 @@ const DashboardPage = () => {
                           <div className="flex items-center space-x-8">
                             {/* Customer Name and ID */}
                             <div className="min-w-[180px] text-left">
-                              <div className="text-sm font-medium text-gray-900">{customer.name}</div>
-                              <div className="text-sm text-gray-600">{customer.id}</div>
+                              <div className="text-sm font-semibold text-gray-900">{customer.name}</div>
+                              <div className="text-xs text-gray-500 font-mono">{customer.id}</div>
                             </div>
                             
                             {/* Contact Person */}
@@ -1478,7 +1850,7 @@ const DashboardPage = () => {
                             
                             {/* County */}
                             <div className="min-w-[100px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.county}</div>
+                              <div className="text-sm font-medium text-gray-700">{customer.county}</div>
                             </div>
                             
                             {/* Status */}
@@ -1512,21 +1884,21 @@ const DashboardPage = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                           {/* Contact Information */}
                           <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
                               <Mail className="h-4 w-4 mr-2 text-gray-500" />
                               Contact Information
                             </h4>
                             <div className="space-y-3 text-sm">
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Email:</span>
+                                <span className="font-medium text-gray-700">Email:</span>
                                 <span className="text-gray-900 truncate ml-2 max-w-[200px]">{customer.email}</span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Phone:</span>
+                                <span className="font-medium text-gray-700">Phone:</span>
                                 <span className="text-gray-900">{customer.phone}</span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Contact:</span>
+                                <span className="font-medium text-gray-700">Contact:</span>
                                 <span className="text-gray-900">{customer.contact}</span>
                               </div>
                             </div>
@@ -1534,39 +1906,39 @@ const DashboardPage = () => {
                           
                           {/* Business Details */}
                           <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
                               <Building2 className="h-4 w-4 mr-2 text-gray-500" />
                               Business Details
                             </h4>
                             <div className="space-y-3 text-sm">
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">County:</span>
+                                <span className="font-medium text-gray-700">County:</span>
                                 <span className="text-gray-900">{customer.county}</span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Properties:</span>
-                                <span className="text-gray-900 font-medium">{customer.properties}</span>
+                                <span className="font-medium text-gray-700">Properties:</span>
+                                <span className="text-gray-900 font-semibold">{customer.properties}</span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Total Forms:</span>
-                                <span className="text-gray-900 font-medium">{customer.forms}</span>
+                                <span className="font-medium text-gray-700">Total Forms:</span>
+                                <span className="text-gray-900 font-semibold">{customer.forms}</span>
                               </div>
                             </div>
                           </div>
                           
                           {/* Activity & Status */}
                           <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-4 flex items-center">
                               <Clock className="h-4 w-4 mr-2 text-gray-500" />
                               Activity & Status
                             </h4>
                             <div className="space-y-3 text-sm">
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Last Contact:</span>
+                                <span className="font-medium text-gray-700">Last Contact:</span>
                                 <span className="text-gray-900">{customer.lastContact}</span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Status:</span>
+                                <span className="font-medium text-gray-700">Status:</span>
                                 <Badge 
                                   variant="outline" 
                                   className={`${getCustomerStatusColor(customer.status)} border`}
@@ -1592,7 +1964,7 @@ const DashboardPage = () => {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-                              <h2 className="text-lg font-semibold">Properties</h2>
+              <h2 className="text-2xl font-bold text-gray-900">Properties</h2>
               <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Property
@@ -1630,7 +2002,7 @@ const DashboardPage = () => {
                   <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
                     <div className="w-4 h-4 bg-white rounded-sm"></div>
                   </div>
-                  <h1 className="text-lg font-semibold text-gray-800">Formifil</h1>
+                  <h1 className="text-lg font-bold text-gray-800">Formifil</h1>
                 </div>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
                   <Bell className="h-4 w-4" />
@@ -1830,33 +2202,6 @@ const DashboardPage = () => {
               className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
             >
               Save Draft
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Leave Confirmation Dialog */}
-      <Dialog open={showLeaveConfirmDialog} onOpenChange={setShowLeaveConfirmDialog}>
-        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
-          <DialogHeader>
-            <DialogTitle className="text-gray-900">Leave Form?</DialogTitle>
-            <DialogDescription className="text-gray-600">
-              You have unsaved changes. Are you sure you want to leave? All unsaved work will be lost.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex-col sm:flex-row gap-2">
-            <Button
-              variant="outline"
-              onClick={handleCancelLeave}
-              className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-            >
-              Stay on Form
-            </Button>
-            <Button
-              onClick={handleConfirmLeave}
-              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
-            >
-              Leave Anyway
             </Button>
           </DialogFooter>
         </DialogContent>
