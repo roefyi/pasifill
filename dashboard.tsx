@@ -369,6 +369,24 @@ const DashboardPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
   const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
   const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
+  
+  // Layout System State
+  const [layoutElements, setLayoutElements] = React.useState<Array<{
+    id: string
+    type: 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other'
+    label: string
+    x: number
+    y: number
+    width: number
+    height: number
+  }>>([])
+  const [selectedElement, setSelectedElement] = React.useState<any>(null)
+  const [isDragging, setIsDragging] = React.useState(false)
+  const [dragOffset, setDragOffset] = React.useState({ x: 0, y: 0 })
+  const [showAddElementDialog, setShowAddElementDialog] = React.useState(false)
+  const [showLayoutHelp, setShowLayoutHelp] = React.useState(false)
+  const [showElementEditDialog, setShowElementEditDialog] = React.useState(false)
+  const [editingElement, setEditingElement] = React.useState<any>(null)
 
   const handleNewForm = () => {
     setFormSource(activeTab)
@@ -425,6 +443,77 @@ const DashboardPage = () => {
 
   const handleFormInputChange = () => {
     setHasUnsavedChanges(true)
+  }
+
+  // Layout System Functions
+  const handleElementClick = (element: any) => {
+    setSelectedElement(element)
+    setEditingElement(element)
+    setShowElementEditDialog(true)
+  }
+
+  const handleDragStart = (e: React.MouseEvent, element: any) => {
+    if (e.button !== 0) return // Only left mouse button
+    setIsDragging(true)
+    setSelectedElement(element)
+    const rect = (e.target as HTMLElement).getBoundingClientRect()
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    })
+    e.preventDefault()
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !selectedElement) return
+    
+    const container = e.currentTarget.getBoundingClientRect()
+    const newX = e.clientX - container.left - dragOffset.x
+    const newY = e.clientY - container.top - dragOffset.y
+    
+    // Constrain to container bounds
+    const constrainedX = Math.max(0, Math.min(newX, container.width - selectedElement.width))
+    const constrainedY = Math.max(0, Math.min(newY, container.height - selectedElement.height))
+    
+    setLayoutElements(prev => prev.map(el => 
+      el.id === selectedElement.id 
+        ? { ...el, x: constrainedX, y: constrainedY }
+        : el
+    ))
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+    setSelectedElement(null)
+  }
+
+  const handleAddElement = (type: string, label: string, width: number, height: number) => {
+    const newElement = {
+      id: `element-${Date.now()}`,
+      type,
+      label,
+      x: 100,
+      y: 100,
+      width,
+      height
+    }
+    setLayoutElements(prev => [...prev, newElement])
+    setShowAddElementDialog(false)
+  }
+
+  const handleDeleteElement = (elementId: string) => {
+    setLayoutElements(prev => prev.filter(el => el.id !== elementId))
+    if (selectedElement?.id === elementId) {
+      setSelectedElement(null)
+    }
+  }
+
+  const handleUpdateElement = (elementId: string, updates: any) => {
+    setLayoutElements(prev => prev.map(el => 
+      el.id === elementId ? { ...el, ...updates } : el
+    ))
+    setShowElementEditDialog(false)
+    setEditingElement(null)
   }
 
   const handleConfirmLeave = () => {
@@ -668,6 +757,714 @@ const DashboardPage = () => {
                         placeholder="Block #"
                         onChange={handleFormInputChange}
                       />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Installation Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Installation Information</CardTitle>
+                <CardDescription className="text-gray-600">System installation details and specifications</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Installation Date</label>
+                      <DatePicker
+                        placeholder="Select installation date"
+                        className="w-full"
+                        onDateChange={() => handleFormInputChange()}
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">Installation Type</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="installationType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">New</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="installationType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Repair</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Septic Tank Size (Gallons)</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="e.g., 1000, 1500"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Manufacturer's #</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Manufacturer serial number"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">Septic Tank Filter (NSF 46)</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="filterInstalled"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Yes</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="filterInstalled"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">No/Not Required</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Advanced Treatment Unit (if applicable)</label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Make</label>
+                          <input 
+                            type="text" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            placeholder="Manufacturer"
+                            onChange={handleFormInputChange}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Model</label>
+                          <input 
+                            type="text" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            placeholder="Model number"
+                            onChange={handleFormInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">Type of Distribution System</label>
+                      <div className="space-y-2">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="distributionSystem"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Level Header</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="distributionSystem"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Serial Distribution</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="distributionSystem"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Distribution Box</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="distributionSystem"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Other</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Type */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">System Type</CardTitle>
+                <CardDescription className="text-gray-600">Treatment and disposal system specifications</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">System Type</label>
+                      <div className="space-y-2">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="systemType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Gravel</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="systemType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Equivalent Product</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="systemType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Control Fill</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="systemType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">LPP</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="systemType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Drip</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="flex items-center space-x-2">
+                        <input 
+                          type="radio" 
+                          name="systemType"
+                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                          onChange={handleFormInputChange}
+                        />
+                        <span className="text-sm text-gray-700">Bed</span>
+                      </label>
+                      <label className="flex items-center space-x-2">
+                        <input 
+                          type="radio" 
+                          name="systemType"
+                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                          onChange={handleFormInputChange}
+                        />
+                        <span className="text-sm text-gray-700">Combined Treatment/Disposal</span>
+                      </label>
+                      <label className="flex items-center space-x-2">
+                        <input 
+                          type="radio" 
+                          name="systemType"
+                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                          onChange={handleFormInputChange}
+                        />
+                        <span className="text-sm text-gray-700">Pad</span>
+                      </label>
+                      <label className="flex items-center space-x-2">
+                        <input 
+                          type="radio" 
+                          name="systemType"
+                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                          onChange={handleFormInputChange}
+                        />
+                        <span className="text-sm text-gray-700">EDS</span>
+                      </label>
+                      <label className="flex items-center space-x-2">
+                        <input 
+                          type="radio" 
+                          name="systemType"
+                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                          onChange={handleFormInputChange}
+                        />
+                        <span className="text-sm text-gray-700">Other</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Product Manufacturer(s)</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Manufacturer name"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Model/Configuration</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Model number or configuration"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Effluent Distribution Field */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Effluent Distribution Field</CardTitle>
+                <CardDescription className="text-gray-600">Distribution field specifications and measurements</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">EDF Depth/Height (Inches)</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Depth in inches"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">Below/Above NGS</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="ngsPosition"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Below NGS</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="ngsPosition"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Above NGS</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Fill (if applicable) - Inches</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Fill depth in inches"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium mb-2">EDF Size</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="edfSizeType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Linear Feet</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input 
+                            type="radio" 
+                            name="edfSizeType"
+                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
+                            onChange={handleFormInputChange}
+                          />
+                          <span className="text-sm text-gray-700">Square Feet</span>
+                        </label>
+                      </div>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
+                        placeholder="Size value"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Trench Width (if applicable) - Inches</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Trench width in inches"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Separate Washer Line (if installed)</label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Width</label>
+                          <input 
+                            type="text" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            placeholder="Width in inches"
+                            onChange={handleFormInputChange}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Length (Linear Feet)</label>
+                          <input 
+                            type="text" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            placeholder="Length in feet"
+                            onChange={handleFormInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Installer Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Installer Information</CardTitle>
+                <CardDescription className="text-gray-600">Contractor and business details</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Installer Name / Company</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Company or installer name"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Business Address</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Street address"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Telephone</label>
+                      <input 
+                        type="tel" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Phone number"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">City</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="City"
+                          onChange={handleFormInputChange}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">State</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="State"
+                          onChange={handleFormInputChange}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Zip</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="Zip code"
+                          onChange={handleFormInputChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Layout */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">System Layout</CardTitle>
+                <CardDescription className="text-gray-600">Sketch the layout of the system showing tanks and lines in proximity to the house and road</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-4">
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <p className="text-sm text-gray-700 mb-4">
+                      This record of the installation of an onsite sewage disposal system is submitted by:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Installer Name</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="Installer name"
+                          onChange={handleFormInputChange}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Date</label>
+                        <DatePicker
+                          placeholder="Select date"
+                          className="w-full"
+                          onDateChange={() => handleFormInputChange()}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">License #</label>
+                        <input 
+                          type="text" 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          placeholder="License number"
+                          onChange={handleFormInputChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Layout Diagram */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-sm font-medium mb-2">System Layout Sketch</label>
+                      <div className="flex space-x-2">
+                        <Button 
+                          size="sm"
+                          className="h-8 px-3 bg-sky-500 hover:bg-sky-600 text-white text-xs"
+                          onClick={() => setShowAddElementDialog(true)}
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Add Element
+                        </Button>
+                        <Button 
+                          size="sm"
+                          className="h-8 px-3 bg-gray-500 hover:bg-gray-600 text-white text-xs"
+                          onClick={() => setShowLayoutHelp(true)}
+                        >
+                          Help
+                        </Button>
+                      </div>
+                    </div>
+                    <div 
+                      className="relative w-full h-80 bg-white border-2 border-dashed border-gray-300 rounded-lg overflow-hidden"
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={handleMouseUp}
+                      onMouseLeave={handleMouseUp}
+                    >
+                      {/* Street */}
+                      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-gray-700 via-gray-800 to-gray-900">
+                        {/* Road Surface Texture */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 opacity-60"></div>
+                        
+                        {/* Road Name Input - Centered */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <input 
+                            type="text" 
+                            className="w-48 px-3 py-1.5 text-sm bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 shadow-lg"
+                            placeholder="Road Name"
+                            onChange={handleFormInputChange}
+                          />
+                        </div>
+                        
+                        {/* Shoulder Lines */}
+                        <div className="absolute top-1 left-0 right-0 h-0.5 bg-white opacity-40"></div>
+                        <div className="absolute bottom-1 left-0 right-0 h-0.5 bg-white opacity-40"></div>
+                      </div>
+                      
+                      {/* House - Simple Square Shape */}
+                      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-28 h-28">
+                        {/* House Body - Square */}
+                        <div className="absolute inset-0 bg-gray-200 border-2 border-gray-400 rounded-lg"></div>
+                        
+                        {/* Door */}
+                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-6 bg-gray-600 border border-gray-700 rounded-t-sm"></div>
+                        
+                        {/* Windows */}
+                        <div className="absolute top-4 left-2 w-2 h-2 bg-blue-200 border border-blue-400 rounded-sm"></div>
+                        <div className="absolute top-4 right-2 w-2 h-2 bg-blue-200 border border-blue-400 rounded-sm"></div>
+                      </div>
+                      
+                      {/* Interactive System Elements */}
+                      {layoutElements.map((element, index) => (
+                        <div
+                          key={element.id}
+                          className={`absolute cursor-move select-none ${
+                            selectedElement?.id === element.id ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+                          }`}
+                          style={{
+                            top: element.y,
+                            left: element.x,
+                            width: element.width,
+                            height: element.height,
+                          }}
+                          onClick={() => handleElementClick(element)}
+                          onMouseDown={(e) => handleDragStart(e, element)}
+                        >
+                          <div 
+                            className={`w-full h-full rounded border-2 transition-all duration-200 ${
+                              element.type === 'septic-tank' ? 'bg-blue-200 border-blue-400 hover:bg-blue-300' :
+                              element.type === 'distribution-lines' ? 'bg-green-400 border-green-600 hover:bg-green-500' :
+                              element.type === 'drip-field' ? 'bg-orange-200 border-orange-400 hover:bg-orange-300' :
+                              element.type === 'well' ? 'bg-purple-200 border-purple-400 hover:bg-purple-300' :
+                              'bg-gray-200 border-gray-400 hover:bg-gray-300'
+                            }`}
+                          >
+                            <div className="text-xs text-center font-medium pt-1 px-1">
+                              {element.label}
+                            </div>
+                          </div>
+                          
+                          {/* Delete button */}
+                          <button
+                            className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteElement(element.id);
+                            }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                      
+                      {/* Instructions - Top Left */}
+                      <div className="absolute top-2 left-2 bg-white border border-gray-300 rounded p-2 text-xs max-w-48">
+                        <div className="font-medium mb-1 text-gray-900">Quick Instructions:</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>• Click "Add Element" to add components</div>
+                          <div>• Drag elements to reposition</div>
+                          <div>• Click elements to edit</div>
+                          <div>• Red × to delete</div>
+                        </div>
+                      </div>
+
+                      {/* Legend */}
+                      <div className="absolute top-2 right-2 bg-white border border-gray-300 rounded p-2 text-xs">
+                        <div className="font-medium mb-1">Legend:</div>
+                        <div className="space-y-1">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-gray-200 border border-gray-400"></div>
+                            <span>House</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-blue-200 border border-blue-400"></div>
+                            <span>Septic Tank</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-green-400 border border-green-600"></div>
+                            <span>Distribution Lines</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-orange-200 border border-orange-400"></div>
+                            <span>Drip Field</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-purple-200 border border-purple-400"></div>
+                            <span>Well</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="text-xs text-gray-500 text-center">
+                      {layoutElements.length > 0 ? `${layoutElements.length} system elements added` : 'No system elements added yet'}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Certification and Signature */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Certification and Signature</CardTitle>
+                <CardDescription className="text-gray-600">Contractor certification and compliance statement</CardDescription>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-4">
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      I hereby certify that the onsite sewage treatment and disposal system has been installed and completed in accordance with the construction plan or plot plan, the permit issued by the Local Health Department on <span className="font-medium text-gray-900">[Date]</span>, and that the installation of the OSS complies with Chapter 420-3-1 of the Rules of the Board and any applicable construction standards from a product manual. I further certify that I am licensed and in good standing with the applicable licensing board and in full compliance with the Code of Alabama 1975§ 34-21A, et seq.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Date</label>
+                      <DatePicker
+                        placeholder="Select certification date"
+                        className="w-full"
+                        onDateChange={() => handleFormInputChange()}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">License Number</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        placeholder="Contractor license number"
+                        onChange={handleFormInputChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Signature</label>
+                      <div className="w-full h-12 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                        <span className="text-sm text-gray-500">Click to sign</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1857,6 +2654,144 @@ const DashboardPage = () => {
               className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
             >
               Leave Anyway
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Element Dialog */}
+      <Dialog open={showAddElementDialog} onOpenChange={setShowAddElementDialog}>
+        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900">Add System Element</DialogTitle>
+            <DialogDescription className="text-gray-600">
+              Add a new system component to your layout
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Element Type</label>
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                onChange={(e) => {
+                  const type = e.target.value
+                  const label = e.target.options[e.target.selectedIndex].text
+                  const width = type === 'distribution-lines' ? 128 : type === 'drip-field' ? 160 : 64
+                  const height = type === 'distribution-lines' ? 8 : type === 'drip-field' ? 32 : 48
+                  handleAddElement(type, label, width, height)
+                }}
+                defaultValue=""
+              >
+                <option value="" disabled>Select element type</option>
+                <option value="septic-tank">Septic Tank</option>
+                <option value="distribution-lines">Distribution Lines</option>
+                <option value="drip-field">Drip Field</option>
+                <option value="well">Well</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Layout Help Dialog */}
+      <Dialog open={showLayoutHelp} onOpenChange={setShowLayoutHelp}>
+        <DialogContent className="sm:max-w-2xl bg-white border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900">Layout System Help</DialogTitle>
+            <DialogDescription className="text-gray-600">
+              Learn how to use the interactive layout system
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-3">
+              <h4 className="font-medium text-gray-900">Adding Elements</h4>
+              <p className="text-sm text-gray-600">
+                Click "Add Element" to add system components like septic tanks, distribution lines, and drip fields to your layout.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-medium text-gray-900">Moving Elements</h4>
+              <p className="text-sm text-gray-600">
+                Click and drag any element to reposition it on the layout. Elements will automatically snap to stay within the layout area.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-medium text-gray-900">Editing Elements</h4>
+              <p className="text-sm text-gray-600">
+                Click on any element to edit its properties like label, size, and position.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-medium text-gray-900">Deleting Elements</h4>
+              <p className="text-sm text-gray-600">
+                Use the red × button on any element to remove it from the layout.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setShowLayoutHelp(false)} className="bg-sky-500 hover:bg-sky-600 text-white">
+              Got it!
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Element Edit Dialog */}
+      <Dialog open={showElementEditDialog} onOpenChange={setShowElementEditDialog}>
+        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900">Edit Element</DialogTitle>
+            <DialogDescription className="text-gray-600">
+              Modify the properties of this system element
+            </DialogDescription>
+          </DialogHeader>
+          {editingElement && (
+            <div className="space-y-4 py-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Label</label>
+                <input 
+                  type="text" 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  value={editingElement.label}
+                  onChange={(e) => setEditingElement({...editingElement, label: e.target.value})}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Width</label>
+                  <input 
+                    type="number" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    value={editingElement.width}
+                    onChange={(e) => setEditingElement({...editingElement, width: parseInt(e.target.value) || 64})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Height</label>
+                  <input 
+                    type="number" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    value={editingElement.height}
+                    onChange={(e) => setEditingElement({...editingElement, height: parseInt(e.target.value) || 48})}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setShowElementEditDialog(false)}
+              className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => handleUpdateElement(editingElement.id, editingElement)}
+              className="bg-sky-500 hover:bg-sky-600 text-white"
+            >
+              Update Element
             </Button>
           </DialogFooter>
         </DialogContent>
