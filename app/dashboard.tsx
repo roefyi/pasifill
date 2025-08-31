@@ -2738,6 +2738,9 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
+    }
+    
+    switch (activeTab) {
       case 'schedule':
         return (
           <div className="space-y-6">
