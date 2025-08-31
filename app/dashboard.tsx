@@ -805,19 +805,19 @@ const DashboardPage = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Owner/Applicant's Name</label>
+                      <label className="block text-sm font-medium mb-3">Owner/Applicant's Name</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Full name"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Property (911) Address</label>
+                      <label className="block text-sm font-medium mb-3">Property (911) Address</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Street address"
                         onChange={handleFormInputChange}
                       />
@@ -826,38 +826,38 @@ const DashboardPage = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">City, State, Zip</label>
+                    <label className="block text-sm font-medium mb-3">City, State, Zip</label>
                     <input 
                       type="text" 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="City, State, Zip"
                       onChange={handleFormInputChange}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Subdivision Name</label>
+                    <label className="block text-sm font-medium mb-3">Subdivision Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="Subdivision name"
                       onChange={handleFormInputChange}
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Lot</label>
+                      <label className="block text-sm font-medium mb-3">Lot</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Lot #"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Block</label>
+                      <label className="block text-sm font-medium mb-3">Block</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Block #"
                         onChange={handleFormInputChange}
                       />
@@ -869,15 +869,15 @@ const DashboardPage = () => {
 
             {/* Installation Information */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Installation Information</CardTitle>
                 <CardDescription className="text-gray-600">System installation details and specifications</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Installation Date</label>
+                      <label className="block text-sm font-medium mb-3">Installation Date</label>
                       <DatePicker
                         placeholder="Select installation date"
                         className="w-full"
@@ -885,7 +885,7 @@ const DashboardPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Installation Type</label>
+                      <label className="block text-sm font-medium mb-3">Installation Type</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select installation type" />
@@ -901,19 +901,19 @@ const DashboardPage = () => {
                       </Select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Septic Tank Size (Gallons)</label>
+                      <label className="block text-sm font-medium mb-3">Septic Tank Size (Gallons)</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="e.g., 1000, 1500"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Manufacturer's #</label>
+                      <label className="block text-sm font-medium mb-3">Manufacturer's #</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Manufacturer serial number"
                         onChange={handleFormInputChange}
                       />
@@ -921,7 +921,7 @@ const DashboardPage = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Septic Tank Filter (NSF 46)</label>
+                      <label className="block text-sm font-medium mb-3">Septic Tank Filter (NSF 46)</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select filter status" />
@@ -937,13 +937,13 @@ const DashboardPage = () => {
                       </Select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Advanced Treatment Unit (if applicable)</label>
+                      <label className="block text-sm font-medium mb-3">Advanced Treatment Unit (if applicable)</label>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="block text-xs text-gray-600 mb-1">Make</label>
                           <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             placeholder="Manufacturer"
                             onChange={handleFormInputChange}
                           />
@@ -952,7 +952,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Model</label>
                           <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             placeholder="Model number"
                             onChange={handleFormInputChange}
                           />
@@ -960,7 +960,7 @@ const DashboardPage = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Type of Distribution System</label>
+                      <label className="block text-sm font-medium mb-3">Type of Distribution System</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select distribution system type" />
@@ -988,15 +988,15 @@ const DashboardPage = () => {
 
             {/* System Type */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">System Type</CardTitle>
                 <CardDescription className="text-gray-600">Treatment and disposal system specifications</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">System Type</label>
+                      <label className="block text-sm font-medium mb-3">System Type</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select system type" />
@@ -1038,19 +1038,19 @@ const DashboardPage = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Product Manufacturer(s)</label>
+                      <label className="block text-sm font-medium mb-3">Product Manufacturer(s)</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Manufacturer name"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Model/Configuration</label>
+                      <label className="block text-sm font-medium mb-3">Model/Configuration</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Model number or configuration"
                         onChange={handleFormInputChange}
                       />
@@ -1062,24 +1062,24 @@ const DashboardPage = () => {
 
             {/* Effluent Distribution Field */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Effluent Distribution Field</CardTitle>
                 <CardDescription className="text-gray-600">Distribution field specifications and measurements</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">EDF Depth/Height (Inches)</label>
+                      <label className="block text-sm font-medium mb-3">EDF Depth/Height (Inches)</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Depth in inches"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Below/Above NGS</label>
+                      <label className="block text-sm font-medium mb-3">Below/Above NGS</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select NGS position" />
@@ -1088,17 +1088,17 @@ const DashboardPage = () => {
                           <SelectItem value="below-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
                             Below NGS
                           </SelectItem>
-                          <SelectItem value="above-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="above-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-500 focus:text-sky-700">
                             Above NGS
                           </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Fill (if applicable) - Inches</label>
+                      <label className="block text-sm font-medium mb-3">Fill (if applicable) - Inches</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Fill depth in inches"
                         onChange={handleFormInputChange}
                       />
@@ -1106,7 +1106,7 @@ const DashboardPage = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">EDF Size</label>
+                      <label className="block text-sm font-medium mb-3">EDF Size</label>
                       <Select onValueChange={handleFormInputChange}>
                         <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select size type" />
@@ -1122,28 +1122,28 @@ const DashboardPage = () => {
                       </Select>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
                         placeholder="Size value"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Trench Width (if applicable) - Inches</label>
+                      <label className="block text-sm font-medium mb-3">Trench Width (if applicable) - Inches</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Trench width in inches"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Separate Washer Line (if installed)</label>
+                      <label className="block text-sm font-medium mb-3">Separate Washer Line (if installed)</label>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="block text-xs text-gray-600 mb-1">Width</label>
                           <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             placeholder="Width in inches"
                             onChange={handleFormInputChange}
                           />
@@ -1152,7 +1152,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Length (Linear Feet)</label>
                           <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             placeholder="Length in feet"
                             onChange={handleFormInputChange}
                           />
@@ -1166,27 +1166,27 @@ const DashboardPage = () => {
 
             {/* Installer Information */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Installer Information</CardTitle>
                 <CardDescription className="text-gray-600">Contractor and business details</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Installer Name / Company</label>
+                      <label className="block text-sm font-medium mb-3">Installer Name / Company</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Company or installer name"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Business Address</label>
+                      <label className="block text-sm font-medium mb-3">Business Address</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Street address"
                         onChange={handleFormInputChange}
                       />
@@ -1194,10 +1194,10 @@ const DashboardPage = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Telephone</label>
+                      <label className="block text-sm font-medium mb-3">Telephone</label>
                       <input 
                         type="tel" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Phone number"
                         onChange={handleFormInputChange}
                       />
@@ -1207,7 +1207,7 @@ const DashboardPage = () => {
                         <label className="block text-xs text-gray-600 mb-1">City</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                           placeholder="City"
                           onChange={handleFormInputChange}
                         />
@@ -1216,7 +1216,7 @@ const DashboardPage = () => {
                         <label className="block text-xs text-gray-600 mb-1">State</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                           placeholder="State"
                           onChange={handleFormInputChange}
                         />
@@ -1225,7 +1225,7 @@ const DashboardPage = () => {
                         <label className="block text-xs text-gray-600 mb-1">Zip</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                           placeholder="Zip code"
                           onChange={handleFormInputChange}
                         />
@@ -1238,11 +1238,11 @@ const DashboardPage = () => {
 
             {/* System Layout */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">System Layout</CardTitle>
                 <CardDescription className="text-gray-600">Sketch the layout of the system showing tanks and lines in proximity to the house and road</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="space-y-4">
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <p className="text-sm text-gray-700 mb-4">
@@ -1250,16 +1250,16 @@ const DashboardPage = () => {
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium mb-2">Installer Name</label>
+                        <label className="block text-sm font-medium mb-3">Installer Name</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                           placeholder="Installer name"
                           onChange={handleFormInputChange}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium mb-2">Date</label>
+                        <label className="block text-sm font-medium mb-3">Date</label>
                         <DatePicker
                           placeholder="Select date"
                           className="w-full"
@@ -1267,10 +1267,10 @@ const DashboardPage = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium mb-2">License #</label>
+                        <label className="block text-sm font-medium mb-3">License #</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                           placeholder="License number"
                           onChange={handleFormInputChange}
                         />
@@ -1281,7 +1281,7 @@ const DashboardPage = () => {
                   {/* Layout Diagram */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <label className="block text-sm font-medium mb-2">System Layout Sketch</label>
+                      <label className="block text-sm font-medium mb-3">System Layout Sketch</label>
                       <div className="flex space-x-2">
                         <Button 
                           size="sm"
@@ -1424,11 +1424,11 @@ const DashboardPage = () => {
 
             {/* Certification and Signature */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Certification and Signature</CardTitle>
                 <CardDescription className="text-gray-600">Contractor certification and compliance statement</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="space-y-4">
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -1437,7 +1437,7 @@ const DashboardPage = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Date</label>
+                      <label className="block text-sm font-medium mb-3">Date</label>
                       <DatePicker
                         placeholder="Select certification date"
                         className="w-full"
@@ -1445,16 +1445,16 @@ const DashboardPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">License Number</label>
+                      <label className="block text-sm font-medium mb-3">License Number</label>
                       <input 
                         type="text" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                         placeholder="Contractor license number"
                         onChange={handleFormInputChange}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Signature</label>
+                      <label className="block text-sm font-medium mb-3">Signature</label>
                       <div className="w-full h-12 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
                         <span className="text-sm text-gray-500">Click to sign</span>
                       </div>
@@ -2728,11 +2728,11 @@ const DashboardPage = () => {
               </div>
             </div>
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Property Management</CardTitle>
                 <CardDescription className="text-gray-600">Track properties and their CEP-5 requirements</CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <p className="text-gray-600">Property management interface coming soon...</p>
               </CardContent>
             </Card>
@@ -2776,10 +2776,10 @@ const DashboardPage = () => {
 
             {/* Today's Schedule */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Today's Schedule</CardTitle>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="space-y-4">
                   {mockData.todayJobs.map((job) => (
                     <div key={job.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
@@ -2808,10 +2808,10 @@ const DashboardPage = () => {
 
             {/* Upcoming Deadlines */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Upcoming Deadlines</CardTitle>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="space-y-4">
                   {mockData.upcomingDeadlines.map((deadline) => (
                     <div key={deadline.type} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
@@ -2850,10 +2850,10 @@ const DashboardPage = () => {
 
             {/* Company Information */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Company Information</CardTitle>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
@@ -2896,10 +2896,10 @@ const DashboardPage = () => {
 
             {/* Compliance & Licensing */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Compliance & Licensing</CardTitle>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
@@ -2944,10 +2944,10 @@ const DashboardPage = () => {
 
             {/* Business Statistics */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-6 pt-6 pb-4">
+              <CardHeader className="px-8 pt-8 pb-6">
                 <CardTitle className="text-gray-900">Business Overview</CardTitle>
               </CardHeader>
-              <CardContent className="px-6 pb-6">
+              <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
