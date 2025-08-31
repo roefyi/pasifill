@@ -884,28 +884,21 @@ const DashboardPage = () => {
                         onDateChange={() => handleFormInputChange()}
                       />
                     </div>
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">Installation Type</label>
-                      <div className="flex items-center space-x-4">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="installationType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">New</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="installationType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Repair</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select installation type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="new" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            New
+                          </SelectItem>
+                          <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Repair
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Septic Tank Size (Gallons)</label>
@@ -927,28 +920,21 @@ const DashboardPage = () => {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">Septic Tank Filter (NSF 46)</label>
-                      <div className="flex items-center space-x-4">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="filterInstalled"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Yes</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="filterInstalled"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">No/Not Required</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select filter status" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="yes" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Yes
+                          </SelectItem>
+                          <SelectItem value="no" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            No/Not Required
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Advanced Treatment Unit (if applicable)</label>
@@ -973,46 +959,27 @@ const DashboardPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">Type of Distribution System</label>
-                      <div className="space-y-2">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="distributionSystem"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Level Header</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="distributionSystem"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Serial Distribution</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="distributionSystem"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Distribution Box</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="distributionSystem"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Other</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select distribution system type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="level-header" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Level Header
+                          </SelectItem>
+                          <SelectItem value="serial-distribution" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Serial Distribution
+                          </SelectItem>
+                          <SelectItem value="distribution-box" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Distribution Box
+                          </SelectItem>
+                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Other
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -1028,102 +995,45 @@ const DashboardPage = () => {
               <CardContent className="px-6 pb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">System Type</label>
-                      <div className="space-y-2">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="systemType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Gravel</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="systemType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Equivalent Product</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="systemType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Control Fill</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="systemType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">LPP</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="systemType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Drip</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="flex items-center space-x-2">
-                        <input 
-                          type="radio" 
-                          name="systemType"
-                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                          onChange={handleFormInputChange}
-                        />
-                        <span className="text-sm text-gray-700">Bed</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input 
-                          type="radio" 
-                          name="systemType"
-                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                          onChange={handleFormInputChange}
-                        />
-                        <span className="text-sm text-gray-700">Combined Treatment/Disposal</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input 
-                          type="radio" 
-                          name="systemType"
-                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                          onChange={handleFormInputChange}
-                        />
-                        <span className="text-sm text-gray-700">Pad</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input 
-                          type="radio" 
-                          name="systemType"
-                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                          onChange={handleFormInputChange}
-                        />
-                        <span className="text-sm text-gray-700">EDS</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input 
-                          type="radio" 
-                          name="systemType"
-                          className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                          onChange={handleFormInputChange}
-                        />
-                        <span className="text-sm text-gray-700">Other</span>
-                      </label>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select system type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="gravel" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Gravel
+                          </SelectItem>
+                          <SelectItem value="equivalent-product" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Equivalent Product
+                          </SelectItem>
+                          <SelectItem value="control-fill" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Control Fill
+                          </SelectItem>
+                          <SelectItem value="lpp" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            LPP
+                          </SelectItem>
+                          <SelectItem value="drip" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Drip
+                          </SelectItem>
+                          <SelectItem value="bed" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Bed
+                          </SelectItem>
+                          <SelectItem value="combined-treatment-disposal" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Combined Treatment/Disposal
+                          </SelectItem>
+                          <SelectItem value="pad" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Pad
+                          </SelectItem>
+                          <SelectItem value="eds" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            EDS
+                          </SelectItem>
+                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Other
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   <div className="space-y-4">
@@ -1168,28 +1078,21 @@ const DashboardPage = () => {
                         onChange={handleFormInputChange}
                       />
                     </div>
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">Below/Above NGS</label>
-                      <div className="flex items-center space-x-4">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="ngsPosition"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Below NGS</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="ngsPosition"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Above NGS</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select NGS position" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="below-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Below NGS
+                          </SelectItem>
+                          <SelectItem value="above-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Above NGS
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Fill (if applicable) - Inches</label>
@@ -1202,28 +1105,21 @@ const DashboardPage = () => {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <div className="space-y-3">
+                    <div>
                       <label className="block text-sm font-medium mb-2">EDF Size</label>
-                      <div className="flex items-center space-x-4">
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="edfSizeType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Linear Feet</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                          <input 
-                            type="radio" 
-                            name="edfSizeType"
-                            className="w-4 h-4 text-sky-500 border-gray-300 focus:ring-sky-500"
-                            onChange={handleFormInputChange}
-                          />
-                          <span className="text-sm text-gray-700">Square Feet</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select size type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="linear-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Linear Feet
+                          </SelectItem>
+                          <SelectItem value="square-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Square Feet
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                       <input 
                         type="text" 
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
@@ -2129,20 +2025,22 @@ const DashboardPage = () => {
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-medium mb-3">Preferred Contact Method</label>
-                      <div className="space-y-3">
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="email" className="mr-3" defaultChecked />
-                          <span className="text-sm font-medium">Email</span>
-                        </label>
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="phone" className="mr-3" />
-                          <span className="text-sm font-medium">Phone</span>
-                        </label>
-                        <label className="flex items-center">
-                          <input type="radio" name="contactMethod" value="text" className="mr-3" />
-                          <span className="text-sm font-medium">Text Message</span>
-                        </label>
-                      </div>
+                      <Select onValueChange={handleFormInputChange}>
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select contact method" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="email" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Email
+                          </SelectItem>
+                          <SelectItem value="phone" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Phone
+                          </SelectItem>
+                          <SelectItem value="text" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                            Text Message
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
