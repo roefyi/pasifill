@@ -254,8 +254,142 @@ Loading
 
 ## Technical Specifications
 
-### **Component Library**: Headless UI + Tailwind CSS
+### **Component Library**: Radix UI + Tailwind CSS
+
+#### **Standardized Radix UI Components**
+
+**Select/Dropdown System**
+```
+Select (Standardized Picker Component)
+- Consistent height: h-12 (48px) for all pickers
+- Standardized styling: px-4 padding, focus:ring-2 focus:ring-sky-500
+- Hover effects: hover:bg-gray-50 transition-colors
+- Background: bg-white text-gray-900
+- Shadow: shadow-lg for dropdown content
+- Interactive states: hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700
+
+Usage Examples:
+- Primary Service County (Jefferson, Shelby, Tuscaloosa, Madison, Baldwin)
+- Business Type (Contractor, Installer, Maintenance, Consultant, Other)
+- Customer Status (Active, Inactive, Prospect)
+- Element Type (House, Septic Tank, Distribution Lines, Drip Field, Well, Other)
+
+Standard Select Structure:
+<Select onValueChange={handleChange}>
+  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+    <SelectValue placeholder="Select option" />
+  </SelectTrigger>
+  <SelectContent className="bg-white border-gray-200 shadow-lg">
+    <SelectItem value="option" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+      Option Label
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+**Dialog System**
+```
+Dialog Components
+- Standardized padding: px-8 pt-8 pb-6 for headers, px-8 pb-8 for content
+- Consistent spacing: space-y-8 for main containers, space-y-6 for sections
+- Modern styling: bg-white border-gray-200 shadow-xl
+- Responsive sizing: w-96 for standard forms, sm:max-w-2xl for larger content
+- Backdrop: backdrop-blur-sm with smooth animations
+
+Dialog Structure:
+<Dialog open={isOpen} onOpenChange={setIsOpen}>
+  <DialogContent className="w-96 bg-white border-gray-200 shadow-xl">
+    <DialogHeader className="px-8 pt-8 pb-6">
+      <DialogTitle className="text-gray-900">Title</DialogTitle>
+      <DialogDescription className="text-gray-600 mt-2">Description</DialogDescription>
+    </DialogHeader>
+    <div className="px-8 pb-8 space-y-6">
+      {/* Content */}
+    </div>
+  </DialogContent>
+</Dialog>
+```
+
+**Button System**
+```
+Button Variants
+- slate: Standard secondary button with consistent styling
+- simple: Clean, minimal button design
+- clean: Professional button with subtle borders
+- Sizes: sm, compact, tiny for different use cases
+
+Standard Button Usage:
+<Button variant="slate" size="sm">
+  Button Text
+</Button>
+```
+
+**Form Input System**
+```
+Standardized Input Styling
+- Consistent dimensions: px-4 py-3 (16px × 12px)
+- Focus states: focus:ring-2 focus:ring-sky-500 focus:border-transparent
+- Background: bg-white text-gray-900
+- Border: border-gray-300 rounded-lg
+- Labels: block text-sm font-medium mb-3 (24px margin)
+
+Input Structure:
+<input 
+  type="text" 
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+  placeholder="Enter text"
+  onChange={handleChange}
+/>
+```
+
+**Spacing System (8px Grid)**
+```
+Standardized Spacing Values
+- 8px: space-y-2, px-2, py-2, mb-2, h-2
+- 16px: space-y-4, px-4, py-4, mb-4, h-4
+- 24px: space-y-6, px-6, py-6, mb-6, h-6
+- 32px: space-y-8, px-8, py-8, mb-8, h-8
+- 40px: space-y-10, px-10, py-10, mb-10, h-10
+- 48px: h-12, text-2xl, space-y-12
+- 56px: space-y-14, px-14, py-14
+- 64px: space-y-16, px-16, py-16
+
+Usage Guidelines:
+- Card headers: px-8 pt-8 pb-6
+- Card content: px-8 pb-8
+- Form sections: space-y-8
+- Input groups: space-y-6
+- Button spacing: space-x-4, space-x-6
+```
 ### **Form Handling**: React Hook Form + Zod validation
+
+#### **Required Radix UI Imports**
+```typescript
+// Core UI Components
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+
+// Form Components
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { DatePicker } from "@/components/ui/date-picker"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+// Navigation Components
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+```
+
+#### **Component Implementation Standards**
+```
+1. All pickers MUST use the standardized Select component
+2. All dialogs MUST follow the standardized padding and spacing system
+3. All buttons MUST use the predefined variants (slate, simple, clean)
+4. All form inputs MUST follow the standardized styling pattern
+5. All spacing MUST adhere to the 8px grid system
+6. All interactive elements MUST include proper hover and focus states
+```
 ### **State Management**: Zustand or React Context
 ### **PDF Generation**: jsPDF or Puppeteer for Alabama ADPH formatting
 ### **Offline Storage**: IndexedDB for PWA offline capability
