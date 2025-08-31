@@ -31,12 +31,17 @@ export function DatePicker({
           variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            "bg-white hover:bg-gray-50 focus:bg-white",
+            "border-gray-300 hover:border-gray-400 focus:border-sky-500",
+            "text-gray-900 placeholder:text-gray-500",
+            "focus:ring-2 focus:ring-sky-500 focus:ring-offset-2",
+            "transition-colors duration-200",
+            !date && "text-gray-500",
             className
           )}
           disabled={disabled}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
           {date ? format(date, "PPP") : placeholder}
         </Button>
       </PopoverTrigger>

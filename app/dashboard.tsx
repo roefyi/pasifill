@@ -41,7 +41,8 @@ import {
   SlidersHorizontal,
   ArrowUpDown,
   Save,
-  Printer
+  Printer,
+  X
 } from "lucide-react"
 import { DatePicker } from "@/components/ui/date-picker"
 import { 
@@ -369,17 +370,29 @@ const DashboardPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
   const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
   const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
+  const [showNavigationConfirmDialog, setShowNavigationConfirmDialog] = React.useState(false)
+  const [pendingTabChange, setPendingTabChange] = React.useState<string | null>(null)
   
   // Layout System State
   const [layoutElements, setLayoutElements] = React.useState<Array<{
     id: string
-    type: 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other'
+    type: 'house' | 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other'
     label: string
     x: number
     y: number
     width: number
     height: number
-  }>>([])
+  }>>([
+    {
+      id: 'house-1',
+      type: 'house',
+      label: 'House',
+      x: 100,
+      y: 20,
+      width: 112,
+      height: 112
+    }
+  ])
   const [selectedElement, setSelectedElement] = React.useState<any>(null)
   const [isDragging, setIsDragging] = React.useState(false)
   const [dragOffset, setDragOffset] = React.useState({ x: 0, y: 0 })
@@ -445,6 +458,45 @@ const DashboardPage = () => {
     setHasUnsavedChanges(true)
   }
 
+  const handleTabChange = (newTab: string) => {
+    if (hasUnsavedChanges && (showNewForm || showAddCustomer)) {
+      setPendingTabChange(newTab)
+      setShowNavigationConfirmDialog(true)
+    } else {
+      setActiveTab(newTab)
+    }
+  }
+
+  const handleConfirmTabChange = () => {
+    if (pendingTabChange) {
+      setActiveTab(pendingTabChange)
+      setShowNewForm(false)
+      setShowAddCustomer(false)
+      setHasUnsavedChanges(false)
+      setPendingTabChange(null)
+      setShowNavigationConfirmDialog(false)
+    }
+  }
+
+  const handleCancelTabChange = () => {
+    setPendingTabChange(null)
+    setShowNavigationConfirmDialog(false)
+  }
+
+  // Browser beforeunload event handler
+  React.useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges && (showNewForm || showAddCustomer)) {
+        e.preventDefault()
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?'
+        return 'You have unsaved changes. Are you sure you want to leave?'
+      }
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [hasUnsavedChanges, showNewForm, showAddCustomer])
+
   // Layout System Functions
   const handleElementClick = (element: any) => {
     setSelectedElement(element)
@@ -487,13 +539,21 @@ const DashboardPage = () => {
     setSelectedElement(null)
   }
 
-  const handleAddElement = (type: string, label: string, width: number, height: number) => {
+  const handleAddElement = (type: 'house' | 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other', label: string, width: number, height: number) => {
+    // Find a good position for the new element
+    const containerWidth = 800 // Approximate container width
+    const containerHeight = 320 // Container height (h-80 = 320px)
+    
+    // Position elements in the middle-top area, avoiding instructions and legend
+    const x = Math.max(200, Math.min(containerWidth - width - 20, 300))
+    const y = Math.max(60, Math.min(containerHeight - height - 80, 120))
+    
     const newElement = {
       id: `element-${Date.now()}`,
       type,
       label,
-      x: 100,
-      y: 100,
+      x,
+      y,
       width,
       height
     }
@@ -653,8 +713,8 @@ const DashboardPage = () => {
               <div className="flex items-center space-x-3">
                 <Button 
                   onClick={handleSaveDraft}
+                  variant="slate"
                   size="sm"
-                  className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
                 >
                   <Save className="w-4 h-4 mr-2" />
                   Save Draft
@@ -1326,24 +1386,13 @@ const DashboardPage = () => {
                         <div className="absolute bottom-1 left-0 right-0 h-0.5 bg-white opacity-40"></div>
                       </div>
                       
-                      {/* House - Simple Square Shape */}
-                      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-28 h-28">
-                        {/* House Body - Square */}
-                        <div className="absolute inset-0 bg-gray-200 border-2 border-gray-400 rounded-lg"></div>
-                        
-                        {/* Door */}
-                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-6 bg-gray-600 border border-gray-700 rounded-t-sm"></div>
-                        
-                        {/* Windows */}
-                        <div className="absolute top-4 left-2 w-2 h-2 bg-blue-200 border border-blue-400 rounded-sm"></div>
-                        <div className="absolute top-4 right-2 w-2 h-2 bg-blue-200 border border-blue-400 rounded-sm"></div>
-                      </div>
+
                       
                       {/* Interactive System Elements */}
                       {layoutElements.map((element, index) => (
                         <div
                           key={element.id}
-                          className={`absolute cursor-move select-none ${
+                          className={`absolute cursor-move select-none z-10 ${
                             selectedElement?.id === element.id ? 'ring-2 ring-sky-500 ring-offset-2' : ''
                           }`}
                           style={{
@@ -1357,6 +1406,7 @@ const DashboardPage = () => {
                         >
                           <div 
                             className={`w-full h-full rounded border-2 transition-all duration-200 ${
+                              element.type === 'house' ? 'bg-gray-300 border-gray-500 hover:bg-gray-400' :
                               element.type === 'septic-tank' ? 'bg-blue-200 border-blue-400 hover:bg-blue-300' :
                               element.type === 'distribution-lines' ? 'bg-green-400 border-green-600 hover:bg-green-500' :
                               element.type === 'drip-field' ? 'bg-orange-200 border-orange-400 hover:bg-orange-300' :
@@ -1364,9 +1414,11 @@ const DashboardPage = () => {
                               'bg-gray-200 border-gray-400 hover:bg-gray-300'
                             }`}
                           >
-                            <div className="text-xs text-center font-medium pt-1 px-1">
-                              {element.label}
-                            </div>
+                            {element.type !== 'house' && (
+                              <div className="text-xs text-center font-medium pt-1 px-1">
+                                {element.label}
+                              </div>
+                            )}
                           </div>
                           
                           {/* Delete button */}
@@ -1383,9 +1435,10 @@ const DashboardPage = () => {
                       ))}
                       
                       {/* Instructions - Top Left */}
-                      <div className="absolute top-2 left-2 bg-white border border-gray-300 rounded p-2 text-xs max-w-48">
+                      <div className="absolute top-2 left-2 bg-white border border-gray-300 rounded p-2 text-xs max-w-48 z-20">
                         <div className="font-medium mb-1 text-gray-900">Quick Instructions:</div>
                         <div className="space-y-1 text-gray-600">
+                          <div>• House and system elements are editable</div>
                           <div>• Click "Add Element" to add components</div>
                           <div>• Drag elements to reposition</div>
                           <div>• Click elements to edit</div>
@@ -1394,11 +1447,11 @@ const DashboardPage = () => {
                       </div>
 
                       {/* Legend */}
-                      <div className="absolute top-2 right-2 bg-white border border-gray-300 rounded p-2 text-xs">
+                      <div className="absolute top-2 right-2 bg-white border border-gray-300 rounded p-2 text-xs z-20">
                         <div className="font-medium mb-1">Legend:</div>
                         <div className="space-y-1">
                           <div className="flex items-center space-x-2">
-                            <div className="w-3 h-3 bg-gray-200 border border-gray-400"></div>
+                            <div className="w-3 h-3 bg-gray-300 border border-gray-500"></div>
                             <span>House</span>
                           </div>
                           <div className="flex items-center space-x-2">
@@ -1472,6 +1525,214 @@ const DashboardPage = () => {
             </Card>
           </div>
         </div>
+      )
+    } else if (activeTab === 'dashboard') {
+      return (
+        <>
+          {/* Welcome Section */}
+          <div className="mb-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  Welcome back, {mockData.contractor.name.split(" ")[0]}!
+                </h2>
+                <p className="text-gray-600">
+                  Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
+                </p>
+              </div>
+              <div className="flex items-center space-x-3 ml-6">
+                <Button 
+                  onClick={handleNewForm}
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  New CEP-5 Form
+                </Button>
+                <Button 
+                  variant="slate"
+                  size="sm"
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  New Customer
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* This Month Stats */}
+          <div className="mb-4">
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">This Month</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium text-gray-700">CEP-5 Forms</CardTitle>
+                      <FileText className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                    <p className="text-xs text-gray-500">
+                      +{mockData.stats.monthlyForms - 20} from last month
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium text-gray-700">Total Customers</CardTitle>
+                      <Users className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                    <p className="text-xs text-gray-500">
+                      Across {mockData.contractor.counties.length} counties
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white border-gray-200">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <CardTitle className="text-sm font-medium text-gray-700">Compliance Rate</CardTitle>
+                      <TrendingUp className="h-4 w-4 text-gray-500" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                    <p className="text-xs text-gray-500">
+                      ADPH acceptance rate
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Job Overview */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Today's Jobs</h3>
+              <Button variant="slate" size="sm">
+                <CalendarDays className="w-4 h-4 mr-2" />
+                View Schedule
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {mockData.todayJobs.map((job) => (
+                <Card key={job.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                          <CalendarDays className="w-3 h-3 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{job.time}</div>
+                          <div className="text-xs text-gray-500">{job.type}</div>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-200 px-2 py-1">
+                        {job.status}
+                      </Badge>
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <Users className="w-3 h-3 text-gray-500" />
+                        <span className="text-sm font-medium text-gray-900">{job.customer}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="w-3 h-3 text-gray-500" />
+                        <span className="text-xs text-gray-600">{job.address}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Building2 className="w-3 h-3 text-gray-500" />
+                        <span className="text-xs text-gray-600">{job.county} County</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Pending Forms Status */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Pending CEP-5 Forms</h3>
+              <Button variant="slate" size="sm">
+                <FileText className="w-4 h-4 mr-2" />
+                View All Pending
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {mockData.pendingForms.map((form) => (
+                <Card key={form.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
+                  <CardContent className="px-6 py-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-amber-600" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">{form.customer}</div>
+                        <div className="text-xs text-gray-500">ID: {form.id}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                        {form.status}
+                      </Badge>
+                      <span className="text-gray-500">{form.county} County</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent CEP-5 Forms */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
+              <Button variant="slate" size="sm">
+                View All
+              </Button>
+            </div>
+            
+            <Card className="bg-white border-gray-200">
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">County</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Saved</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {mockData.recentForms.map((form) => (
+                        <tr key={form.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{form.customer}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.property}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.county}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Badge className={`${getStatusColor(form.status)}`}>
+                              {form.status}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.date}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.timeSaved} min</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </>
       )
     } else if (showAddCustomer) {
       return (
@@ -2481,7 +2742,7 @@ const DashboardPage = () => {
           {/* Navigation Items */}
           <div className="space-y-1">
             <button
-              onClick={() => setActiveTab('dashboard')}
+              onClick={() => handleTabChange('dashboard')}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 activeTab === 'dashboard'
                   ? 'bg-gray-100 text-gray-900'
@@ -2493,7 +2754,7 @@ const DashboardPage = () => {
               {!isSidebarCollapsed && <span className="text-sm">Dashboard</span>}
             </button>
             <button
-              onClick={() => setActiveTab('cep5')}
+              onClick={() => handleTabChange('cep5')}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 activeTab === 'cep5'
                   ? 'bg-gray-100 text-gray-900'
@@ -2505,7 +2766,7 @@ const DashboardPage = () => {
               {!isSidebarCollapsed && <span className="text-sm">CEP-5</span>}
             </button>
             <button
-              onClick={() => setActiveTab('customers')}
+              onClick={() => handleTabChange('customers')}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 activeTab === 'customers'
                   ? 'bg-gray-100 text-gray-900'
@@ -2517,7 +2778,7 @@ const DashboardPage = () => {
               {!isSidebarCollapsed && <span className="text-sm">Customers</span>}
             </button>
             <button
-              onClick={() => setActiveTab('properties')}
+              onClick={() => handleTabChange('properties')}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 activeTab === 'properties'
                   ? 'bg-gray-100 text-gray-900'
@@ -2605,55 +2866,94 @@ const DashboardPage = () => {
           <DialogHeader>
             <DialogTitle className="text-gray-900">Unsaved Changes</DialogTitle>
             <DialogDescription className="text-gray-600">
-              You have unsaved changes. Are you sure you want to leave? You can save your work as a draft or delete the form.
+              You have unsaved changes. What would you like to do with your current work?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <DialogFooter className="flex-col sm:flex-row gap-3 px-6 pb-6">
             <Button
               variant="outline"
               onClick={handleCancelDialog}
               className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
             >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDeleteForm}
-              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
-            >
-              Delete Form
+              Continue Editing
             </Button>
             <Button
               onClick={handleSaveDraft}
               className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
             >
-              Save Draft
+              Save
+            </Button>
+            <Button
+              onClick={handleDeleteForm}
+              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
+            >
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Leave Confirmation Dialog */}
+      {/* Enhanced Leave Confirmation Dialog */}
       <Dialog open={showLeaveConfirmDialog} onOpenChange={setShowLeaveConfirmDialog}>
         <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
           <DialogHeader>
-            <DialogTitle className="text-gray-900">Leave Form?</DialogTitle>
+            <DialogTitle className="text-gray-900 flex items-center space-x-2">
+              <AlertCircle className="h-5 w-5 text-amber-500" />
+              <span>Unsaved Changes</span>
+            </DialogTitle>
             <DialogDescription className="text-gray-600">
-              You have unsaved changes. Are you sure you want to leave? All unsaved work will be lost.
+              You have unsaved changes. What would you like to do with your current work?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <DialogFooter className="flex-col sm:flex-row gap-3 px-6 pb-6">
             <Button
               variant="outline"
               onClick={handleCancelLeave}
               className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
             >
-              Stay on Form
+              Continue Editing
+            </Button>
+            <Button
+              onClick={handleSaveDraft}
+              className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
+            >
+              Save
             </Button>
             <Button
               onClick={handleConfirmLeave}
               className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
             >
-              Leave Anyway
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Navigation Confirmation Dialog */}
+      <Dialog open={showNavigationConfirmDialog} onOpenChange={setShowNavigationConfirmDialog}>
+        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900 flex items-center space-x-2">
+              <AlertCircle className="h-5 w-5 text-amber-500" />
+              <span>Unsaved Changes</span>
+            </DialogTitle>
+            <DialogDescription className="text-gray-600">
+              You have unsaved changes in your current form. Are you sure you want to navigate away? All unsaved work will be lost.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-col sm:flex-row gap-3 px-6 pb-6">
+            <Button
+              variant="outline"
+              onClick={handleCancelTabChange}
+              className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirmTabChange}
+              className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
+            >
+              Navigate Away
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -2661,34 +2961,40 @@ const DashboardPage = () => {
 
       {/* Add Element Dialog */}
       <Dialog open={showAddElementDialog} onOpenChange={setShowAddElementDialog}>
-        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
+        <DialogContent className="w-96 bg-white border-gray-200 shadow-xl">
           <DialogHeader>
             <DialogTitle className="text-gray-900">Add System Element</DialogTitle>
             <DialogDescription className="text-gray-600">
               Add a new system component to your layout
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="px-6 space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Element Type</label>
               <select 
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-colors"
                 onChange={(e) => {
-                  const type = e.target.value
+                  const type = e.target.value as 'house' | 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other'
                   const label = e.target.options[e.target.selectedIndex].text
-                  const width = type === 'distribution-lines' ? 128 : type === 'drip-field' ? 160 : 64
-                  const height = type === 'distribution-lines' ? 8 : type === 'drip-field' ? 32 : 48
+                  const width = type === 'house' ? 112 : type === 'distribution-lines' ? 128 : type === 'drip-field' ? 160 : 64
+                  const height = type === 'house' ? 112 : type === 'distribution-lines' ? 8 : type === 'drip-field' ? 32 : 48
                   handleAddElement(type, label, width, height)
                 }}
                 defaultValue=""
               >
                 <option value="" disabled>Select element type</option>
+                <option value="house">House</option>
                 <option value="septic-tank">Septic Tank</option>
                 <option value="distribution-lines">Distribution Lines</option>
                 <option value="drip-field">Drip Field</option>
                 <option value="well">Well</option>
                 <option value="other">Other</option>
               </select>
+            </div>
+            <div className="pt-2">
+              <p className="text-xs text-gray-500">
+                Select an element type above to add it to your layout
+              </p>
             </div>
           </div>
         </DialogContent>
@@ -2737,9 +3043,9 @@ const DashboardPage = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Element Edit Dialog */}
+            {/* Element Edit Dialog */}
       <Dialog open={showElementEditDialog} onOpenChange={setShowElementEditDialog}>
-        <DialogContent className="sm:max-w-md bg-white border-gray-200 shadow-xl">
+        <DialogContent className="w-96 bg-white border-gray-200 shadow-xl">
           <DialogHeader>
             <DialogTitle className="text-gray-900">Edit Element</DialogTitle>
             <DialogDescription className="text-gray-600">
@@ -2747,7 +3053,7 @@ const DashboardPage = () => {
             </DialogDescription>
           </DialogHeader>
           {editingElement && (
-            <div className="space-y-4 py-4">
+            <div className="px-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Label</label>
                 <input 
@@ -2765,7 +3071,7 @@ const DashboardPage = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                     value={editingElement.width}
                     onChange={(e) => setEditingElement({...editingElement, width: parseInt(e.target.value) || 64})}
-                  />
+                />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Height</label>
@@ -2779,11 +3085,11 @@ const DashboardPage = () => {
               </div>
             </div>
           )}
+          <div className="h-2"></div>
           <DialogFooter>
             <Button 
-              variant="outline" 
+              variant="slate"
               onClick={() => setShowElementEditDialog(false)}
-              className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
             >
               Cancel
             </Button>

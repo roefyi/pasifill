@@ -2,11 +2,9 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './dashboard.tsx',
   ],
   prefix: "",
   theme: {
@@ -21,7 +19,7 @@ module.exports = {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        ring: "hsl(var(--primary))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
