@@ -373,7 +373,10 @@ const DashboardPage = () => {
   const [showAddCustomer, setShowAddCustomer] = React.useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = React.useState(false)
   const [formSource, setFormSource] = React.useState('dashboard')
+  const [scheduleSource, setScheduleSource] = React.useState('')
   const [showSearch, setShowSearch] = React.useState(false)
+  const [showSearchPopup, setShowSearchPopup] = React.useState(false)
+  const [searchQuery, setSearchQuery] = React.useState("")
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
   const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
   const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
@@ -504,6 +507,23 @@ const DashboardPage = () => {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [hasUnsavedChanges, showNewForm, showAddCustomer])
 
+  // Keyboard shortcut for search
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setShowSearchPopup(true)
+      }
+      if (e.key === 'Escape' && showSearchPopup) {
+        setShowSearchPopup(false)
+        setSearchQuery("")
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showSearchPopup])
+
   // Layout System Functions
   const handleElementClick = (element: any) => {
     setSelectedElement(element)
@@ -536,8 +556,7 @@ const DashboardPage = () => {
     
     setLayoutElements(prev => prev.map(el => 
       el.id === selectedElement.id 
-        ? { ...el, x: constrainedX, y: constrainedY }
-        : el
+        ? { ...el, x: constrainedX, y: constrainedY } : el
     ))
   }
 
@@ -595,7 +614,25 @@ const DashboardPage = () => {
   }
 
   const handleSearchToggle = () => {
-    setShowSearch(!showSearch)
+    setShowSearchPopup(true)
+  }
+
+  const handleSearchQueryChange = (query: string) => {
+    setSearchQuery(query)
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Here you would implement the actual search logic
+    console.log("Searching for:", searchQuery)
+    // For now, just close the popup
+    setShowSearchPopup(false)
+    setSearchQuery("")
+  }
+
+  const handleSearchClose = () => {
+    setShowSearchPopup(false)
+    setSearchQuery("")
   }
 
   const handleFindCustomer = () => {
@@ -1618,7 +1655,15 @@ const DashboardPage = () => {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Today's Jobs</h3>
-              <Button variant="slate" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                onClick={() => {
+                  setScheduleSource('dashboard')
+                  handleTabChange('schedule')
+                }}
+              >
                 <CalendarDays className="w-4 h-4 mr-2" />
                 View Schedule
               </Button>
@@ -2125,6 +2170,16 @@ const DashboardPage = () => {
         </div>
                                   <div className="flex items-center space-x-3 ml-6">
             <Button 
+              variant="outline"
+              size="sm"
+              onClick={handleSearchToggle}
+              className="h-9 px-4 border-gray-300 hover:bg-gray-50 text-gray-700"
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Search
+              <span className="ml-2 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">⌘K</span>
+            </Button>
+            <Button 
               onClick={handleNewForm}
                       size="sm"
                       className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
@@ -2195,7 +2250,15 @@ const DashboardPage = () => {
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Today's Jobs</h3>
-                <Button variant="slate" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                  onClick={() => {
+                    setScheduleSource('dashboard')
+                    handleTabChange('schedule')
+                  }}
+                >
                   <CalendarDays className="w-4 h-4 mr-2" />
                   View Schedule
                 </Button>
@@ -2389,12 +2452,7 @@ const DashboardPage = () => {
       case 'cep5':
         return (
           <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-lg font-semibold">CEP-5 Forms</h1>
-                <p className="text-gray-600 mt-2">Manage and track your environmental compliance forms</p>
-              </div>
-            </div>
+
 
             {/* Search and Filter Controls */}
             <div className="flex items-center justify-between mb-4">
@@ -2406,9 +2464,13 @@ const DashboardPage = () => {
                   variant="ghost" 
                   size="sm"
                   onClick={handleSearchToggle}
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100 relative group"
                 >
                   <Search className="h-4 w-4" />
+                  {/* Keyboard shortcut indicator */}
+                  <div className="absolute -bottom-1 -right-1 bg-gray-200 text-gray-600 text-xs px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                    ⌘K
+                  </div>
                 </Button>
                 <Button 
                   variant="ghost" 
@@ -2534,12 +2596,7 @@ const DashboardPage = () => {
       case 'customers':
         return (
           <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-lg font-semibold">Customers</h1>
-                <p className="text-gray-600 mt-2">Manage your customer database and relationships</p>
-              </div>
-            </div>
+
 
             {/* Search and Filter Controls */}
             <div className="flex items-center justify-between mb-4">
@@ -2752,12 +2809,25 @@ const DashboardPage = () => {
       case 'properties':
         return (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                              <h2 className="text-lg font-semibold">Properties</h2>
-              <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Property
-              </Button>
+            <div className="flex items-center justify-end mb-6">
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={handleSearchToggle}
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100 relative group"
+                >
+                  <Search className="h-4 w-4" />
+                  {/* Keyboard shortcut indicator */}
+                  <div className="absolute -bottom-1 -right-1 bg-gray-200 text-gray-600 text-xs px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                    ⌘K
+                  </div>
+                </Button>
+                <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Property
+                </Button>
+              </div>
             </div>
             <Card className="bg-white border-gray-200">
               <CardHeader className="px-6 pt-6 pb-4">
@@ -2766,6 +2836,234 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="px-6 pb-6">
                 <p className="text-gray-600">Property management interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </div>
+        )
+      case 'schedule':
+        return (
+          <div className="space-y-6">
+            {/* Header - Only show breadcrumb if coming from dashboard */}
+            <div className="flex items-center justify-between mb-6">
+              {scheduleSource === 'dashboard' ? (
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink onClick={() => handleTabChange('dashboard')}>
+                        <Home className="w-4 h-4 mr-1" />
+                        Dashboard
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>Schedule</BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              ) : (
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Schedule</h1>
+                  <p className="text-gray-600 mt-2">Job scheduling and deadlines</p>
+                </div>
+              )}
+              <Button 
+                variant="outline"
+                size="sm"
+                className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Job
+              </Button>
+            </div>
+
+            {/* Today's Schedule */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Today's Schedule</CardTitle>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-4">
+                  {mockData.todayJobs.map((job) => (
+                    <div key={job.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-900">{job.time}</div>
+                          <div className="text-sm text-gray-600">{job.type}</div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium text-gray-900">{job.customer}</div>
+                        <div className="text-sm text-gray-600">{job.address}</div>
+                        <div className="text-xs text-gray-500">{job.county} County</div>
+                      </div>
+                      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                        {job.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Upcoming Deadlines */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Upcoming Deadlines</CardTitle>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-4">
+                  {mockData.upcomingDeadlines.map((deadline) => (
+                    <div key={deadline.type} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                          <AlertCircle className="w-4 h-4 text-amber-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-900">{deadline.type}</div>
+                          <div className="text-sm text-gray-600">Due: {deadline.date}</div>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                        {deadline.daysLeft} days left
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )
+      case 'profile':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-end mb-6">
+              <Button 
+                variant="outline"
+                size="sm"
+                className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Edit Profile
+              </Button>
+            </div>
+
+            {/* Company Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Company Information</CardTitle>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                      <div className="text-sm text-gray-900">{mockData.contractor.name}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">License Number</label>
+                      <div className="text-sm text-gray-900">{mockData.contractor.license}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Counties</label>
+                      <div className="flex flex-wrap gap-2">
+                        {mockData.contractor.counties.map((county) => (
+                          <Badge key={county} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                            {county} County
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
+                      <div className="text-sm text-gray-900">123 Business Street</div>
+                      <div className="text-sm text-gray-900">Birmingham, AL 35201</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                      <div className="text-sm text-gray-900">(205) 555-0100</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <div className="text-sm text-gray-900">contact@alabamaseptic.com</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Compliance & Licensing */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Compliance & Licensing</CardTitle>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">License Status</label>
+                      <Badge className="bg-green-100 text-green-800 border-green-200">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Active
+                      </Badge>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">License Expiration</label>
+                      <div className="text-sm text-gray-900">December 31, 2025</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Insurance Status</label>
+                      <Badge className="bg-green-100 text-green-800 border-green-200">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Current
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">ADPH Registration</label>
+                      <Badge className="bg-green-100 text-green-800 border-green-200">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Registered
+                      </Badge>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Inspection</label>
+                      <div className="text-sm text-gray-900">November 15, 2024</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Next Renewal Due</label>
+                      <div className="text-sm text-gray-900">November 15, 2025</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Business Statistics */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-6 pt-6 pb-4">
+                <CardTitle className="text-gray-900">Business Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                    <div className="text-sm text-gray-600">Total Customers</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.formsCompleted}</div>
+                    <div className="text-sm text-gray-600">Forms Completed</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                    <div className="text-sm text-gray-600">Compliance Rate</div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -2803,9 +3101,14 @@ const DashboardPage = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Find customer"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400"
+                    placeholder="Search"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 cursor-pointer"
+                    onClick={handleSearchToggle}
+                    readOnly
                   />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+                    ⌘K
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
@@ -2826,6 +3129,16 @@ const DashboardPage = () => {
               <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
                 <div className="w-5 h-5 bg-white rounded-sm"></div>
               </div>
+              {/* Search Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSearchToggle}
+                className="h-10 w-10 p-0 hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                title="Search (⌘K)"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
               {/* Collapse Toggle Button */}
               <Button
                 variant="ghost"
@@ -2911,6 +3224,22 @@ const DashboardPage = () => {
               <Building2 className="w-5 h-5 flex-shrink-0" />
               {!isSidebarCollapsed && <span className="text-sm">Properties</span>}
             </button>
+            <button
+              onClick={() => handleTabChange('schedule')}
+              className={`flex items-center transition-colors ${
+                activeTab === 'schedule'
+                  ? 'bg-gray-100 text-gray-900'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+              } ${
+                isSidebarCollapsed 
+                  ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
+                  : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
+              }`}
+              title={isSidebarCollapsed ? 'Schedule' : undefined}
+            >
+              <Calendar className="w-5 h-5 flex-shrink-0" />
+              {!isSidebarCollapsed && <span className="text-sm">Schedule</span>}
+            </button>
           </div>
         </div>
 
@@ -2918,11 +3247,17 @@ const DashboardPage = () => {
         <div className={`border-t border-gray-200 space-y-3 ${
           isSidebarCollapsed ? 'p-3' : 'p-6'
         }`}>
-          <button className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
-            isSidebarCollapsed 
-              ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
-              : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
-          }`} title={isSidebarCollapsed ? 'Profile' : undefined}>
+          <button 
+            onClick={() => handleTabChange('profile')}
+            className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
+              activeTab === 'profile' ? 'bg-gray-100 text-gray-900' : ''
+            } ${
+              isSidebarCollapsed 
+                ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
+                : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
+            }`} 
+            title={isSidebarCollapsed ? 'Profile' : undefined}
+          >
             <User className="w-5 h-5 flex-shrink-0" />
             {!isSidebarCollapsed && <span className="text-sm">Profile</span>}
           </button>
@@ -2943,6 +3278,8 @@ const DashboardPage = () => {
             {!isSidebarCollapsed && <span className="text-sm">Settings</span>}
           </button>
         </div>
+
+        
       </nav>
 
       {/* Main Content Area with dynamic margin */}
@@ -2966,21 +3303,35 @@ const DashboardPage = () => {
                   {activeTab === 'dashboard' ? 'Dashboard' : 
                    activeTab === 'cep5' ? 'CEP-5' :
                    activeTab === 'customers' ? 'Customers' :
+                   activeTab === 'properties' ? 'Properties' :
+                   activeTab === 'schedule' ? 'Schedule' :
+                   activeTab === 'profile' ? 'Profile' :
                    'Properties'}
                 </h2>
                 <p className="text-sm text-gray-600 mt-2">
                   {activeTab === 'dashboard' ? 'Overview and quick actions' : 
                    activeTab === 'cep5' ? 'Manage CEP-5 forms and compliance' :
                    activeTab === 'customers' ? 'Customer database and relationships' :
+                   activeTab === 'properties' ? 'Property tracking and requirements' :
+                   activeTab === 'schedule' ? 'Job scheduling and deadlines' :
+                   activeTab === 'profile' ? 'Company information and compliance' :
                    'Property tracking and requirements'}
                 </p>
               </div>
             </div>
             
             <div className="flex items-center space-x-6">
-              <div className="hidden sm:flex items-center space-x-3 text-sm text-gray-600">
-                <MapPin className="w-4 h-4" />
-                <span>{mockData.contractor.counties.join(", ")}</span>
+              <div className="hidden sm:flex items-center space-x-4 text-sm text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4" />
+                  <span className="font-medium">Jefferson County</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span>{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span>{new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -3250,6 +3601,115 @@ const DashboardPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Search Popup */}
+      {showSearchPopup && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center pt-20">
+          <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl mx-4 max-h-[80vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <Search className="h-6 w-6 text-sky-500" />
+                <h2 className="text-xl font-semibold text-gray-900">Search</h2>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSearchClose}
+                className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Search Input */}
+            <div className="p-6 border-b border-gray-200">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => handleSearchQueryChange(e.target.value)}
+                  placeholder="Search all pages, forms, customers, properties..."
+                  className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  autoFocus
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-10 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  Search
+                </Button>
+              </form>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto">
+              {/* Recent Activities */}
+              <div className="p-6 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Activities</h3>
+                <div className="space-y-3">
+                  {mockData.recentForms.slice(0, 5).map((form) => (
+                    <div
+                      key={form.id}
+                      className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
+                      onClick={() => {
+                        setActiveTab('cep5')
+                        setShowSearchPopup(false)
+                        setSearchQuery("")
+                      }}
+                    >
+                      <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
+                        <FileText className="h-4 w-4 text-sky-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-900">{form.customer}</div>
+                        <div className="text-xs text-gray-500">{form.property}</div>
+                      </div>
+                      <Badge className={`${getStatusColor(form.status)}`}>
+                        {form.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+
+
+              {/* Search Results Placeholder */}
+              {searchQuery && (
+                <div className="p-6">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Search Results</h3>
+                  <div className="text-center py-8">
+                    <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-500">Searching for "{searchQuery}"...</p>
+                    <p className="text-sm text-gray-400 mt-2">Results will appear here</p>
+                  </div>
+                </div>
+              )}
+
+              {/* No Search Query State */}
+              {!searchQuery && (
+                <div className="p-6">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Popular Searches</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {['CEP-5', 'Jefferson County', 'Williams Property', 'Septic Tank', 'Installation'].map((term) => (
+                      <button
+                        key={term}
+                        onClick={() => handleSearchQueryChange(term)}
+                        className="text-sm text-gray-600 hover:text-sky-600 hover:bg-sky-50 px-3 py-1.5 rounded-lg transition-colors duration-200"
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
