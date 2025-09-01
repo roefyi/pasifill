@@ -2448,7 +2448,7 @@ const DashboardPage = () => {
         </div>
           </div>
         )
-      case 'cep5':
+
         return (
           <div className="space-y-6">
 
@@ -2592,7 +2592,7 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
-      case 'customers':
+
         return (
           <div className="space-y-6">
 
@@ -2805,7 +2805,7 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
-      case 'properties':
+
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-end mb-6">
@@ -2929,9 +2929,7 @@ const DashboardPage = () => {
         </div>
       )
     }
-    
-    switch (activeTab) {
-      case 'schedule':
+
         return (
           <div className="space-y-6">
             {/* Header - Only show breadcrumb if coming from dashboard */}
@@ -3356,7 +3354,7 @@ const DashboardPage = () => {
             )}
           </div>
         )
-      case 'profile':
+
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-end mb-6">
