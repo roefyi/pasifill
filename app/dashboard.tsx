@@ -2241,102 +2241,7 @@ const DashboardPage = () => {
       )
     }
     
-    switch (activeTab) {
-      case 'dashboard':
-        return (
-          <>
-        {/* Welcome Section */}
-            <div className="mb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-          <h2 className="text-lg font-semibold mb-2">
-            Welcome back, {mockData.contractor.name.split(" ")[0]}!
-          </h2>
-          <p className="text-gray-600">
-            Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
-          </p>
-        </div>
-                                  <div className="flex items-center space-x-3 ml-6">
-            <Button 
-              variant="outline"
-              size="sm"
-              onClick={handleSearchToggle}
-              className="h-9 px-4 border-gray-300 hover:bg-gray-50 text-gray-700"
-            >
-              <Search className="w-4 h-4 mr-2" />
-              Search
-              <span className="ml-2 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">⌘K</span>
-            </Button>
-            <Button 
-              onClick={handleNewForm}
-                      size="sm"
-                      className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-            >
-                      <Plus className="w-4 h-4 mr-2" />
-                      New CEP-5 Form
-            </Button>
-            <Button 
-              onClick={handleAddCustomer}
-              variant="slate"
-              size="sm"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              New Customer
-            </Button>
-                  </div>
-          </div>
-        </div>
 
-            {/* This Month Stats */}
-            <div className="mb-4">
-              <div className="flex flex-col">
-                          <h3 className="text-lg font-semibold mb-4">This Month</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">CEP-5 Forms</CardTitle>
-                        <FileText className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
-                      <p className="text-xs text-gray-500">
-                  +{mockData.stats.monthlyForms - 20} from last month
-                </p>
-              </CardContent>
-            </Card>
-
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
-                        <Users className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
-                      <p className="text-xs text-gray-500">
-                  Across {mockData.contractor.counties.length} counties
-                </p>
-              </CardContent>
-            </Card>
-
-                  <Card className="bg-white border-gray-200">
-                    <CardContent className="px-6 py-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
-                      <p className="text-xs text-gray-500">
-                  ADPH acceptance rate
-                </p>
-              </CardContent>
-            </Card>
-                </div>
-          </div>
-        </div>
-
-            {/* Job Overview */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Today's Jobs</h3>
                 <Button 
                   variant="outline" 
@@ -2928,6 +2833,88 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
+    }
+    
+    if (showNewForm) {
+      return (
+        <div className="space-y-8">
+          {/* Header */}
+          <div className="space-y-6">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink onClick={() => {
+                    if (hasUnsavedChanges) {
+                      setShowLeaveConfirmDialog(true)
+                      setPendingNavigation(() => () => {
+                        setShowNewForm(false)
+                        setActiveTab(formSource)
+                        setHasUnsavedChanges(false)
+                        setShowLeaveConfirmDialog(false)
+                        setPendingNavigation(null)
+                      })
+                    } else {
+                      handleBackToSource()
+                    }
+                  }}>
+                    {formSource === 'dashboard' ? (
+                      <>
+                        <Home className="w-4 h-4 mr-1" />
+                        Dashboard
+                      </>
+                    ) : formSource === 'cep5' ? (
+                      <>
+                        <FileText className="w-4 h-4 mr-1" />
+                        CEP-5
+                      </>
+                    ) : formSource === 'customers' ? (
+                      <>
+                        <Users className="w-4 h-4 mr-1" />
+                        Customers
+                      </>
+                    ) : (
+                      <>
+                        <Building2 className="w-4 h-4 mr-1" />
+                        Properties
+                      </>
+                    )}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>New CEP-5 Form</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-lg font-semibold">New CEP-5 Form</h2>
+                <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Button 
+                  onClick={handleSaveDraft}
+                  variant="slate"
+                  size="sm"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Draft
+                </Button>
+                <Button 
+                  size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  <Printer className="w-4 h-4 mr-2" />
+                  Print Form
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Form Sections */}
+          <CEP5Form />
+        </div>
+      )
     }
     
     switch (activeTab) {
