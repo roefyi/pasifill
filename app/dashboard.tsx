@@ -78,8 +78,77 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-// Calendar Events Data
+// Calendar Events Data with Time Slots
 const calendarEvents = [
+  // December 2024 Events with specific times
+  { date: '2024-12-17', title: 'Williams Property Inspection', type: 'job', time: '9:00 AM - 10:00 AM', customer: 'Williams Family' },
+  { date: '2024-12-17', title: 'Team Safety Meeting', type: 'meeting', time: '10:00 AM - 11:00 AM', priority: 'high' },
+  { date: '2024-12-17', title: 'Equipment Maintenance', type: 'task', time: '11:00 AM - 12:00 PM', priority: 'high' },
+  { date: '2024-12-17', title: 'Lunch with Client', type: 'meeting', time: '12:00 PM - 1:00 PM', customer: 'Smith Family' },
+  { date: '2024-12-17', title: 'Davis Property Survey', type: 'job', time: '1:00 PM - 3:00 PM', customer: 'Davis Family' },
+  { date: '2024-12-17', title: 'Department Compliance Review', type: 'meeting', time: '3:00 PM - 4:00 PM', priority: 'high' },
+  { date: '2024-12-17', title: 'Equipment Delivery', type: 'task', time: '4:00 PM - 5:00 PM', priority: 'medium' },
+  { date: '2024-12-17', title: 'End of Day Review', type: 'meeting', time: '5:00 PM - 5:30 PM', priority: 'low' },
+  
+  { date: '2024-12-18', title: 'Johnson Property Installation', type: 'job', time: '8:00 AM - 10:00 AM', customer: 'Johnson Family' },
+  { date: '2024-12-18', title: 'Safety Training Session', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'high' },
+  { date: '2024-12-18', title: 'Supplier Meeting', type: 'meeting', time: '1:00 PM - 2:00 PM', priority: 'medium' },
+  { date: '2024-12-18', title: 'Brown Property Assessment', type: 'job', time: '2:30 PM - 4:30 PM', customer: 'Brown Family' },
+  { date: '2024-12-18', title: 'Weekly Staff Meeting', type: 'meeting', time: '4:30 PM - 5:30 PM', priority: 'high' },
+  
+  { date: '2024-12-19', title: 'Miller Property Completion', type: 'job', time: '9:00 AM - 11:00 AM', customer: 'Miller Family' },
+  { date: '2024-12-19', title: 'County Permit Review', type: 'deadline', time: '11:00 AM - 12:00 PM', priority: 'urgent' },
+  { date: '2024-12-19', title: 'Equipment Inventory', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
+  { date: '2024-12-19', title: 'Client Consultation', type: 'meeting', time: '3:30 PM - 4:30 PM', customer: 'Anderson Family' },
+  { date: '2024-12-19', title: 'Daily Progress Review', type: 'meeting', time: '4:30 PM - 5:00 PM', priority: 'low' },
+  
+  { date: '2024-12-20', title: 'Taylor Property Survey', type: 'job', time: '8:30 AM - 10:30 AM', customer: 'Taylor Family' },
+  { date: '2024-12-20', title: 'Quarterly Business Review', type: 'meeting', time: '11:00 AM - 12:30 PM', priority: 'high' },
+  { date: '2024-12-20', title: 'Equipment Maintenance', type: 'task', time: '1:30 PM - 3:30 PM', priority: 'high' },
+  { date: '2024-12-20', title: 'Contract Renewal Deadline', type: 'deadline', time: '4:00 PM - 5:00 PM', priority: 'urgent' },
+  
+  { date: '2024-12-21', title: 'Weekend Emergency Service', type: 'job', time: '9:00 AM - 11:00 AM', customer: 'Emergency Service' },
+  { date: '2024-12-21', title: 'Safety Equipment Check', type: 'task', time: '11:30 AM - 12:30 PM', priority: 'high' },
+  { date: '2024-12-21', title: 'Weekend Maintenance', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'low' },
+  
+  { date: '2024-12-22', title: 'Emergency Service Call', type: 'job', time: '10:00 AM - 12:00 PM', customer: 'Emergency Service' },
+  { date: '2024-12-22', title: 'Equipment Winterization', type: 'task', time: '2:00 PM - 4:00 PM', priority: 'high' },
+  
+  { date: '2024-12-23', title: 'Pre-Holiday Staff Meeting', type: 'meeting', time: '9:00 AM - 10:00 AM', priority: 'high' },
+  { date: '2024-12-23', title: 'Holiday Schedule Review', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'medium' },
+  { date: '2024-12-23', title: 'Year-End Equipment Check', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
+  { date: '2024-12-23', title: 'Annual License Renewal', type: 'deadline', time: '3:30 PM - 4:30 PM', priority: 'urgent' },
+  
+  { date: '2024-12-24', title: 'Holiday Emergency Coverage', type: 'job', time: '8:00 AM - 10:00 AM', customer: 'Emergency Service' },
+  { date: '2024-12-24', title: 'Staff Holiday Party Planning', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'low' },
+  { date: '2024-12-24', title: 'Equipment Winterization', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
+  
+  { date: '2024-12-25', title: 'Christmas Day - Office Closed', type: 'holiday', time: 'All Day', priority: 'low' },
+  
+  { date: '2024-12-26', title: 'Post-Holiday Review', type: 'meeting', time: '9:00 AM - 10:00 AM', priority: 'medium' },
+  { date: '2024-12-26', title: 'Year-End Equipment Maintenance', type: 'task', time: '10:30 AM - 12:30 PM', priority: 'high' },
+  { date: '2024-12-26', title: 'Annual Report Preparation', type: 'deadline', time: '1:00 PM - 3:00 PM', priority: 'high' },
+  { date: '2024-12-26', title: 'Staff Performance Reviews', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
+  
+  { date: '2024-12-27', title: 'Equipment Maintenance Day', type: 'task', time: '8:00 AM - 10:00 AM', priority: 'high' },
+  { date: '2024-12-27', title: 'Holiday Safety Briefing', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'medium' },
+  { date: '2024-12-27', title: 'Year-End Customer Survey', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
+  { date: '2024-12-27', title: 'Annual Budget Review', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
+  
+  { date: '2024-12-28', title: 'Weekend Safety Check', type: 'task', time: '9:00 AM - 11:00 AM', priority: 'medium' },
+  { date: '2024-12-28', title: 'Equipment Inventory Update', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
+  
+  { date: '2024-12-29', title: 'Annual Report Deadline', type: 'deadline', time: '9:00 AM - 11:00 AM', priority: 'urgent' },
+  { date: '2024-12-29', title: 'Year-End Staff Meeting', type: 'meeting', time: '2:00 PM - 4:00 PM', priority: 'high' },
+  
+  { date: '2024-12-30', title: 'New Year Preparation', type: 'task', time: '9:00 AM - 11:00 AM', priority: 'medium' },
+  { date: '2024-12-30', title: 'Equipment Final Check', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
+  { date: '2024-12-30', title: 'Year-End Review Meeting', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
+  
+  { date: '2024-12-31', title: 'New Year Preparation', type: 'task', time: '9:00 AM - 12:00 PM', priority: 'medium' },
+  { date: '2024-12-31', title: 'Year-End Equipment Maintenance', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
+  { date: '2024-12-31', title: 'Final Year-End Meeting', type: 'meeting', time: '3:30 PM - 4:30 PM', priority: 'high' }
+]
   // March 1-5
   { date: '2024-03-01', title: 'Monthly Planning Meeting', type: 'meeting', time: '9:00 AM' },
   { date: '2024-03-01', title: 'Equipment Inventory', type: 'task', priority: 'medium' },
@@ -852,7 +921,7 @@ const DashboardPage = () => {
   }
   
   // Schedule View State
-  const [scheduleView, setScheduleView] = useState<'list' | 'calendar'>('list')
+  const [scheduleView, setScheduleView] = useState<'list' | 'calendar' | 'detailed'>('list')
   const [currentMonth, setCurrentMonth] = useState(() => {
     const today = new Date()
     return new Date(today.getFullYear(), today.getMonth(), 1)
@@ -3019,6 +3088,19 @@ const DashboardPage = () => {
                     <Grid3X3 className="w-4 h-4 mr-2" />
                     Calendar
                   </Button>
+                  <Button
+                    variant={scheduleView === 'detailed' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setScheduleView('detailed')}
+                    className={`h-8 px-3 text-sm ${
+                      scheduleView === 'detailed' 
+                        ? 'bg-white text-gray-900 shadow-sm' 
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Detailed
+                  </Button>
                 </div>
                 <Button 
                   variant="outline"
@@ -3220,6 +3302,145 @@ const DashboardPage = () => {
                         <div className="flex items-center space-x-2">
                           <div className="w-3 h-3 bg-green-100 rounded-full border border-green-300"></div>
                           <span className="text-gray-600">Meetings</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-gray-100 rounded-full border border-gray-300"></div>
+                          <span className="text-gray-600">Tasks</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-red-100 rounded-full border border-red-300"></div>
+                          <span className="text-gray-600">Holidays</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </>
+            ) : (
+              <>
+                {/* Detailed Calendar View */}
+                <Card className="bg-white border-gray-200">
+                  <CardHeader className="px-8 pt-8 pb-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-gray-900">
+                          {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        </CardTitle>
+                        <CardDescription className="text-gray-600">Detailed schedule view with time slots</CardDescription>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handlePreviousMonth}
+                          className="h-8 w-8 p-0"
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleToday}
+                          className="h-8 px-3 text-sm"
+                        >
+                          Today
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleNextMonth}
+                          className="h-8 w-8 p-0"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="px-8 pb-8">
+                    {/* Detailed Calendar Grid */}
+                    <div className="space-y-6">
+                      {/* Time Slots Header */}
+                      <div className="grid grid-cols-8 gap-4 border-b border-gray-200 pb-4">
+                        <div className="text-sm font-medium text-gray-500">Time</div>
+                        <div className="text-sm font-medium text-gray-500">Mon</div>
+                        <div className="text-sm font-medium text-gray-500">Tue</div>
+                        <div className="text-sm font-medium text-gray-500">Wed</div>
+                        <div className="text-sm font-medium text-gray-500">Thu</div>
+                        <div className="text-sm font-medium text-gray-500">Fri</div>
+                        <div className="text-sm font-medium text-gray-500">Sat</div>
+                        <div className="text-sm font-medium text-gray-500">Sun</div>
+                      </div>
+                      
+                      {/* Time Slots */}
+                      {Array.from({ length: 12 }, (_, i) => {
+                        const hour = i + 8 // Start from 8 AM
+                        const timeString = `${hour}:00 ${hour < 12 ? 'AM' : hour === 12 ? 'PM' : 'PM'}`
+                        const currentDate = new Date()
+                        const isCurrentHour = currentDate.getHours() === hour
+                        
+                        return (
+                          <div key={hour} className="grid grid-cols-8 gap-4 min-h-[80px]">
+                            <div className={`text-sm font-medium text-gray-500 flex items-center ${
+                              isCurrentHour ? 'text-sky-600 font-semibold' : ''
+                            }`}>
+                              {timeString}
+                            </div>
+                            {Array.from({ length: 7 }, (_, dayIndex) => {
+                              const dayDate = new Date(currentMonth)
+                              dayDate.setDate(dayDate.getDate() + dayIndex)
+                              const dateString = dayDate.toISOString().split('T')[0]
+                              const dayEvents = calendarEvents.filter(event => 
+                                event.date === dateString && 
+                                event.time.includes(`${hour}:00`)
+                              )
+                              const isToday = dayDate.toDateString() === new Date().toDateString()
+                              
+                              return (
+                                <div
+                                  key={dayIndex}
+                                  className={`border border-gray-200 rounded-lg p-2 ${
+                                    isToday ? 'bg-sky-50 border-sky-200' : 'bg-white'
+                                  } ${isCurrentHour ? 'ring-1 ring-sky-300' : ''}`}
+                                >
+                                  {dayEvents.map((event, eventIndex) => (
+                                    <div
+                                      key={eventIndex}
+                                      className={`text-xs p-2 rounded mb-1 cursor-pointer ${
+                                        event.type === 'job' ? 'bg-blue-100 text-blue-800 border-l-4 border-blue-500' :
+                                        event.type === 'meeting' ? 'bg-green-100 text-green-800 border-l-4 border-green-500' :
+                                        event.type === 'deadline' ? 'bg-amber-100 text-amber-800 border-l-4 border-amber-500' :
+                                        event.type === 'task' ? 'bg-gray-100 text-gray-800 border-l-4 border-gray-500' :
+                                        event.type === 'holiday' ? 'bg-red-100 text-red-800 border-l-4 border-red-500' :
+                                        'bg-gray-100 text-gray-800'
+                                      }`}
+                                      title={`${event.title} - ${event.time}`}
+                                    >
+                                      <div className="font-medium truncate">{event.title}</div>
+                                      <div className="text-xs opacity-75">{event.time}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )
+                      })}
+                    </div>
+                    
+                    {/* Legend */}
+                    <div className="mt-6 pt-4 border-t border-gray-200">
+                      <div className="flex items-center space-x-6 text-sm">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-blue-100 rounded-full border border-blue-300"></div>
+                          <span className="text-gray-600">Jobs</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-green-100 rounded-full border border-green-300"></div>
+                          <span className="text-gray-600">Meetings</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-amber-100 rounded-full border border-amber-300"></div>
+                          <span className="text-gray-600">Deadlines</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-3 h-3 bg-gray-100 rounded-full border border-gray-300"></div>
