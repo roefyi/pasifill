@@ -78,84 +78,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-// Calendar Events Data with Time Slots
-const calendarEvents = [
-  // December 2024 Events with specific times
-  { date: '2024-12-17', title: 'Williams Property Inspection', type: 'job', time: '9:00 AM - 10:00 AM', customer: 'Williams Family' },
-  { date: '2024-12-17', title: 'Team Safety Meeting', type: 'meeting', time: '10:00 AM - 11:00 AM', priority: 'high' },
-  { date: '2024-12-17', title: 'Equipment Maintenance', type: 'task', time: '11:00 AM - 12:00 PM', priority: 'high' },
-  { date: '2024-12-17', title: 'Lunch with Client', type: 'meeting', time: '12:00 PM - 1:00 PM', customer: 'Smith Family' },
-  { date: '2024-12-17', title: 'Davis Property Survey', type: 'job', time: '1:00 PM - 3:00 PM', customer: 'Davis Family' },
-  { date: '2024-12-17', title: 'Department Compliance Review', type: 'meeting', time: '3:00 PM - 4:00 PM', priority: 'high' },
-  { date: '2024-12-17', title: 'Equipment Delivery', type: 'task', time: '4:00 PM - 5:00 PM', priority: 'medium' },
-  { date: '2024-12-17', title: 'End of Day Review', type: 'meeting', time: '5:00 PM - 5:30 PM', priority: 'low' },
-  
-  { date: '2024-12-18', title: 'Johnson Property Installation', type: 'job', time: '8:00 AM - 10:00 AM', customer: 'Johnson Family' },
-  { date: '2024-12-18', title: 'Safety Training Session', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'high' },
-  { date: '2024-12-18', title: 'Supplier Meeting', type: 'meeting', time: '1:00 PM - 2:00 PM', priority: 'medium' },
-  { date: '2024-12-18', title: 'Brown Property Assessment', type: 'job', time: '2:30 PM - 4:30 PM', customer: 'Brown Family' },
-  { date: '2024-12-18', title: 'Weekly Staff Meeting', type: 'meeting', time: '4:30 PM - 5:30 PM', priority: 'high' },
-  
-  { date: '2024-12-19', title: 'Miller Property Completion', type: 'job', time: '9:00 AM - 11:00 AM', customer: 'Miller Family' },
-  { date: '2024-12-19', title: 'County Permit Review', type: 'deadline', time: '11:00 AM - 12:00 PM', priority: 'urgent' },
-  { date: '2024-12-19', title: 'Equipment Inventory', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
-  { date: '2024-12-19', title: 'Client Consultation', type: 'meeting', time: '3:30 PM - 4:30 PM', customer: 'Anderson Family' },
-  { date: '2024-12-19', title: 'Daily Progress Review', type: 'meeting', time: '4:30 PM - 5:00 PM', priority: 'low' },
-  
-  { date: '2024-12-20', title: 'Taylor Property Survey', type: 'job', time: '8:30 AM - 10:30 AM', customer: 'Taylor Family' },
-  { date: '2024-12-20', title: 'Quarterly Business Review', type: 'meeting', time: '11:00 AM - 12:30 PM', priority: 'high' },
-  { date: '2024-12-20', title: 'Equipment Maintenance', type: 'task', time: '1:30 PM - 3:30 PM', priority: 'high' },
-  { date: '2024-12-20', title: 'Contract Renewal Deadline', type: 'deadline', time: '4:00 PM - 5:00 PM', priority: 'urgent' },
-  
-  { date: '2024-12-21', title: 'Weekend Emergency Service', type: 'job', time: '9:00 AM - 11:00 AM', customer: 'Emergency Service' },
-  { date: '2024-12-21', title: 'Safety Equipment Check', type: 'task', time: '11:30 AM - 12:30 PM', priority: 'high' },
-  { date: '2024-12-21', title: 'Weekend Maintenance', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'low' },
-  
-  { date: '2024-12-22', title: 'Emergency Service Call', type: 'job', time: '10:00 AM - 12:00 PM', customer: 'Emergency Service' },
-  { date: '2024-12-22', title: 'Equipment Winterization', type: 'task', time: '2:00 PM - 4:00 PM', priority: 'high' },
-  
-  { date: '2024-12-23', title: 'Pre-Holiday Staff Meeting', type: 'meeting', time: '9:00 AM - 10:00 AM', priority: 'high' },
-  { date: '2024-12-23', title: 'Holiday Schedule Review', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'medium' },
-  { date: '2024-12-23', title: 'Year-End Equipment Check', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
-  { date: '2024-12-23', title: 'Annual License Renewal', type: 'deadline', time: '3:30 PM - 4:30 PM', priority: 'urgent' },
-  
-  { date: '2024-12-24', title: 'Holiday Emergency Coverage', type: 'job', time: '8:00 AM - 10:00 AM', customer: 'Emergency Service' },
-  { date: '2024-12-24', title: 'Staff Holiday Party Planning', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'low' },
-  { date: '2024-12-24', title: 'Equipment Winterization', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
-  
-  { date: '2024-12-25', title: 'Christmas Day - Office Closed', type: 'holiday', time: 'All Day', priority: 'low' },
-  
-  { date: '2024-12-26', title: 'Post-Holiday Review', type: 'meeting', time: '9:00 AM - 10:00 AM', priority: 'medium' },
-  { date: '2024-12-26', title: 'Year-End Equipment Maintenance', type: 'task', time: '10:30 AM - 12:30 PM', priority: 'high' },
-  { date: '2024-12-26', title: 'Annual Report Preparation', type: 'deadline', time: '1:00 PM - 3:00 PM', priority: 'high' },
-  { date: '2024-12-26', title: 'Staff Performance Reviews', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
-  
-  { date: '2024-12-27', title: 'Equipment Maintenance Day', type: 'task', time: '8:00 AM - 10:00 AM', priority: 'high' },
-  { date: '2024-12-27', title: 'Holiday Safety Briefing', type: 'meeting', time: '10:30 AM - 11:30 AM', priority: 'medium' },
-  { date: '2024-12-27', title: 'Year-End Customer Survey', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
-  { date: '2024-12-27', title: 'Annual Budget Review', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
-  
-  { date: '2024-12-28', title: 'Weekend Safety Check', type: 'task', time: '9:00 AM - 11:00 AM', priority: 'medium' },
-  { date: '2024-12-28', title: 'Equipment Inventory Update', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'medium' },
-  
-  { date: '2024-12-29', title: 'Annual Report Deadline', type: 'deadline', time: '9:00 AM - 11:00 AM', priority: 'urgent' },
-  { date: '2024-12-29', title: 'Year-End Staff Meeting', type: 'meeting', time: '2:00 PM - 4:00 PM', priority: 'high' },
-  
-  { date: '2024-12-30', title: 'New Year Preparation', type: 'task', time: '9:00 AM - 11:00 AM', priority: 'medium' },
-  { date: '2024-12-30', title: 'Equipment Final Check', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
-  { date: '2024-12-30', title: 'Year-End Review Meeting', type: 'meeting', time: '3:30 PM - 5:30 PM', priority: 'high' },
-  
-  { date: '2024-12-31', title: 'New Year Preparation', type: 'task', time: '9:00 AM - 12:00 PM', priority: 'medium' },
-  { date: '2024-12-31', title: 'Year-End Equipment Maintenance', type: 'task', time: '1:00 PM - 3:00 PM', priority: 'high' },
-  { date: '2024-12-31', title: 'Final Year-End Meeting', type: 'meeting', time: '3:30 PM - 4:30 PM', priority: 'high' }
-]
-
-// Helper function to get events for a specific date
-const getDayEvents = (date: Date) => {
-  const dateString = date.toISOString().split('T')[0]
-  return calendarEvents.filter(event => event.date === dateString)
-}
-
 // Mock data - replace with actual data from your backend
 const mockData = {
   contractor: {
@@ -805,25 +727,8 @@ const DashboardPage = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length
   
-  // Calendar Navigation Functions
-  const handlePreviousMonth = () => {
-    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
-  }
-  
-  const handleNextMonth = () => {
-    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
-  }
-  
-  const handleToday = () => {
-    setCurrentMonth(new Date())
-  }
-  
   // Schedule View State
-  const [scheduleView, setScheduleView] = useState<'list' | 'calendar' | 'detailed'>('list')
-  const [currentMonth, setCurrentMonth] = useState(() => {
-    const today = new Date()
-    return new Date(today.getFullYear(), today.getMonth(), 1)
-  })
+  const [scheduleView, setScheduleView] = useState<'list' | 'calendar'>('list')
 
   const handleFindCustomer = () => {
     // Navigate to customer search
@@ -2244,8 +2149,97 @@ const DashboardPage = () => {
     switch (activeTab) {
       case 'dashboard':
         return (
-          <div className="space-y-6">
-            {/* Today's Jobs */}
+          <>
+        {/* Welcome Section */}
+            <div className="mb-4">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+          <h2 className="text-lg font-semibold mb-2">
+            Welcome back, {mockData.contractor.name.split(" ")[0]}!
+          </h2>
+          <p className="text-gray-600">
+            Complete your Alabama CEP-5 forms faster than ever. You've saved {mockData.stats.timeSaved} hours this month.
+          </p>
+        </div>
+                                  <div className="flex items-center space-x-3 ml-6">
+            <Button 
+              variant="outline"
+              size="sm"
+              onClick={handleSearchToggle}
+              className="h-9 px-4 border-gray-300 hover:bg-gray-50 text-gray-700"
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Search
+              <span className="ml-2 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">⌘K</span>
+            </Button>
+            <Button 
+              onClick={handleNewForm}
+                      size="sm"
+                      className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+            >
+                      <Plus className="w-4 h-4 mr-2" />
+                      New CEP-5 Form
+            </Button>
+            <Button 
+              onClick={handleAddCustomer}
+              variant="slate"
+              size="sm"
+            >
+              <Users className="w-4 h-4 mr-2" />
+              New Customer
+            </Button>
+                  </div>
+          </div>
+        </div>
+
+            {/* This Month Stats */}
+            <div className="mb-4">
+              <div className="flex flex-col">
+                          <h3 className="text-lg font-semibold mb-4">This Month</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-6 py-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-sm font-medium">CEP-5 Forms</CardTitle>
+                        <FileText className="h-4 w-4 text-gray-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.monthlyForms}</div>
+                      <p className="text-xs text-gray-500">
+                  +{mockData.stats.monthlyForms - 20} from last month
+                </p>
+              </CardContent>
+            </Card>
+
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-6 py-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+                        <Users className="h-4 w-4 text-gray-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
+                      <p className="text-xs text-gray-500">
+                  Across {mockData.contractor.counties.length} counties
+                </p>
+              </CardContent>
+            </Card>
+
+                  <Card className="bg-white border-gray-200">
+                    <CardContent className="px-6 py-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
+                        <TrendingUp className="h-4 w-4 text-gray-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
+                      <p className="text-xs text-gray-500">
+                  ADPH acceptance rate
+                </p>
+              </CardContent>
+            </Card>
+                </div>
+          </div>
+        </div>
+
+            {/* Job Overview */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Today's Jobs</h3>
@@ -2446,9 +2440,9 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
-          </div>
+          </>
         )
-
+      case 'cep5':
         return (
           <div className="space-y-6">
 
@@ -2592,7 +2586,7 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
-
+      case 'customers':
         return (
           <div className="space-y-6">
 
@@ -2805,7 +2799,7 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
-
+      case 'properties':
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-end mb-6">
@@ -2839,97 +2833,10 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
-      default:
-        return (
-          <div className="space-y-6">
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600">Welcome to your dashboard</p>
-          </div>
-        )
     }
     
-    if (showNewForm) {
-      return (
-        <div className="space-y-8">
-          {/* Header */}
-          <div className="space-y-6">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink onClick={() => {
-                    if (hasUnsavedChanges) {
-                      setShowLeaveConfirmDialog(true)
-                      setPendingNavigation(() => () => {
-                        setShowNewForm(false)
-                        setActiveTab(formSource)
-                        setHasUnsavedChanges(false)
-                        setShowLeaveConfirmDialog(false)
-                        setPendingNavigation(null)
-                      })
-                    } else {
-                      handleBackToSource()
-                    }
-                  }}>
-                    {formSource === 'dashboard' ? (
-                      <>
-                        <Home className="w-4 h-4 mr-1" />
-                        Dashboard
-                      </>
-                    ) : formSource === 'cep5' ? (
-                      <>
-                        <FileText className="w-4 h-4 mr-1" />
-                        CEP-5
-                      </>
-                    ) : formSource === 'customers' ? (
-                      <>
-                        <Users className="w-4 h-4 mr-1" />
-                        Customers
-                      </>
-                    ) : (
-                      <>
-                        <Building2 className="w-4 h-4 mr-1" />
-                        Properties
-                      </>
-                    )}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>New CEP-5 Form</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="text-lg font-semibold">New CEP-5 Form</h2>
-                <p className="text-gray-600">Alabama Installer's Onsite Sewage Disposal System Certification</p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Button 
-                  onClick={handleSaveDraft}
-                  variant="slate"
-                  size="sm"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Draft
-                </Button>
-                <Button 
-                  size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  <Printer className="w-4 h-4 mr-2" />
-                  Print Form
-                </Button>
-              </div>
-            </div>
-          </div>
-          
-          {/* Form Sections */}
-          <CEP5Form />
-        </div>
-      )
-    }
-
+    switch (activeTab) {
+      case 'schedule':
         return (
           <div className="space-y-6">
             {/* Header - Only show breadcrumb if coming from dashboard */}
@@ -2983,19 +2890,6 @@ const DashboardPage = () => {
                   >
                     <Grid3X3 className="w-4 h-4 mr-2" />
                     Calendar
-                  </Button>
-                  <Button
-                    variant={scheduleView === 'detailed' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setScheduleView('detailed')}
-                    className={`h-8 px-3 text-sm ${
-                      scheduleView === 'detailed' 
-                        ? 'bg-white text-gray-900 shadow-sm' 
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Detailed
                   </Button>
                 </div>
                 <Button 
@@ -3076,275 +2970,63 @@ const DashboardPage = () => {
                 {/* Calendar View */}
                 <Card className="bg-white border-gray-200">
                   <CardHeader className="px-8 pt-8 pb-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle className="text-gray-900">
-                          {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                        </CardTitle>
-                        <CardDescription className="text-gray-600">View your schedule in a calendar format</CardDescription>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handlePreviousMonth}
-                          className="h-8 w-8 p-0"
-                        >
-                          <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleToday}
-                          className="h-8 px-3 text-sm"
-                        >
-                          Today
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleNextMonth}
-                          className="h-8 w-8 p-0"
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
+                    <CardTitle className="text-gray-900">Calendar View</CardTitle>
+                    <CardDescription className="text-gray-600">View your schedule in a calendar format</CardDescription>
                   </CardHeader>
                   <CardContent className="px-8 pb-8">
-                                    {/* Calendar Grid */}
-                <div className="space-y-6">
-                  {/* Calendar Header */}
-                  <div className="grid grid-cols-7 gap-1 text-center">
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                      <div key={day} className="py-2 text-sm font-medium text-gray-500">
-                        {day}
+                    {/* Calendar Grid */}
+                    <div className="space-y-6">
+                      {/* Calendar Header */}
+                      <div className="grid grid-cols-7 gap-1 text-center">
+                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                          <div key={day} className="py-2 text-sm font-medium text-gray-500">
+                            {day}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  
-                  {/* Calendar Days */}
-                  <div className="grid grid-cols-7 gap-1">
-                    {/* Generate calendar days with actual events */}
-                    {(() => {
-                      const year = currentMonth.getFullYear()
-                      const month = currentMonth.getMonth()
-                      const firstDay = new Date(year, month, 1)
-                      const lastDay = new Date(year, month + 1, 0)
-                      const startDate = new Date(firstDay)
-                      startDate.setDate(startDate.getDate() - firstDay.getDay())
                       
-                      return Array.from({ length: 42 }, (_, i) => {
-                        const currentDate = new Date(startDate)
-                        currentDate.setDate(startDate.getDate() + i)
-                        const dayEvents = getDayEvents(currentDate)
-                        const isCurrentMonth = currentDate.getMonth() === month
-                        const isToday = currentDate.toDateString() === new Date().toDateString()
-                      
-                                              return (
-                          <div
-                            key={i}
-                                                      className={`min-h-[120px] p-2 border border-gray-200 rounded-lg ${
-                            isCurrentMonth ? 'bg-white' : 'bg-gray-50'
-                          } ${isCurrentMonth ? 'hover:bg-gray-50' : ''} transition-colors ${
-                            isToday ? 'ring-2 ring-sky-500 ring-opacity-50 bg-sky-50' : ''
-                          }`}
-                        >
-                          <div className={`text-sm font-medium mb-2 ${
-                            isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
-                          } ${isToday ? 'text-sky-600 font-semibold' : ''}`}>
-                              {currentDate.getDate()}
-                            </div>
-                            <div className="space-y-1">
-                              {dayEvents.slice(0, 2).map((event, index) => (
-                                <div
-                                  key={index}
-                                                                     className={`text-xs p-1 rounded truncate cursor-pointer ${
-                                     event.type === 'job' ? 'bg-blue-100 text-blue-800' :
-                                     event.type === 'deadline' ? 'bg-amber-100 text-amber-800' :
-                                     event.type === 'meeting' ? 'bg-green-100 text-green-800' :
-                                     event.type === 'holiday' ? 'bg-red-100 text-red-800' :
-                                     'bg-gray-100 text-gray-800'
-                                   }`}
-                                  title={event.title}
-                                >
-                                  {event.title}
-                                </div>
-                              ))}
-                              {dayEvents.length > 2 && (
-                                <div className="text-xs text-gray-500 text-center">
-                                  +{dayEvents.length - 2} more
-                                </div>
+                      {/* Calendar Days */}
+                      <div className="grid grid-cols-7 gap-1">
+                        {/* Generate calendar days - this is a simplified version */}
+                        {Array.from({ length: 35 }, (_, i) => {
+                          const day = i + 1
+                          const hasJob = mockData.todayJobs.some(job => job.id === `JOB-${day.toString().padStart(3, '0')}`)
+                          const hasDeadline = mockData.upcomingDeadlines.some(deadline => deadline.daysLeft === day)
+                          
+                          return (
+                            <div
+                              key={i}
+                              className={`min-h-[80px] p-2 border border-gray-200 rounded-lg ${
+                                day <= 31 ? 'bg-white' : 'bg-gray-50'
+                              } ${day <= 31 ? 'hover:bg-gray-50' : ''} transition-colors`}
+                            >
+                              {day <= 31 && (
+                                <>
+                                  <div className="text-sm font-medium text-gray-900 mb-1">{day}</div>
+                                  {hasJob && (
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full mb-1"></div>
+                                  )}
+                                  {hasDeadline && (
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                                  )}
+                                </>
                               )}
                             </div>
-                          </div>
-                        )
-                                             })
-                     })()}
+                          )
+                        })}
+                      </div>
                     </div>
-                </div>
                     
                     {/* Calendar Legend */}
                     <div className="mt-6 pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-6 text-sm">
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-100 rounded-full border border-blue-300"></div>
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                           <span className="text-gray-600">Jobs</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-amber-100 rounded-full border border-amber-300"></div>
+                          <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
                           <span className="text-gray-600">Deadlines</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-green-100 rounded-full border border-green-300"></div>
-                          <span className="text-gray-600">Meetings</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-gray-100 rounded-full border border-gray-300"></div>
-                          <span className="text-gray-600">Tasks</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-red-100 rounded-full border border-red-300"></div>
-                          <span className="text-gray-600">Holidays</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
-            ) : (
-              <>
-                {/* Detailed Calendar View */}
-                <Card className="bg-white border-gray-200">
-                  <CardHeader className="px-8 pt-8 pb-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle className="text-gray-900">
-                          {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                        </CardTitle>
-                        <CardDescription className="text-gray-600">Detailed schedule view with time slots</CardDescription>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handlePreviousMonth}
-                          className="h-8 w-8 p-0"
-                        >
-                          <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleToday}
-                          className="h-8 px-3 text-sm"
-                        >
-                          Today
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleNextMonth}
-                          className="h-8 w-8 p-0"
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="px-8 pb-8">
-                    {/* Detailed Calendar Grid */}
-                    <div className="space-y-6">
-                      {/* Time Slots Header */}
-                      <div className="grid grid-cols-8 gap-4 border-b border-gray-200 pb-4">
-                        <div className="text-sm font-medium text-gray-500">Time</div>
-                        <div className="text-sm font-medium text-gray-500">Mon</div>
-                        <div className="text-sm font-medium text-gray-500">Tue</div>
-                        <div className="text-sm font-medium text-gray-500">Wed</div>
-                        <div className="text-sm font-medium text-gray-500">Thu</div>
-                        <div className="text-sm font-medium text-gray-500">Fri</div>
-                        <div className="text-sm font-medium text-gray-500">Sat</div>
-                        <div className="text-sm font-medium text-gray-500">Sun</div>
-                      </div>
-                      
-                      {/* Time Slots */}
-                      {Array.from({ length: 12 }, (_, i) => {
-                        const hour = i + 8 // Start from 8 AM
-                        const timeString = `${hour}:00 ${hour < 12 ? 'AM' : hour === 12 ? 'PM' : 'PM'}`
-                        const currentDate = new Date()
-                        const isCurrentHour = currentDate.getHours() === hour
-                        
-                        return (
-                          <div key={hour} className="grid grid-cols-8 gap-4 min-h-[80px]">
-                            <div className={`text-sm font-medium text-gray-500 flex items-center ${
-                              isCurrentHour ? 'text-sky-600 font-semibold' : ''
-                            }`}>
-                              {timeString}
-                            </div>
-                            {Array.from({ length: 7 }, (_, dayIndex) => {
-                              const dayDate = new Date(currentMonth)
-                              dayDate.setDate(dayDate.getDate() + dayIndex)
-                              const dateString = dayDate.toISOString().split('T')[0]
-                              const dayEvents = calendarEvents.filter(event => 
-                                event.date === dateString && 
-                                event.time.includes(`${hour}:00`)
-                              )
-                              const isToday = dayDate.toDateString() === new Date().toDateString()
-                              
-                              return (
-                                <div
-                                  key={dayIndex}
-                                  className={`border border-gray-200 rounded-lg p-2 ${
-                                    isToday ? 'bg-sky-50 border-sky-200' : 'bg-white'
-                                  } ${isCurrentHour ? 'ring-1 ring-sky-300' : ''}`}
-                                >
-                                  {dayEvents.map((event, eventIndex) => (
-                                    <div
-                                      key={eventIndex}
-                                      className={`text-xs p-2 rounded mb-1 cursor-pointer ${
-                                        event.type === 'job' ? 'bg-blue-100 text-blue-800 border-l-4 border-blue-500' :
-                                        event.type === 'meeting' ? 'bg-green-100 text-green-800 border-l-4 border-green-500' :
-                                        event.type === 'deadline' ? 'bg-amber-100 text-amber-800 border-l-4 border-amber-500' :
-                                        event.type === 'task' ? 'bg-gray-100 text-gray-800 border-l-4 border-gray-500' :
-                                        event.type === 'holiday' ? 'bg-red-100 text-red-800 border-l-4 border-red-500' :
-                                        'bg-gray-100 text-gray-800'
-                                      }`}
-                                      title={`${event.title} - ${event.time}`}
-                                    >
-                                      <div className="font-medium truncate">{event.title}</div>
-                                      <div className="text-xs opacity-75">{event.time}</div>
-                                    </div>
-                                  ))}
-                                </div>
-                              )
-                            })}
-                          </div>
-                        )
-                      })}
-                    </div>
-                    
-                    {/* Legend */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <div className="flex items-center space-x-6 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-100 rounded-full border border-blue-300"></div>
-                          <span className="text-gray-600">Jobs</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-green-100 rounded-full border border-green-300"></div>
-                          <span className="text-gray-600">Meetings</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-amber-100 rounded-full border border-amber-300"></div>
-                          <span className="text-gray-600">Deadlines</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-gray-100 rounded-full border border-gray-300"></div>
-                          <span className="text-gray-600">Tasks</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-red-100 rounded-full border border-red-300"></div>
-                          <span className="text-gray-600">Holidays</span>
                         </div>
                       </div>
                     </div>
@@ -3354,7 +3036,7 @@ const DashboardPage = () => {
             )}
           </div>
         )
-
+      case 'profile':
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-end mb-6">
