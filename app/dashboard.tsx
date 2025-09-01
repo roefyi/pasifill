@@ -78,6 +78,36 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
+// Calendar Events Data
+const calendarEvents = [
+  { date: '2024-03-02', title: 'Williams Property Inspection', type: 'job', customer: 'Williams Family' },
+  { date: '2024-03-02', title: 'Team Safety Meeting', type: 'meeting', time: '2:00 PM' },
+  { date: '2024-03-02', title: 'Equipment Maintenance', type: 'task', priority: 'high' },
+  { date: '2024-03-06', title: 'Smith Property Installation', type: 'job', customer: 'Smith Family' },
+  { date: '2024-03-07', title: 'Davis Property Survey', type: 'job', customer: 'Davis Family' },
+  { date: '2024-03-14', title: 'Department Compliance Review', type: 'meeting', time: '10:00 AM' },
+  { date: '2024-03-16', title: 'Johnson Property Completion', type: 'job', customer: 'Johnson Family' },
+  { date: '2024-03-16', title: 'Supplier Meeting', type: 'meeting', time: '3:00 PM' },
+  { date: '2024-03-23', title: 'Quarterly Business Review', type: 'meeting', time: '1:00 PM' },
+  { date: '2024-03-27', title: 'Brown Property Assessment', type: 'job', customer: 'Brown Family' },
+  { date: '2024-03-29', title: 'Contract Renewal Deadline', type: 'deadline', priority: 'urgent' },
+  { date: '2024-03-31', title: 'Monthly Report Due', type: 'deadline', priority: 'high' },
+  { date: '2024-03-05', title: 'Wilson Property Site Visit', type: 'job', customer: 'Wilson Family' },
+  { date: '2024-03-08', title: 'Equipment Delivery', type: 'task', priority: 'medium' },
+  { date: '2024-03-12', title: 'Safety Training Session', type: 'meeting', time: '9:00 AM' },
+  { date: '2024-03-15', title: 'Miller Property Installation', type: 'job', customer: 'Miller Family' },
+  { date: '2024-03-19', title: 'County Permit Review', type: 'deadline', priority: 'high' },
+  { date: '2024-03-22', title: 'Anderson Property Survey', type: 'job', customer: 'Anderson Family' },
+  { date: '2024-03-26', title: 'Staff Meeting', type: 'meeting', time: '4:00 PM' },
+  { date: '2024-03-28', title: 'Taylor Property Completion', type: 'job', customer: 'Taylor Family' }
+]
+
+// Helper function to get events for a specific date
+const getDayEvents = (date: Date) => {
+  const dateString = date.toISOString().split('T')[0]
+  return calendarEvents.filter(event => event.date === dateString)
+}
+
 // Mock data - replace with actual data from your backend
 const mockData = {
   contractor: {
@@ -727,8 +757,22 @@ const DashboardPage = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length
   
+  // Calendar Navigation Functions
+  const handlePreviousMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
+  }
+  
+  const handleNextMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
+  }
+  
+  const handleToday = () => {
+    setCurrentMonth(new Date())
+  }
+  
   // Schedule View State
   const [scheduleView, setScheduleView] = useState<'list' | 'calendar'>('list')
+  const [currentMonth, setCurrentMonth] = useState(new Date())
 
   const handleFindCustomer = () => {
     // Navigate to customer search
@@ -2970,63 +3014,131 @@ const DashboardPage = () => {
                 {/* Calendar View */}
                 <Card className="bg-white border-gray-200">
                   <CardHeader className="px-8 pt-8 pb-6">
-                    <CardTitle className="text-gray-900">Calendar View</CardTitle>
-                    <CardDescription className="text-gray-600">View your schedule in a calendar format</CardDescription>
-                  </CardHeader>
-                  <CardContent className="px-8 pb-8">
-                    {/* Calendar Grid */}
-                    <div className="space-y-6">
-                      {/* Calendar Header */}
-                      <div className="grid grid-cols-7 gap-1 text-center">
-                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                          <div key={day} className="py-2 text-sm font-medium text-gray-500">
-                            {day}
-                          </div>
-                        ))}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-gray-900">
+                          {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        </CardTitle>
+                        <CardDescription className="text-gray-600">View your schedule in a calendar format</CardDescription>
                       </div>
-                      
-                      {/* Calendar Days */}
-                      <div className="grid grid-cols-7 gap-1">
-                        {/* Generate calendar days - this is a simplified version */}
-                        {Array.from({ length: 35 }, (_, i) => {
-                          const day = i + 1
-                          const hasJob = mockData.todayJobs.some(job => job.id === `JOB-${day.toString().padStart(3, '0')}`)
-                          const hasDeadline = mockData.upcomingDeadlines.some(deadline => deadline.daysLeft === day)
-                          
-                          return (
-                            <div
-                              key={i}
-                              className={`min-h-[80px] p-2 border border-gray-200 rounded-lg ${
-                                day <= 31 ? 'bg-white' : 'bg-gray-50'
-                              } ${day <= 31 ? 'hover:bg-gray-50' : ''} transition-colors`}
-                            >
-                              {day <= 31 && (
-                                <>
-                                  <div className="text-sm font-medium text-gray-900 mb-1">{day}</div>
-                                  {hasJob && (
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mb-1"></div>
-                                  )}
-                                  {hasDeadline && (
-                                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          )
-                        })}
+                      <div className="flex items-center space-x-3">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handlePreviousMonth}
+                          className="h-8 w-8 p-0"
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleToday}
+                          className="h-8 px-3 text-sm"
+                        >
+                          Today
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleNextMonth}
+                          className="h-8 w-8 p-0"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
+                  </CardHeader>
+                  <CardContent className="px-8 pb-8">
+                                    {/* Calendar Grid */}
+                <div className="space-y-6">
+                  {/* Calendar Header */}
+                  <div className="grid grid-cols-7 gap-1 text-center">
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                      <div key={day} className="py-2 text-sm font-medium text-gray-500">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Calendar Days */}
+                  <div className="grid grid-cols-7 gap-1">
+                    {/* Generate calendar days with actual events */}
+                    {(() => {
+                      const year = currentMonth.getFullYear()
+                      const month = currentMonth.getMonth()
+                      const firstDay = new Date(year, month, 1)
+                      const lastDay = new Date(year, month + 1, 0)
+                      const startDate = new Date(firstDay)
+                      startDate.setDate(startDate.getDate() - firstDay.getDay())
+                      
+                      return Array.from({ length: 42 }, (_, i) => {
+                        const currentDate = new Date(startDate)
+                        currentDate.setDate(startDate.getDate() + i)
+                        const dayEvents = getDayEvents(currentDate)
+                        const isCurrentMonth = currentDate.getMonth() === month
+                        const isToday = currentDate.toDateString() === new Date().toDateString()
+                      
+                                              return (
+                          <div
+                            key={i}
+                            className={`min-h-[120px] p-2 border border-gray-200 rounded-lg ${
+                              isCurrentMonth ? 'bg-white' : 'bg-gray-50'
+                            } ${isCurrentMonth ? 'hover:bg-gray-50' : ''} transition-colors ${
+                              isToday ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
+                            }`}
+                          >
+                            <div className={`text-sm font-medium mb-2 ${
+                              isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
+                            } ${isToday ? 'text-blue-600 font-semibold' : ''}`}>
+                              {currentDate.getDate()}
+                            </div>
+                            <div className="space-y-1">
+                              {dayEvents.slice(0, 2).map((event, index) => (
+                                <div
+                                  key={index}
+                                  className={`text-xs p-1 rounded truncate cursor-pointer ${
+                                    event.type === 'job' ? 'bg-blue-100 text-blue-800' :
+                                    event.type === 'deadline' ? 'bg-amber-100 text-amber-800' :
+                                    event.type === 'meeting' ? 'bg-green-100 text-green-800' :
+                                    'bg-gray-100 text-gray-800'
+                                  }`}
+                                  title={event.title}
+                                >
+                                  {event.title}
+                                </div>
+                              ))}
+                              {dayEvents.length > 2 && (
+                                <div className="text-xs text-gray-500 text-center">
+                                  +{dayEvents.length - 2} more
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )
+                                             })
+                     })()}
+                    </div>
+                </div>
                     
                     {/* Calendar Legend */}
                     <div className="mt-6 pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-6 text-sm">
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-blue-100 rounded-full border border-blue-300"></div>
                           <span className="text-gray-600">Jobs</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-amber-100 rounded-full border border-amber-300"></div>
                           <span className="text-gray-600">Deadlines</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-green-100 rounded-full border border-green-300"></div>
+                          <span className="text-gray-600">Meetings</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-gray-100 rounded-full border border-gray-300"></div>
+                          <span className="text-gray-600">Tasks</span>
                         </div>
                       </div>
                     </div>
