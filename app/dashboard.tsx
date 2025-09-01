@@ -2241,7 +2241,13 @@ const DashboardPage = () => {
       )
     }
     
-
+    switch (activeTab) {
+      case 'dashboard':
+        return (
+          <div className="space-y-6">
+            {/* Today's Jobs */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Today's Jobs</h3>
                 <Button 
                   variant="outline" 
@@ -2255,6 +2261,7 @@ const DashboardPage = () => {
                   <CalendarDays className="w-4 h-4 mr-2" />
                   View Schedule
                 </Button>
+              </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {mockData.todayJobs.map((job) => (
@@ -2440,7 +2447,7 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
-          </>
+          </div>
         )
       case 'cep5':
         return (
@@ -2831,6 +2838,13 @@ const DashboardPage = () => {
                 <p className="text-gray-600">Property management interface coming soon...</p>
               </CardContent>
             </Card>
+          </div>
+        )
+      default:
+        return (
+          <div className="space-y-6">
+            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-gray-600">Welcome to your dashboard</p>
           </div>
         )
     }
