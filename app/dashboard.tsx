@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from 'react'
 import { 
   Card, 
   CardContent, 
@@ -42,7 +42,8 @@ import {
   ArrowUpDown,
   Save,
   Printer,
-  X
+  X,
+  Info
 } from "lucide-react"
 import { DatePicker } from "@/components/ui/date-picker"
 import { 
@@ -367,24 +368,74 @@ const mockData = {
 }
 
 const DashboardPage = () => {
-  const [activeTab, setActiveTab] = React.useState('dashboard')
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false)
-  const [showNewForm, setShowNewForm] = React.useState(false)
-  const [showAddCustomer, setShowAddCustomer] = React.useState(false)
-  const [showConfirmDialog, setShowConfirmDialog] = React.useState(false)
-  const [formSource, setFormSource] = React.useState('dashboard')
-  const [scheduleSource, setScheduleSource] = React.useState('')
-  const [showSearch, setShowSearch] = React.useState(false)
-  const [showSearchPopup, setShowSearchPopup] = React.useState(false)
-  const [searchQuery, setSearchQuery] = React.useState("")
-  const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
-  const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = React.useState(false)
-  const [pendingNavigation, setPendingNavigation] = React.useState<(() => void) | null>(null)
-  const [showNavigationConfirmDialog, setShowNavigationConfirmDialog] = React.useState(false)
-  const [pendingTabChange, setPendingTabChange] = React.useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState('dashboard')
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [showNewForm, setShowNewForm] = useState(false)
+  const [showAddCustomer, setShowAddCustomer] = useState(false)
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const [formSource, setFormSource] = useState('dashboard')
+  const [scheduleSource, setScheduleSource] = useState('')
+  const [showSearch, setShowSearch] = useState(false)
+  const [showSearchPopup, setShowSearchPopup] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  const [showLeaveConfirmDialog, setShowLeaveConfirmDialog] = useState(false)
+  const [pendingNavigation, setPendingNavigation] = useState<(() => void) | null>(null)
+  const [showNavigationConfirmDialog, setShowNavigationConfirmDialog] = useState(false)
+    const [pendingTabChange, setPendingTabChange] = useState<string | null>(null)
   
-  // Layout System State
-  const [layoutElements, setLayoutElements] = React.useState<Array<{
+  // Notifications System State
+  const [showNotificationsPanel, setShowNotificationsPanel] = useState(false)
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      type: 'success',
+      title: 'CEP-5 Form Approved',
+      message: 'Your CEP-5 form for Williams Property has been approved by Jefferson County.',
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+      read: false,
+      action: 'view_form'
+    },
+    {
+      id: 2,
+      type: 'warning',
+      title: 'Upcoming Deadline',
+      message: 'Installation completion report due for Smith Property in 3 days.',
+      timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+      read: false,
+      action: 'view_schedule'
+    },
+    {
+      id: 3,
+      type: 'info',
+      title: 'New Customer Added',
+      message: 'Johnson Family has been added to your customer database.',
+      timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+      read: true,
+      action: 'view_customer'
+    },
+    {
+      id: 4,
+      type: 'success',
+      title: 'Payment Received',
+      message: 'Payment of $2,450 received for Davis Property installation.',
+      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+      read: true,
+      action: 'view_payment'
+    },
+    {
+      id: 5,
+      type: 'warning',
+      title: 'License Renewal Reminder',
+      message: 'Your septic contractor license expires in 30 days.',
+      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+      read: false,
+      action: 'view_profile'
+    }
+  ])
+    
+    // Layout System State
+  const [layoutElements, setLayoutElements] = useState<Array<{
     id: string
     type: 'house' | 'septic-tank' | 'distribution-lines' | 'drip-field' | 'well' | 'other'
     label: string
@@ -403,13 +454,13 @@ const DashboardPage = () => {
       height: 112
     }
   ])
-  const [selectedElement, setSelectedElement] = React.useState<any>(null)
-  const [isDragging, setIsDragging] = React.useState(false)
-  const [dragOffset, setDragOffset] = React.useState({ x: 0, y: 0 })
-  const [showAddElementDialog, setShowAddElementDialog] = React.useState(false)
-  const [showLayoutHelp, setShowLayoutHelp] = React.useState(false)
-  const [showElementEditDialog, setShowElementEditDialog] = React.useState(false)
-  const [editingElement, setEditingElement] = React.useState<any>(null)
+  const [selectedElement, setSelectedElement] = useState<any>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [showAddElementDialog, setShowAddElementDialog] = useState(false)
+  const [showLayoutHelp, setShowLayoutHelp] = useState(false)
+  const [showElementEditDialog, setShowElementEditDialog] = useState(false)
+  const [editingElement, setEditingElement] = useState<any>(null)
 
   const handleNewForm = () => {
     setFormSource(activeTab)
@@ -494,7 +545,7 @@ const DashboardPage = () => {
   }
 
   // Browser beforeunload event handler
-  React.useEffect(() => {
+  useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (hasUnsavedChanges && (showNewForm || showAddCustomer)) {
         e.preventDefault()
@@ -508,7 +559,7 @@ const DashboardPage = () => {
   }, [hasUnsavedChanges, showNewForm, showAddCustomer])
 
   // Keyboard shortcut for search
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
@@ -634,6 +685,45 @@ const DashboardPage = () => {
     setShowSearchPopup(false)
     setSearchQuery("")
   }
+
+  // Notifications Handlers
+  const handleNotificationsToggle = () => {
+    setShowNotificationsPanel(!showNotificationsPanel)
+  }
+
+  const handleNotificationClick = (notification: any) => {
+    // Mark as read
+    setNotifications(prev => 
+      prev.map(n => n.id === notification.id ? { ...n, read: true } : n)
+    )
+    
+    // Handle action
+    switch (notification.action) {
+      case 'view_form':
+        setActiveTab('cep5')
+        break
+      case 'view_schedule':
+        setActiveTab('schedule')
+        break
+      case 'view_customer':
+        setActiveTab('customers')
+        break
+      case 'view_profile':
+        setActiveTab('profile')
+        break
+      default:
+        break
+    }
+    
+    // Close panel
+    setShowNotificationsPanel(false)
+  }
+
+  const handleMarkAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+  }
+
+  const unreadCount = notifications.filter(n => !n.read).length
 
   const handleFindCustomer = () => {
     // Navigate to customer search
@@ -1204,7 +1294,7 @@ const DashboardPage = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">City</label>
+                        <label className="block text-sm font-medium mb-3">City</label>
                         <input 
                           type="text" 
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
@@ -1213,7 +1303,7 @@ const DashboardPage = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">State</label>
+                        <label className="block text-sm font-medium mb-3">State</label>
                         <input 
                           type="text" 
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
@@ -1222,7 +1312,7 @@ const DashboardPage = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">Zip</label>
+                        <label className="block text-sm font-medium mb-3">Zip</label>
                         <input 
                           type="text" 
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
@@ -3162,13 +3252,22 @@ const DashboardPage = () => {
             <User className="w-5 h-5 flex-shrink-0" />
             {!isSidebarCollapsed && <span className="text-sm">Profile</span>}
           </button>
-          <button className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
-            isSidebarCollapsed 
-              ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
-              : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
-          }`} title={isSidebarCollapsed ? 'Notifications' : undefined}>
+          <button 
+            onClick={handleNotificationsToggle}
+            className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors relative ${
+              isSidebarCollapsed 
+                ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
+                : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
+            }`} 
+            title={isSidebarCollapsed ? 'Notifications' : undefined}
+          >
             <Bell className="w-5 h-5 flex-shrink-0" />
             {!isSidebarCollapsed && <span className="text-sm">Notifications</span>}
+            {unreadCount > 0 && (
+              <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </div>
+            )}
           </button>
           <button className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
             isSidebarCollapsed 
@@ -3502,6 +3601,119 @@ const DashboardPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Notifications Panel */}
+      {showNotificationsPanel && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div 
+            className="flex-1 bg-black bg-opacity-50 transition-opacity"
+            onClick={() => setShowNotificationsPanel(false)}
+          />
+          
+          {/* Notifications Panel */}
+          <div className="w-96 bg-white shadow-2xl flex flex-col h-full">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
+              <div className="flex items-center space-x-2">
+                {unreadCount > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleMarkAllAsRead}
+                    className="text-sm text-gray-600 hover:text-gray-900"
+                  >
+                    Mark all read
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowNotificationsPanel(false)}
+                  className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Notifications List */}
+            <div className="flex-1 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <div className="p-6 text-center">
+                  <Bell className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500">No notifications</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      onClick={() => handleNotificationClick(notification)}
+                      className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
+                        !notification.read ? 'bg-blue-50' : ''
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 mt-1">
+                          {notification.type === 'success' && (
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                          )}
+                          {notification.type === 'warning' && (
+                            <AlertCircle className="h-5 w-5 text-yellow-500" />
+                          )}
+                          {notification.type === 'info' && (
+                            <Info className="h-5 w-5 text-blue-500" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <p className={`text-sm font-medium ${
+                              !notification.read ? 'text-gray-900' : 'text-gray-700'
+                            }`}>
+                              {notification.title}
+                            </p>
+                            <div className="flex items-center space-x-2">
+                              {!notification.read && (
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                              )}
+                              <span className="text-xs text-gray-400">
+                                {notification.timestamp.toLocaleTimeString('en-US', {
+                                  hour: 'numeric',
+                                  minute: '2-digit',
+                                  hour12: true
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                            {notification.message}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-gray-200">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  setActiveTab('notifications')
+                  setShowNotificationsPanel(false)
+                }}
+              >
+                View All Notifications
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Search Popup */}
       {showSearchPopup && (
