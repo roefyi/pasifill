@@ -40,6 +40,8 @@ import {
   Filter,
   SlidersHorizontal,
   ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
   Save,
   Printer,
   X,
@@ -386,6 +388,10 @@ const DashboardPage = () => {
   const [showNavigationConfirmDialog, setShowNavigationConfirmDialog] = useState(false)
     const [pendingTabChange, setPendingTabChange] = useState<string | null>(null)
   
+  // Table sorting state
+  const [sortField, setSortField] = useState<string | null>(null)
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+  
   // Notifications System State
   const [showNotificationsPanel, setShowNotificationsPanel] = useState(false)
   const [notifications, setNotifications] = useState([
@@ -490,6 +496,53 @@ const DashboardPage = () => {
       setShowAddCustomer(false)
       setActiveTab(formSource)
     }
+  }
+
+  // Table sorting functions
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDirection('asc')
+    }
+  }
+
+  const getSortIcon = (field: string) => {
+    if (sortField !== field) {
+      return <ArrowUpDown className="w-4 h-4 text-gray-400" />
+    }
+    return sortDirection === 'asc' 
+      ? <ArrowUp className="w-4 h-4 text-gray-600" />
+      : <ArrowDown className="w-4 h-4 text-gray-600" />
+  }
+
+  const sortData = (data: any[], field: string, direction: 'asc' | 'desc') => {
+    return [...data].sort((a, b) => {
+      let aValue = a[field]
+      let bValue = b[field]
+
+      // Handle different data types
+      if (field === 'date') {
+        aValue = new Date(aValue).getTime()
+        bValue = new Date(bValue).getTime()
+      } else if (field === 'properties' || field === 'forms') {
+        // Handle numeric fields
+        aValue = Number(aValue) || 0
+        bValue = Number(bValue) || 0
+      } else if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase()
+        bValue = bValue.toLowerCase()
+      }
+
+      if (aValue < bValue) {
+        return direction === 'asc' ? -1 : 1
+      }
+      if (aValue > bValue) {
+        return direction === 'asc' ? 1 : -1
+      }
+      return 0
+    })
   }
 
   const handleBackButtonClick = () => {
@@ -1751,7 +1804,6 @@ const DashboardPage = () => {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">County</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Saved</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -1766,7 +1818,6 @@ const DashboardPage = () => {
                             </Badge>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.date}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{form.timeSaved} min</td>
                         </tr>
                       ))}
                     </tbody>
@@ -2343,23 +2394,59 @@ const DashboardPage = () => {
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Form ID
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('id')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>Form ID</span>
+                              {getSortIcon('id')}
+                            </div>
                       </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Customer
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('customer')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>Customer</span>
+                              {getSortIcon('customer')}
+                            </div>
                       </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Property
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('property')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>Property</span>
+                              {getSortIcon('property')}
+                            </div>
                       </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        County
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('county')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>County</span>
+                              {getSortIcon('county')}
+                            </div>
                       </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Status
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('status')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>Status</span>
+                              {getSortIcon('status')}
+                            </div>
                       </th>
-                          <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Date
+                          <th 
+                            className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSort('date')}
+                          >
+                            <div className="flex items-center space-x-1">
+                              <span>Date</span>
+                              {getSortIcon('date')}
+                            </div>
                       </th>
                           <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                         Actions
@@ -2367,7 +2454,7 @@ const DashboardPage = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {mockData.recentForms.map((form) => (
+                    {(sortField && sortDirection ? sortData(mockData.recentForms, sortField, sortDirection) : mockData.recentForms).map((form) => (
                       <tr key={form.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                           {form.id}
@@ -2509,26 +2596,68 @@ const DashboardPage = () => {
                   <table className="w-full">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Form ID
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('id')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Form ID</span>
+                            {getSortIcon('id')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Customer
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('customer')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Customer</span>
+                            {getSortIcon('customer')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Property
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('property')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Property</span>
+                            {getSortIcon('property')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          County
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('county')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>County</span>
+                            {getSortIcon('county')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Type
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('type')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Type</span>
+                            {getSortIcon('type')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Status
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('status')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Status</span>
+                            {getSortIcon('status')}
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Date
+                        <th 
+                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('date')}
+                        >
+                          <div className="flex items-center space-x-1">
+                            <span>Date</span>
+                            {getSortIcon('date')}
+                          </div>
                         </th>
                         <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                           Actions
@@ -2536,7 +2665,7 @@ const DashboardPage = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {mockData.cep5Forms.map((form) => (
+                      {(sortField && sortDirection ? sortData(mockData.cep5Forms, sortField, sortDirection) : mockData.cep5Forms).map((form) => (
                         <tr key={form.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {form.id}
@@ -2649,18 +2778,54 @@ const DashboardPage = () => {
                 {/* Column Headers */}
                 <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
                   <div className="flex items-center space-x-8">
-                                                              <div className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Customer Name</div>
-                     <div className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Contact</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Property</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Forms</div>
-                     <div className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">County</div>
-                     <div className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Status</div>
-                     <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Actions</div>
+                    <div 
+                      className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('name')}
+                    >
+                      <span>Customer Name</span>
+                      {getSortIcon('name')}
+                    </div>
+                    <div 
+                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('contact')}
+                    >
+                      <span>Contact</span>
+                      {getSortIcon('contact')}
+                    </div>
+                    <div 
+                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      onClick={() => handleSort('properties')}
+                    >
+                      <span>Property</span>
+                      {getSortIcon('properties')}
+                    </div>
+                    <div 
+                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      onClick={() => handleSort('forms')}
+                    >
+                      <span>Forms</span>
+                      {getSortIcon('forms')}
+                    </div>
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      onClick={() => handleSort('county')}
+                    >
+                      <span>County</span>
+                      {getSortIcon('county')}
+                    </div>
+                    <div 
+                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      onClick={() => handleSort('status')}
+                    >
+                      <span>Status</span>
+                      {getSortIcon('status')}
+                    </div>
+                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Actions</div>
                   </div>
                 </div>
                 
                 <Accordion type="single" collapsible className="w-full">
-                  {mockData.customers.map((customer) => (
+                  {(sortField && sortDirection ? sortData(mockData.customers, sortField, sortDirection) : mockData.customers).map((customer) => (
                     <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
                       <AccordionTrigger className="px-6 py-4 hover:no-underline">
                         <div className="flex items-center w-full">
@@ -2857,10 +3022,7 @@ const DashboardPage = () => {
                   </BreadcrumbList>
                 </Breadcrumb>
               ) : (
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Schedule</h1>
-                  <p className="text-gray-600 mt-2">Job scheduling and deadlines</p>
-                </div>
+                <div></div>
               )}
               <div className="flex items-center space-x-3">
                 {/* View Toggle */}
@@ -3181,17 +3343,21 @@ const DashboardPage = () => {
       }`}>
         {/* Top Section - Branding and Search */}
         <div className={`border-b border-gray-200 ${
-          isSidebarCollapsed ? 'p-3' : 'p-6'
+          isSidebarCollapsed ? 'p-6' : 'p-6'
         }`}>
           {!isSidebarCollapsed && (
             <>
               {/* App Branding */}
               <div className="flex items-center mb-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                    <div className="w-5 h-5 bg-white rounded-sm"></div>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="/logo.svg" 
+                      alt="Formifil Logo" 
+                      className="w-full h-full object-contain"
+                    />
                   </div>
-                  <h1 className="text-lg font-semibold text-gray-800">Formifil</h1>
+                  <h1 className="text-xl font-semibold text-gray-800">Formifil</h1>
                 </div>
               </div>
               
@@ -3224,11 +3390,15 @@ const DashboardPage = () => {
           
           {/* Collapse Toggle Button and Logo for collapsed state */}
           {isSidebarCollapsed && (
-            <div className="flex flex-col items-center space-y-4">
-              {/* Logo */}
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                <div className="w-5 h-5 bg-white rounded-sm"></div>
-              </div>
+              <div className="flex flex-col items-center space-y-4">
+                {/* Logo */}
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
+                  <img 
+                    src="/logo.svg" 
+                    alt="Formifil Logo" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               {/* Search Button */}
               <Button
                 variant="ghost"
