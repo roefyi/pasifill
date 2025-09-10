@@ -11,6 +11,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { 
   Plus, 
   Search, 
@@ -47,7 +50,9 @@ import {
   X,
   Info,
   List,
-  Grid3X3
+  Grid3X3,
+  Database,
+  CreditCard
 } from "lucide-react"
 import { DatePicker } from "@/components/ui/date-picker"
 import { 
@@ -58,13 +63,6 @@ import {
   DialogHeader, 
   DialogTitle 
 } from "@/components/ui/dialog"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -3330,6 +3328,331 @@ const DashboardPage = () => {
             </Card>
           </div>
         )
+        case 'settings':
+          return (
+            <div className="space-y-8">
+
+            {/* Settings Sections */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Account Settings */}
+              <Card className="lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>Account & Profile</CardTitle>
+                  <CardDescription>Manage your contractor profile and license information</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Contractor Information */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-gray-900">Contractor Information</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="company-name" className="text-sm font-medium text-gray-700">Company Name</Label>
+                        <Input 
+                          id="company-name" 
+                          defaultValue="Alabama Septic Solutions" 
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="license-number" className="text-sm font-medium text-gray-700">Alabama License Number</Label>
+                        <Input 
+                          id="license-number" 
+                          defaultValue="AL-12345" 
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="contact-name" className="text-sm font-medium text-gray-700">Primary Contact</Label>
+                        <Input 
+                          id="contact-name" 
+                          defaultValue="John Williams" 
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          defaultValue="john@alabamaseptic.com" 
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Service Areas */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-gray-900">Alabama Service Areas</h4>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-700">Counties Served</Label>
+                      <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-2">
+                        {['Jefferson', 'Shelby', 'Tuscaloosa', 'Madison', 'Mobile', 'Baldwin'].map((county) => (
+                          <div key={county} className="flex items-center space-x-2">
+                            <input 
+                              type="checkbox" 
+                              id={county} 
+                              defaultChecked={['Jefferson', 'Shelby', 'Tuscaloosa'].includes(county)}
+                              className="rounded border-gray-300 text-sky-600 focus:ring-sky-500"
+                            />
+                            <Label htmlFor={county} className="text-sm text-gray-700">{county} County</Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button className="w-full bg-sky-500 hover:bg-sky-600 text-white">
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Profile Changes
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-sky-600" />
+                    Quick Actions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Button variant="slate" size="sm" className="w-full justify-start">
+                    <Download className="w-4 h-4 mr-2" />
+                    Export Customer Data
+                  </Button>
+                  <Button variant="slate" size="sm" className="w-full justify-start">
+                    <Upload className="w-4 h-4 mr-2" />
+                    Import Customer Data
+                  </Button>
+                  <Button variant="slate" size="sm" className="w-full justify-start">
+                    <FileText className="w-4 h-4 mr-2" />
+                    Download All CEP-5 Forms
+                  </Button>
+                  <Button variant="slate" size="sm" className="w-full justify-start text-red-600 hover:text-red-700">
+                    <X className="w-4 h-4 mr-2" />
+                    Delete Account
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Billing & Subscription */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Billing & Subscription</CardTitle>
+                <CardDescription>Manage your subscription and billing information</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700">Current Plan</Label>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="font-semibold text-gray-900">Alabama Professional</div>
+                      <div className="text-sm text-gray-600">$79/month</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700">Forms This Month</Label>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="font-semibold text-gray-900">47 / 200</div>
+                      <div className="text-sm text-gray-600">forms used</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700">Next Billing</Label>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="font-semibold text-gray-900">Feb 15, 2024</div>
+                      <div className="text-sm text-gray-600">$79.00</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-6 flex space-x-4">
+                  <Button variant="slate" size="sm">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Update Payment Method
+                  </Button>
+                  <Button variant="slate" size="sm">
+                    <FileText className="w-4 h-4 mr-2" />
+                    View Billing History
+                  </Button>
+                  <Button variant="slate" size="sm">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Change Plan
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Form Preferences */}
+            <Card>
+              <CardHeader>
+                <CardTitle>CEP-5 Form Preferences</CardTitle>
+                <CardDescription>Customize how CEP-5 forms are generated and auto-populated</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Auto-population Settings */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-gray-900">Auto-population Settings</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Auto-fill customer data</Label>
+                          <p className="text-xs text-gray-500">Automatically populate customer information from database</p>
+                        </div>
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Remember soil classifications</Label>
+                          <p className="text-xs text-gray-500">Save soil types for properties to speed up future forms</p>
+                        </div>
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Auto-save drafts</Label>
+                          <p className="text-xs text-gray-500">Automatically save form progress every 30 seconds</p>
+                        </div>
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Alabama-Specific Settings */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-gray-900">Alabama ADPH Settings</h4>
+                    <div className="space-y-3">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Default soil type</Label>
+                        <Select defaultValue="clay">
+                          <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                            <SelectValue placeholder="Select soil type" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-200 shadow-lg">
+                            <SelectItem value="clay" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Clay</SelectItem>
+                            <SelectItem value="sandy-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Sandy Loam</SelectItem>
+                            <SelectItem value="silt-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Silt Loam</SelectItem>
+                            <SelectItem value="sandy-clay" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Sandy Clay</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Default groundwater depth</Label>
+                        <Input 
+                          type="text" 
+                          placeholder="e.g., 6 feet" 
+                          defaultValue="6 feet"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Include ADPH compliance check</Label>
+                          <p className="text-xs text-gray-500">Validate forms against current ADPH requirements</p>
+                        </div>
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Notifications & Data Management */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Notification Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Notifications</CardTitle>
+                  <CardDescription>Manage how you receive updates and alerts</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Email notifications</Label>
+                        <p className="text-xs text-gray-500">Receive updates via email</p>
+                      </div>
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Form completion alerts</Label>
+                        <p className="text-xs text-gray-500">Get notified when forms are completed</p>
+                      </div>
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">ADPH compliance updates</Label>
+                        <p className="text-xs text-gray-500">Alerts about Alabama Department of Public Health changes</p>
+                      </div>
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Weekly summary reports</Label>
+                        <p className="text-xs text-gray-500">Receive weekly form completion summaries</p>
+                      </div>
+                      <input type="checkbox" className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Data Management */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Data Management</CardTitle>
+                  <CardDescription>Manage your data storage and backup preferences</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Auto-backup to cloud</Label>
+                        <p className="text-xs text-gray-500">Automatically backup forms to secure cloud storage</p>
+                      </div>
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-sm font-medium text-gray-700">Offline data sync</Label>
+                        <p className="text-xs text-gray-500">Sync data when connection is restored</p>
+                      </div>
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-gray-700">Data retention period</Label>
+                      <Select defaultValue="7-years">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectValue placeholder="Select retention period" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          <SelectItem value="1-year" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">1 Year</SelectItem>
+                          <SelectItem value="3-years" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">3 Years</SelectItem>
+                          <SelectItem value="7-years" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">7 Years</SelectItem>
+                          <SelectItem value="indefinite" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Indefinite</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="pt-2">
+                      <Button variant="slate" size="sm" className="w-full">
+                        <Download className="w-4 h-4 mr-2" />
+                        Download All Data
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )
       default:
         return null
     }
@@ -3548,11 +3871,17 @@ const DashboardPage = () => {
               </div>
             )}
           </button>
-          <button className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
-            isSidebarCollapsed 
-              ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
-              : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
-          }`} title={isSidebarCollapsed ? 'Settings' : undefined}>
+          <button 
+            onClick={() => handleTabChange('settings')}
+            className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
+              activeTab === 'settings' ? 'bg-gray-100 text-gray-900' : ''
+            } ${
+              isSidebarCollapsed 
+                ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
+                : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
+            }`} 
+            title={isSidebarCollapsed ? 'Settings' : undefined}
+          >
             <Settings className="w-5 h-5 flex-shrink-0" />
             {!isSidebarCollapsed && <span className="text-sm">Settings</span>}
           </button>
@@ -3585,6 +3914,7 @@ const DashboardPage = () => {
                    activeTab === 'properties' ? 'Properties' :
                    activeTab === 'schedule' ? 'Schedule' :
                    activeTab === 'profile' ? 'Profile' :
+                   activeTab === 'settings' ? 'Settings' :
                    'Properties'}
                 </h2>
                 <p className="text-sm text-gray-600 mt-2">
@@ -3594,6 +3924,7 @@ const DashboardPage = () => {
                    activeTab === 'properties' ? 'Property tracking and requirements' :
                    activeTab === 'schedule' ? 'Job scheduling and deadlines' :
                    activeTab === 'profile' ? 'Company information and compliance' :
+                   activeTab === 'settings' ? 'Account preferences and system configuration' :
                    'Property tracking and requirements'}
                 </p>
               </div>
