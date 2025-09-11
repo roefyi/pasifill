@@ -77,6 +77,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import CalendarView from "@/components/calendar-view"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -146,7 +147,7 @@ const mockData = {
       id: "CEP-002", 
       customer: "Johnson Farm", 
       county: "Shelby", 
-      status: "In Progress", 
+      status: "Pending", 
       daysOpen: 1,
       lastUpdated: "2024-01-16",
       progress: 85
@@ -223,7 +224,7 @@ const mockData = {
       customer: "Williams Property",
       property: "321 Maple Drive, Vestavia",
       county: "Jefferson",
-      status: "in_progress",
+      status: "Pending",
       date: "2024-01-16",
       type: "System Upgrade"
     },
@@ -250,7 +251,7 @@ const mockData = {
       customer: "Miller Residence",
       property: "147 Elm Avenue, Birmingham",
       county: "Jefferson",
-      status: "in_progress",
+      status: "Pending",
       date: "2024-01-17",
       type: "New Installation"
     },
@@ -336,6 +337,116 @@ const mockData = {
       forms: 4,
       status: "active",
       lastContact: "2024-01-10"
+    }
+  ],
+  properties: [
+    {
+      id: "PROP-001",
+      address: "123 Oak Street, Birmingham, AL 35244",
+      customer: "Williams Property",
+      customerId: "CUST-001",
+      county: "Jefferson",
+      propertyType: "Residential",
+      systemType: "Septic Tank",
+      lotSize: "0.5 acres",
+      soilType: "Clay",
+      lastInspection: "2024-01-15",
+      nextDue: "2025-01-15",
+      status: "Active",
+      forms: 3,
+      gpsCoordinates: "33.5207°N, 86.8025°W",
+      groundwaterDepth: "6 feet",
+      slopePercentage: "2%"
+    },
+    {
+      id: "PROP-002",
+      address: "456 Pine Ave, Hoover, AL 35242",
+      customer: "Johnson Farm",
+      customerId: "CUST-002",
+      county: "Shelby",
+      propertyType: "Residential",
+      systemType: "LPP (Low Pressure Pipe)",
+      lotSize: "0.75 acres",
+      soilType: "Sandy Loam",
+      lastInspection: "2024-01-14",
+      nextDue: "2025-01-14",
+      status: "Active",
+      forms: 1,
+      gpsCoordinates: "33.4015°N, 86.8115°W",
+      groundwaterDepth: "8 feet",
+      slopePercentage: "1%"
+    },
+    {
+      id: "PROP-003",
+      address: "789 Elm Road, Tuscaloosa, AL 35401",
+      customer: "Davis Property",
+      customerId: "CUST-003",
+      county: "Tuscaloosa",
+      propertyType: "Residential",
+      systemType: "Drip Field",
+      lotSize: "1.2 acres",
+      soilType: "Sandy Clay",
+      lastInspection: "2024-01-13",
+      nextDue: "2025-01-13",
+      status: "Active",
+      forms: 5,
+      gpsCoordinates: "33.2098°N, 87.5692°W",
+      groundwaterDepth: "12 feet",
+      slopePercentage: "3%"
+    },
+    {
+      id: "PROP-004",
+      address: "321 Maple Drive, Vestavia, AL 35216",
+      customer: "Miller Estate",
+      customerId: "CUST-004",
+      county: "Jefferson",
+      propertyType: "Commercial",
+      systemType: "Combined Treatment/Disposal",
+      lotSize: "2.5 acres",
+      soilType: "Clay Loam",
+      lastInspection: "2024-01-16",
+      nextDue: "2025-01-16",
+      status: "Active",
+      forms: 12,
+      gpsCoordinates: "33.4484°N, 86.7878°W",
+      groundwaterDepth: "10 feet",
+      slopePercentage: "5%"
+    },
+    {
+      id: "PROP-005",
+      address: "654 Oak Lane, Birmingham, AL 35242",
+      customer: "Brown Construction",
+      customerId: "CUST-005",
+      county: "Shelby",
+      propertyType: "Farm",
+      systemType: "Septic Tank",
+      lotSize: "5.0 acres",
+      soilType: "Sandy Loam",
+      lastInspection: "2023-12-20",
+      nextDue: "2024-12-20",
+      status: "Pending",
+      forms: 2,
+      gpsCoordinates: "33.4015°N, 86.8115°W",
+      groundwaterDepth: "15 feet",
+      slopePercentage: "8%"
+    },
+    {
+      id: "PROP-006",
+      address: "987 Pine Street, Hoover, AL 35244",
+      customer: "Davis Property",
+      customerId: "CUST-003",
+      county: "Tuscaloosa",
+      propertyType: "Residential",
+      systemType: "Distribution Box",
+      lotSize: "0.8 acres",
+      soilType: "Clay",
+      lastInspection: "2024-01-11",
+      nextDue: "2025-01-11",
+      status: "Active",
+      forms: 3,
+      gpsCoordinates: "33.4015°N, 86.8115°W",
+      groundwaterDepth: "7 feet",
+      slopePercentage: "2%"
     }
   ],
   weather: {
@@ -792,55 +903,53 @@ const DashboardPage = () => {
   }
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "completed":
+        return "bg-green-50 text-green-700 border-green-200"
+      case "active":
         return "bg-green-50 text-green-700 border-green-200"
       case "draft":
         return "bg-amber-50 text-amber-700 border-amber-200"
-      case "in_progress":
-        return "bg-blue-50 text-blue-700 border-blue-200"
       case "pending":
         return "bg-blue-50 text-blue-700 border-blue-200"
+      case "review":
+        return "bg-purple-50 text-purple-700 border-purple-200"
+      case "scheduled":
+        return "bg-cyan-50 text-cyan-700 border-cyan-200"
+      case "inactive":
+        return "bg-gray-50 text-gray-700 border-gray-200"
       default:
         return "bg-gray-50 text-gray-700 border-gray-200"
     }
   }
 
   const getStatusIcon = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "completed":
         return <CheckCircle className="h-3 w-3" />
+      case "active":
+        return <CheckCircle className="h-3 w-3" />
       case "draft":
-        return <ClockIcon className="h-3 w-3" />
-      case "in_progress":
-        return <AlertCircle className="h-3 w-3" />
+        return <FileText className="h-3 w-3" />
       case "pending":
+        return <ClockIcon className="h-3 w-3" />
+      case "review":
         return <AlertCircle className="h-3 w-3" />
+      case "scheduled":
+        return <Calendar className="h-3 w-3" />
+      case "inactive":
+        return <X className="h-3 w-3" />
       default:
         return <ClockIcon className="h-3 w-3" />
     }
   }
 
   const getCustomerStatusColor = (status: string) => {
-    switch (status) {
-      case "active":
-        return "bg-green-50 text-green-700 border-green-200"
-      case "inactive":
-        return "bg-gray-50 text-gray-700 border-gray-200"
-      default:
-        return "bg-gray-50 text-gray-700 border-gray-200"
-    }
+    return getStatusColor(status)
   }
 
   const getCustomerStatusIcon = (status: string) => {
-    switch (status) {
-      case "active":
-        return <CheckCircle className="h-3 w-3" />
-      case "inactive":
-        return <ClockIcon className="h-3 w-3" />
-      default:
-        return <ClockIcon className="h-3 w-3" />
-    }
+    return getStatusIcon(status)
   }
 
   const renderContent = () => {
@@ -1501,7 +1610,7 @@ const DashboardPage = () => {
                             }`}
                           >
                             {element.type !== 'house' && (
-                              <div className="text-xs text-center font-medium pt-1 px-1">
+                              <div className="text-xs text-left font-medium pt-1 px-1">
                                 {element.label}
                               </div>
                             )}
@@ -1560,7 +1669,7 @@ const DashboardPage = () => {
                       </div>
                     </div>
                     
-                    <div className="text-xs text-gray-500 text-center">
+                    <div className="text-xs text-gray-500 text-left">
                       {layoutElements.length > 0 ? `${layoutElements.length} system elements added` : 'No system elements added yet'}
                     </div>
                   </div>
@@ -2590,97 +2699,95 @@ const DashboardPage = () => {
             )}
             <Card className="bg-white border-gray-200">
               <CardContent className="p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('id')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Form ID</span>
-                            {getSortIcon('id')}
+                {/* Column Headers */}
+                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+                  <div className="flex items-center space-x-6">
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('id')}
+                    >
+                      <span>Form ID</span>
+                      {getSortIcon('id')}
+                    </div>
+                    <div 
+                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('customer')}
+                    >
+                      <span>Customer</span>
+                      {getSortIcon('customer')}
+                    </div>
+                    <div 
+                      className="min-w-[200px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('property')}
+                    >
+                      <span>Property</span>
+                      {getSortIcon('property')}
+                    </div>
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('county')}
+                    >
+                      <span>County</span>
+                      {getSortIcon('county')}
+                    </div>
+                    <div 
+                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('type')}
+                    >
+                      <span>Type</span>
+                      {getSortIcon('type')}
+                    </div>
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('status')}
+                    >
+                      <span>Status</span>
+                      {getSortIcon('status')}
+                    </div>
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('date')}
+                    >
+                      <span>Date</span>
+                      {getSortIcon('date')}
+                    </div>
+                    <div className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
+                  </div>
+                </div>
+                
+                {/* Table Rows */}
+                <div className="divide-y divide-gray-200">
+                  {(sortField && sortDirection ? sortData(mockData.cep5Forms, sortField, sortDirection) : mockData.cep5Forms).map((form) => (
+                    <div key={form.id} className="px-6 py-4 hover:bg-gray-50">
+                      <div className="flex items-center w-full">
+                        <div className="flex items-center space-x-6">
+                          {/* Form ID */}
+                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                            <span className="text-sm font-medium text-gray-900">{form.id}</span>
                           </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('customer')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Customer</span>
-                            {getSortIcon('customer')}
+                          
+                          {/* Customer */}
+                          <div className="min-w-[140px] text-left flex items-center justify-start">
+                            <span className="text-sm font-medium text-gray-900">{form.customer}</span>
                           </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('property')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Property</span>
-                            {getSortIcon('property')}
+                          
+                          {/* Property */}
+                          <div className="min-w-[200px] text-left flex items-center justify-start">
+                            <span className="text-sm text-gray-600 truncate">{form.property}</span>
                           </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('county')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>County</span>
-                            {getSortIcon('county')}
+                          
+                          {/* County */}
+                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                            <span className="text-sm text-gray-600">{form.county}</span>
                           </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('type')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Type</span>
-                            {getSortIcon('type')}
+                          
+                          {/* Type */}
+                          <div className="min-w-[120px] text-left flex items-center justify-start">
+                            <span className="text-sm text-gray-600">{form.type}</span>
                           </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('status')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Status</span>
-                            {getSortIcon('status')}
-                          </div>
-                        </th>
-                        <th 
-                          className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
-                          onClick={() => handleSort('date')}
-                        >
-                          <div className="flex items-center space-x-1">
-                            <span>Date</span>
-                            {getSortIcon('date')}
-                          </div>
-                        </th>
-                        <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {(sortField && sortDirection ? sortData(mockData.cep5Forms, sortField, sortDirection) : mockData.cep5Forms).map((form) => (
-                        <tr key={form.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {form.id}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {form.customer}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate">
-                            {form.property}
-                          </td>
-                          <td className="px-6 py-4 pr-2 whitespace-nowrap text-sm text-gray-600">
-                            {form.county}
-                          </td>
-                          <td className="px-6 py-4 pl-2 whitespace-nowrap text-sm text-gray-600">
-                            {form.type}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          
+                          {/* Status */}
+                          <div className="min-w-[100px] text-left flex items-center justify-start">
                             <Badge 
                               variant="outline" 
                               className={`${getStatusColor(form.status)} border`}
@@ -2690,24 +2797,26 @@ const DashboardPage = () => {
                                 <span className="capitalize">{form.status.replace('_', ' ')}</span>
                               </span>
                             </Badge>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            {form.date}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex items-center space-x-2">
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <Download className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <Mail className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </div>
+                          
+                          {/* Date */}
+                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                            <span className="text-sm text-gray-600">{form.date}</span>
+                          </div>
+                          
+                          {/* Actions */}
+                          <div className="min-w-[120px] text-left flex items-center justify-start space-x-2">
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                              <Download className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                              <Mail className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -2775,7 +2884,7 @@ const DashboardPage = () => {
               <CardContent className="p-0">
                 {/* Column Headers */}
                 <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-                  <div className="flex items-center space-x-8">
+                  <div className="flex items-center space-x-6">
                     <div 
                       className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
                       onClick={() => handleSort('name')}
@@ -2791,34 +2900,34 @@ const DashboardPage = () => {
                       {getSortIcon('contact')}
                     </div>
                     <div 
-                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
                       onClick={() => handleSort('properties')}
                     >
                       <span>Property</span>
                       {getSortIcon('properties')}
                     </div>
                     <div 
-                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
                       onClick={() => handleSort('forms')}
                     >
                       <span>Forms</span>
                       {getSortIcon('forms')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
                       onClick={() => handleSort('county')}
                     >
                       <span>County</span>
                       {getSortIcon('county')}
                     </div>
                     <div 
-                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-center text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center justify-center space-x-1"
+                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
                       onClick={() => handleSort('status')}
                     >
                       <span>Status</span>
                       {getSortIcon('status')}
                     </div>
-                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-center text-gray-700">Actions</div>
+                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
                   </div>
                 </div>
                 
@@ -2828,35 +2937,35 @@ const DashboardPage = () => {
                       <AccordionTrigger className="px-6 py-4 hover:no-underline">
                         <div className="flex items-center w-full">
                           {/* Customer Info Section - Column Layout */}
-                          <div className="flex items-center space-x-8">
+                          <div className="flex items-center space-x-6">
                             {/* Customer Name and ID */}
-                            <div className="min-w-[180px] text-left">
+                            <div className="min-w-[180px] text-left flex flex-col justify-center">
                               <div className="text-sm font-medium text-gray-900">{customer.name}</div>
                               <div className="text-sm text-gray-600">{customer.id}</div>
                             </div>
                             
                             {/* Contact Person */}
-                            <div className="min-w-[140px] text-left">
-                              <div className="text-sm font-medium text-gray-900">{customer.contact}</div>
+                            <div className="min-w-[140px] text-left flex items-center justify-start">
+                              <span className="text-sm font-medium text-gray-900">{customer.contact}</span>
                             </div>
                             
                             {/* Property Count */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.properties}</div>
+                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                              <span className="text-sm font-medium text-gray-900">{customer.properties}</span>
                             </div>
                             
                             {/* Forms Count */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.forms}</div>
+                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                              <span className="text-sm font-medium text-gray-900">{customer.forms}</span>
                             </div>
                             
                             {/* County */}
-                            <div className="min-w-[100px] text-center">
-                              <div className="text-sm font-medium text-gray-900">{customer.county}</div>
+                            <div className="min-w-[100px] text-left flex items-center justify-start">
+                              <span className="text-sm font-medium text-gray-900">{customer.county}</span>
                             </div>
                             
                             {/* Status */}
-                            <div className="min-w-[120px] text-center">
+                            <div className="min-w-[120px] text-left flex items-center justify-start">
                               <Badge 
                                 variant="outline" 
                                 className={`${getCustomerStatusColor(customer.status)} border text-xs`}
@@ -2869,15 +2978,13 @@ const DashboardPage = () => {
                             </div>
                             
                             {/* Actions */}
-                            <div className="min-w-[80px] text-center">
-                              <div className="flex items-center justify-center space-x-1">
-                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <Mail className="h-4 w-4" />
-                                </Button>
-                                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                  <FileText className="h-4 w-4" />
-                                </Button>
-                              </div>
+                            <div className="min-w-[80px] text-left flex items-center justify-start space-x-1">
+                              <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <Mail className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <FileText className="h-4 w-4" />
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -2958,40 +3065,6 @@ const DashboardPage = () => {
                     </AccordionItem>
                   ))}
                 </Accordion>
-              </CardContent>
-            </Card>
-          </div>
-        )
-      case 'properties':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-end mb-6">
-              <div className="flex items-center space-x-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={handleSearchToggle}
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100 relative group"
-                >
-                  <Search className="h-4 w-4" />
-                  {/* Keyboard shortcut indicator */}
-                  <div className="absolute -bottom-1 -right-1 bg-gray-200 text-gray-600 text-xs px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                    ⌘K
-                  </div>
-                </Button>
-                <Button variant="outline" className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Property
-                </Button>
-              </div>
-            </div>
-            <Card className="bg-white border-gray-200">
-              <CardHeader className="px-8 pt-8 pb-6">
-                <CardTitle className="text-gray-900">Property Management</CardTitle>
-                <CardDescription className="text-gray-600">Track properties and their CEP-5 requirements</CardDescription>
-              </CardHeader>
-              <CardContent className="px-8 pb-8">
-                <p className="text-gray-600">Property management interface coming soon...</p>
               </CardContent>
             </Card>
           </div>
@@ -3126,73 +3199,9 @@ const DashboardPage = () => {
                 </Card>
               </>
             ) : (
-              <>
-                {/* Calendar View */}
-                <Card className="bg-white border-gray-200">
-                  <CardHeader className="px-8 pt-8 pb-6">
-                    <CardTitle className="text-gray-900">Calendar View</CardTitle>
-                    <CardDescription className="text-gray-600">View your schedule in a calendar format</CardDescription>
-                  </CardHeader>
-                  <CardContent className="px-8 pb-8">
-                    {/* Calendar Grid */}
-                    <div className="space-y-6">
-                      {/* Calendar Header */}
-                      <div className="grid grid-cols-7 gap-1 text-center">
-                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                          <div key={day} className="py-2 text-sm font-medium text-gray-500">
-                            {day}
-                          </div>
-                        ))}
-                      </div>
-                      
-                      {/* Calendar Days */}
-                      <div className="grid grid-cols-7 gap-1">
-                        {/* Generate calendar days - this is a simplified version */}
-                        {Array.from({ length: 35 }, (_, i) => {
-                          const day = i + 1
-                          const hasJob = mockData.todayJobs.some(job => job.id === `JOB-${day.toString().padStart(3, '0')}`)
-                          const hasDeadline = mockData.upcomingDeadlines.some(deadline => deadline.daysLeft === day)
-                          
-                          return (
-                            <div
-                              key={i}
-                              className={`min-h-[80px] p-2 border border-gray-200 rounded-lg ${
-                                day <= 31 ? 'bg-white' : 'bg-gray-50'
-                              } ${day <= 31 ? 'hover:bg-gray-50' : ''} transition-colors`}
-                            >
-                              {day <= 31 && (
-                                <>
-                                  <div className="text-sm font-medium text-gray-900 mb-1">{day}</div>
-                                  {hasJob && (
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mb-1"></div>
-                                  )}
-                                  {hasDeadline && (
-                                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                    
-                    {/* Calendar Legend */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <div className="flex items-center space-x-6 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                          <span className="text-gray-600">Jobs</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-                          <span className="text-gray-600">Deadlines</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
+              <div className="h-[calc(100vh-200px)]">
+                <CalendarView />
+              </div>
             )}
           </div>
         )
@@ -3311,19 +3320,280 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="text-center">
+                  <div className="text-left">
                     <div className="text-2xl font-bold text-gray-900">{mockData.stats.totalCustomers}</div>
                     <div className="text-sm text-gray-600">Total Customers</div>
                   </div>
-                  <div className="text-center">
+                  <div className="text-left">
                     <div className="text-2xl font-bold text-gray-900">{mockData.stats.formsCompleted}</div>
                     <div className="text-sm text-gray-600">Forms Completed</div>
                   </div>
-                  <div className="text-center">
+                  <div className="text-left">
                     <div className="text-2xl font-bold text-gray-900">{mockData.stats.complianceRate}%</div>
                     <div className="text-sm text-gray-600">Compliance Rate</div>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
+        )
+      case 'properties':
+        return (
+          <div className="space-y-6">
+
+
+            {/* Search and Filter Controls */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <span>Showing {mockData.properties.length} properties</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={handleSearchToggle}
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <Search className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <ArrowUpDown className="h-4 w-4" />
+                </Button>
+                <Button 
+                  onClick={() => setShowAddCustomer(true)}
+                  variant="slate"
+                  size="sm"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Property
+                </Button>
+              </div>
+            </div>
+            
+            {/* Search Bar */}
+            {showSearch && (
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search properties by address, customer, or county..."
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            )}
+
+            <Card className="bg-white border-gray-200">
+              <CardContent className="p-0">
+                {/* Column Headers */}
+                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+                  <div className="flex items-center space-x-6">
+                    <div 
+                      className="w-[200px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('address')}
+                    >
+                      <span>Property Address</span>
+                      {getSortIcon('address')}
+                    </div>
+                    <div 
+                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('customer')}
+                    >
+                      <span>Customer</span>
+                      {getSortIcon('customer')}
+                    </div>
+                    <div 
+                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('county')}
+                    >
+                      <span>County</span>
+                      {getSortIcon('county')}
+                    </div>
+                    <div 
+                      className="w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('systemType')}
+                    >
+                      <span>System</span>
+                      {getSortIcon('systemType')}
+                    </div>
+                    <div 
+                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('status')}
+                    >
+                      <span>Status</span>
+                      {getSortIcon('status')}
+                    </div>
+                    <div 
+                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      onClick={() => handleSort('lastInspection')}
+                    >
+                      <span>Last Inspection</span>
+                      {getSortIcon('lastInspection')}
+                    </div>
+                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
+                  </div>
+                </div>
+                
+                <Accordion type="single" collapsible className="w-full">
+                  {(sortField && sortDirection ? sortData(mockData.properties, sortField, sortDirection) : mockData.properties).map((property) => (
+                    <AccordionItem key={property.id} value={property.id} className="border-b border-gray-200">
+                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                        <div className="flex items-center w-full">
+                          {/* Property Info Section - Column Layout */}
+                          <div className="flex items-center space-x-6">
+                            {/* Property Address */}
+                            <div className="w-[200px] text-left flex flex-col justify-center">
+                              <div className="text-sm font-medium text-gray-900 break-words">{property.address}</div>
+                              <div className="text-sm text-gray-600">{property.id}</div>
+                            </div>
+                            
+                            {/* Customer */}
+                            <div className="min-w-[140px] text-left flex items-center justify-start">
+                              <span className="text-sm font-medium text-gray-900">{property.customer}</span>
+                            </div>
+                            
+                            {/* County */}
+                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                              <span className="text-sm text-gray-600">{property.county}</span>
+                            </div>
+                            
+                            {/* System Type */}
+                            <div className="w-[100px] text-left flex items-center justify-start">
+                              <span className="text-sm text-gray-600 break-words">{property.systemType}</span>
+                            </div>
+                            
+                            {/* Status */}
+                            <div className="min-w-[100px] text-left flex items-center justify-start">
+                              <Badge 
+                                variant="outline" 
+                                className={`${getStatusColor(property.status)} border`}
+                              >
+                                <span className="flex items-center space-x-1">
+                                  {getStatusIcon(property.status)}
+                                  <span className="capitalize">{property.status.replace('_', ' ')}</span>
+                                </span>
+                              </Badge>
+                            </div>
+                            
+                            {/* Last Inspection */}
+                            <div className="min-w-[120px] text-left flex items-center justify-start">
+                              <span className="text-sm text-gray-600">{property.lastInspection}</span>
+                            </div>
+                            
+                            {/* Actions */}
+                            <div className="min-w-[80px] text-left flex items-center justify-start space-x-1">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <MapPin className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                                <FileText className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {/* Property Details */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                              <Building2 className="h-4 w-4 mr-2 text-gray-500" />
+                              Property Details
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Property Type:</span>
+                                <span className="text-gray-900">{property.propertyType}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Lot Size:</span>
+                                <span className="text-gray-900">{property.lotSize}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Soil Type:</span>
+                                <span className="text-gray-900">{property.soilType}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Groundwater Depth:</span>
+                                <span className="text-gray-900">{property.groundwaterDepth}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Slope:</span>
+                                <span className="text-gray-900">{property.slopePercentage}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* System Information */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                              <Database className="h-4 w-4 mr-2 text-gray-500" />
+                              System Information
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">System Type:</span>
+                                <span className="text-gray-900">{property.systemType}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Last Inspection:</span>
+                                <span className="text-gray-900">{property.lastInspection}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Next Due:</span>
+                                <span className="text-gray-900">{property.nextDue}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">Forms Completed:</span>
+                                <span className="text-gray-900 font-medium">{property.forms}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Location & Actions */}
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                              <MapPin className="h-4 w-4 mr-2 text-gray-500" />
+                              Location & Actions
+                            </h4>
+                            <div className="space-y-3 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">GPS Coordinates:</span>
+                                <span className="text-gray-900 text-xs">{property.gpsCoordinates}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium text-gray-600">County:</span>
+                                <span className="text-gray-900">{property.county}</span>
+                              </div>
+                            </div>
+                            <div className="flex space-x-2 pt-4">
+                              <Button variant="slate" size="sm" className="flex-1">
+                                <FileText className="w-4 h-4 mr-2" />
+                                Create CEP-5
+                              </Button>
+                              <Button variant="outline" size="sm" className="flex-1">
+                                <MapPin className="w-4 h-4 mr-2" />
+                                View Map
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </CardContent>
             </Card>
           </div>
@@ -3571,35 +3841,89 @@ const DashboardPage = () => {
                   <CardTitle>Notifications</CardTitle>
                   <CardDescription>Manage how you receive updates and alerts</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="px-8 pb-8">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-sm font-medium text-gray-700">Email notifications</Label>
-                        <p className="text-xs text-gray-500">Receive updates via email</p>
+                    {/* Email Notifications */}
+                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3 flex-1">
+                          <div className="w-2 h-2 bg-sky-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <Mail className="w-4 h-4 text-sky-600" />
+                              <span className="text-sm font-semibold text-gray-900">Email notifications</span>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed">Receive updates via email when forms are completed or ADPH requirements change</p>
+                          </div>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          defaultChecked 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                        />
                       </div>
-                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-sm font-medium text-gray-700">Form completion alerts</Label>
-                        <p className="text-xs text-gray-500">Get notified when forms are completed</p>
+
+                    {/* Form Completion Alerts */}
+                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3 flex-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm font-semibold text-gray-900">Form completion alerts</span>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed">Get notified when CEP-5 forms are completed and ready for submission</p>
+                          </div>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          defaultChecked 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                        />
                       </div>
-                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-sm font-medium text-gray-700">ADPH compliance updates</Label>
-                        <p className="text-xs text-gray-500">Alerts about Alabama Department of Public Health changes</p>
+
+                    {/* ADPH Compliance Updates */}
+                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3 flex-1">
+                          <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <AlertCircle className="w-4 h-4 text-amber-600" />
+                              <span className="text-sm font-semibold text-gray-900">ADPH compliance updates</span>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed">Alerts about Alabama Department of Public Health changes and new requirements</p>
+                          </div>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          defaultChecked 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                        />
                       </div>
-                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-sm font-medium text-gray-700">Weekly summary reports</Label>
-                        <p className="text-xs text-gray-500">Receive weekly form completion summaries</p>
+
+                    {/* Weekly Summary Reports */}
+                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3 flex-1">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <FileText className="w-4 h-4 text-blue-600" />
+                              <span className="text-sm font-semibold text-gray-900">Weekly summary reports</span>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed">Receive weekly form completion summaries and performance insights</p>
+                          </div>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                        />
                       </div>
-                      <input type="checkbox" className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
                     </div>
                   </div>
                 </CardContent>
@@ -3876,9 +4200,9 @@ const DashboardPage = () => {
             className={`flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${
               activeTab === 'settings' ? 'bg-gray-100 text-gray-900' : ''
             } ${
-              isSidebarCollapsed 
-                ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
-                : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
+            isSidebarCollapsed 
+              ? 'w-10 h-10 justify-center rounded-lg mx-auto' 
+              : 'w-full space-x-4 px-4 py-3 rounded-lg text-left'
             }`} 
             title={isSidebarCollapsed ? 'Settings' : undefined}
           >
@@ -4249,46 +4573,57 @@ const DashboardPage = () => {
             </div>
 
             {/* Notifications List */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {notifications.length === 0 ? (
-                <div className="p-6 text-center">
+                <div className="p-6 text-left">
                   <Bell className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500">No notifications</p>
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100">
+                <div className="space-y-3">
                   {notifications.map((notification) => (
                     <div
                       key={notification.id}
                       onClick={() => handleNotificationClick(notification)}
-                      className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                        !notification.read ? 'bg-blue-50' : ''
+                      className={`bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 cursor-pointer transition-colors ${
+                        !notification.read ? 'ring-2 ring-sky-200 bg-sky-50' : ''
                       }`}
                     >
                       <div className="flex items-start space-x-3">
                         <div className="flex-shrink-0 mt-1">
                           {notification.type === 'success' && (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                           )}
                           {notification.type === 'warning' && (
-                            <AlertCircle className="h-5 w-5 text-yellow-500" />
+                            <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
                           )}
                           {notification.type === 'info' && (
-                            <Info className="h-5 w-5 text-blue-500" />
+                            <div className="w-2 h-2 bg-sky-500 rounded-full"></div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <p className={`text-sm font-medium ${
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center space-x-2">
+                              {notification.type === 'success' && (
+                                <CheckCircle className="h-4 w-4 text-green-600" />
+                              )}
+                              {notification.type === 'warning' && (
+                                <AlertCircle className="h-4 w-4 text-amber-600" />
+                              )}
+                              {notification.type === 'info' && (
+                                <Info className="h-4 w-4 text-sky-600" />
+                              )}
+                              <p className={`text-sm font-semibold ${
                               !notification.read ? 'text-gray-900' : 'text-gray-700'
                             }`}>
                               {notification.title}
                             </p>
+                            </div>
                             <div className="flex items-center space-x-2">
                               {!notification.read && (
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <div className="w-2 h-2 bg-sky-500 rounded-full"></div>
                               )}
-                              <span className="text-xs text-gray-400">
+                              <span className="text-xs text-gray-500">
                                 {notification.timestamp.toLocaleTimeString('en-US', {
                                   hour: 'numeric',
                                   minute: '2-digit',
@@ -4297,7 +4632,7 @@ const DashboardPage = () => {
                               </span>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                          <p className="text-xs text-gray-600 leading-relaxed">
                             {notification.message}
                           </p>
                         </div>
@@ -4404,7 +4739,7 @@ const DashboardPage = () => {
               {searchQuery && (
                 <div className="p-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Search Results</h3>
-                  <div className="text-center py-8">
+                  <div className="text-left py-8">
                     <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                     <p className="text-gray-500">Searching for "{searchQuery}"...</p>
                     <p className="text-sm text-gray-400 mt-2">Results will appear here</p>

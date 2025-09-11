@@ -12,3 +12,332 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* React Big Calendar Styles */
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+/* Alabama SepticForms Calendar Styling */
+.rbc-calendar {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.rbc-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.rbc-time-view {
+  border: 1px solid #e2e8f0;
+}
+
+.rbc-time-header {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rbc-time-content {
+  border-top: 1px solid #e2e8f0;
+}
+
+.rbc-time-gutter {
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rbc-timeslot-group {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.rbc-time-slot {
+  border-bottom: 1px solid #f1f5f9;
+  color: #6b7280;
+  font-size: 12px;
+  min-height: 40px;
+}
+
+.rbc-day-slot .rbc-events-container {
+  margin-right: 0;
+}
+
+.rbc-event {
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  margin: 2px 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.rbc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.rbc-event-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rbc-event-label {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.rbc-event-overlaps {
+  box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);
+}
+
+.rbc-event-continues-prior {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rbc-event-continues-after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rbc-event-continues-earlier {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.rbc-event-continues-later {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rbc-month-view {
+  border: 1px solid #e2e8f0;
+}
+
+.rbc-month-row {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rbc-date-cell {
+  padding: 8px;
+  text-align: right;
+  color: #374151;
+  font-weight: 500;
+}
+
+.rbc-off-range-bg {
+  background: #f8fafc;
+}
+
+.rbc-today {
+  background-color: #eff6ff;
+}
+
+.rbc-today .rbc-date-cell {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.rbc-show-more {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  margin: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rbc-show-more:hover {
+  background: #e2e8f0;
+  color: #374151;
+}
+
+.rbc-toolbar {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 24px;
+  margin-bottom: 0;
+}
+
+.rbc-toolbar-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rbc-btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.rbc-btn-group button {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rbc-btn-group button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.rbc-btn-group button.rbc-active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.rbc-btn-group button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.rbc-toolbar button {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rbc-toolbar button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.rbc-toolbar button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* All-day events styling */
+.rbc-allday-cell {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rbc-allday-events {
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0;
+}
+
+.rbc-allday-event {
+  background: #3b82f6;
+  border: 1px solid #2563eb;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 1px 2px;
+  padding: 2px 6px;
+}
+
+/* Popup styling */
+.rbc-overlay {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  z-index: 1000;
+}
+
+.rbc-overlay-header {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+/* Mobile Responsive Design for Field Work */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  
+  .rbc-toolbar-label {
+    font-size: 16px;
+  }
+  
+  .rbc-btn-group {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .rbc-header {
+    font-size: 12px;
+    padding: 12px 8px;
+  }
+  
+  .rbc-event {
+    font-size: 11px;
+    padding: 3px 6px;
+    margin: 1px 2px;
+    min-height: 44px; /* Touch target for work gloves */
+  }
+  
+  .rbc-time-slot {
+    min-height: 44px; /* Larger touch targets */
+  }
+  
+  .rbc-time-gutter {
+    font-size: 11px;
+    padding: 4px;
+  }
+}
+
+/* Tablet Portrait Optimization */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .rbc-event {
+    font-size: 11px;
+    padding: 3px 6px;
+    min-height: 40px;
+  }
+  
+  .rbc-time-slot {
+    min-height: 40px;
+  }
+}
+
+/* Mobile Legend Responsive */
+@media (max-width: 768px) {
+  .calendar-legend {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .calendar-legend > div {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
+}
