@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 import { 
   Card, 
   CardContent, 
@@ -890,7 +891,7 @@ const DashboardPage = () => {
   const unreadCount = notifications.filter(n => !n.read).length
   
   // Schedule View State
-  const [scheduleView, setScheduleView] = useState<'list' | 'calendar'>('list')
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   const handleFindCustomer = () => {
     // Navigate to customer search
@@ -3076,7 +3077,7 @@ const DashboardPage = () => {
         return (
           <div className="space-y-6">
             {/* Header - Only show breadcrumb if coming from dashboard */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 px-8 pt-8">
               {scheduleSource === 'dashboard' ? (
                 <Breadcrumb>
                   <BreadcrumbList>
@@ -3095,114 +3096,32 @@ const DashboardPage = () => {
               ) : (
                 <div></div>
               )}
-              <div className="flex items-center space-x-3">
-                {/* View Toggle */}
-                <div className="flex items-center bg-gray-100 rounded-lg p-1">
-                  <Button
-                    variant={scheduleView === 'list' ? 'default' : 'ghost'}
+              <div className="flex items-center justify-between w-full">
+                {/* Date Information - aligned to left */}
+                <div className="flex items-center space-x-4">
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    {moment(currentDate).format('MMMM YYYY')}
+                  </h1>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <Button 
+                    variant="outline"
                     size="sm"
-                    onClick={() => setScheduleView('list')}
-                    className={`h-8 px-3 text-sm ${
-                      scheduleView === 'list' 
-                        ? 'bg-white text-gray-900 shadow-sm' 
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
+                    className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
                   >
-                    <List className="w-4 h-4 mr-2" />
-                    List
-                  </Button>
-                  <Button
-                    variant={scheduleView === 'calendar' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setScheduleView('calendar')}
-                    className={`h-8 px-3 text-sm ${
-                      scheduleView === 'calendar' 
-                        ? 'bg-white text-gray-900 shadow-sm' 
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    <Grid3X3 className="w-4 h-4 mr-2" />
-                    Calendar
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Job
                   </Button>
                 </div>
-                <Button 
-                  variant="outline"
-                  size="sm"
-                  className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Job
-                </Button>
               </div>
             </div>
 
-            {/* Schedule Content */}
-            {scheduleView === 'list' ? (
-              <>
-                {/* Today's Schedule - List View */}
-                <Card className="bg-white border-gray-200">
-                  <CardHeader className="px-8 pt-8 pb-6">
-                    <CardTitle className="text-gray-900">Today's Schedule</CardTitle>
-                  </CardHeader>
-                  <CardContent className="px-8 pb-8">
-                    <div className="space-y-4">
-                      {mockData.todayJobs.map((job) => (
-                        <div key={job.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center space-x-4">
-                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                              <Calendar className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-900">{job.time}</div>
-                              <div className="text-sm text-gray-600">{job.type}</div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="font-medium text-gray-900">{job.customer}</div>
-                            <div className="text-sm text-gray-600">{job.address}</div>
-                            <div className="text-xs text-gray-500">{job.county} County</div>
-                          </div>
-                          <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
-                            {job.status}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Upcoming Deadlines - List View */}
-                <Card className="bg-white border-gray-200">
-                  <CardHeader className="px-8 pt-8 pb-6">
-                    <CardTitle className="text-gray-900">Upcoming Deadlines</CardTitle>
-                  </CardHeader>
-                  <CardContent className="px-8 pb-8">
-                    <div className="space-y-4">
-                      {mockData.upcomingDeadlines.map((deadline) => (
-                        <div key={deadline.type} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                              <AlertCircle className="w-4 h-4 text-amber-600" />
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-900">{deadline.type}</div>
-                              <div className="text-sm text-gray-600">Due: {deadline.date}</div>
-                            </div>
-                          </div>
-                          <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
-                            {deadline.daysLeft} days left
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
-            ) : (
-              <div className="h-[calc(100vh-200px)]">
-                <CalendarView />
-              </div>
-            )}
+            {/* Schedule Content - Calendar Only */}
+            <CalendarView 
+              currentDate={currentDate}
+              onDateChange={setCurrentDate}
+            />
           </div>
         )
       case 'profile':
@@ -4272,8 +4191,16 @@ const DashboardPage = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 px-8 py-8 overflow-y-auto">
-          {renderContent()}
+        <main className="flex-1 overflow-y-auto">
+          {activeTab === 'schedule' ? (
+            <div className="h-full">
+              {renderContent()}
+            </div>
+          ) : (
+            <div className="px-8 py-8">
+              {renderContent()}
+            </div>
+          )}
       </main>
       </div>
 

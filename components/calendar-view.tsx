@@ -457,8 +457,12 @@ const EventComponent = ({ event }: { event: JobEvent }) => {
 }
 
 // Main Calendar View Component
-const CalendarView = () => {
-  const [currentDate, setCurrentDate] = useState(new Date())
+interface CalendarViewProps {
+  currentDate: Date
+  onDateChange: (date: Date) => void
+}
+
+const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
   const [events, setEvents] = useState<JobEvent[]>(sampleJobs)
   const [showEventDialog, setShowEventDialog] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<JobEvent | null>(null)
@@ -466,7 +470,7 @@ const CalendarView = () => {
 
   // Event handlers
   const handleNavigate = (newDate: Date) => {
-    setCurrentDate(newDate)
+    onDateChange(newDate)
   }
 
 
@@ -532,106 +536,289 @@ const CalendarView = () => {
   }
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Seamless Header with Navigation */}
-      <div className="px-8 py-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              {moment(currentDate).format('MMMM YYYY')}
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              {`${moment(currentDate).startOf('week').format('MMM D')} - ${moment(currentDate).endOf('week').format('MMM D, YYYY')}`}
-            </p>
-            <div className="flex items-center space-x-2 mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleNavigate(moment(currentDate).subtract(1, 'week').toDate())}
-                className="h-9 px-4"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleNavigate(new Date())}
-                className="h-9 px-4"
-              >
-                Today
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleNavigate(moment(currentDate).add(1, 'week').toDate())}
-                className="h-9 px-4"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+    <>
+      {/* Custom Calendar Styles */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .custom-calendar {
+            background: transparent !important;
+            border: none !important;
+            height: calc(100vh - 200px) !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 20px !important;
+          }
           
-        </div>
-      </div>
-
+          .custom-calendar .rbc-calendar {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-view {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-content {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-header {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-header-content {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-header {
+            background: transparent !important;
+            border: none !important;
+            padding: 8px 4px !important;
+            font-weight: 500 !important;
+            color: #9ca3af !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-header-today {
+            color: #3b82f6 !important;
+            font-weight: 600 !important;
+          }
+          
+          .custom-calendar .rbc-time-gutter {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-gutter .rbc-timeslot-group {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot {
+            background: transparent !important;
+            border: none !important;
+            color: #9ca3af !important;
+            font-size: 12px !important;
+            padding: 2px 4px !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot:first-child {
+            font-weight: 500 !important;
+          }
+          
+          .custom-calendar .rbc-day-slot {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-day-slot .rbc-timeslot-group {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-content .rbc-timeslot-group {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-content .rbc-timeslot-group .rbc-time-slot {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-view .rbc-header {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-view .rbc-header + .rbc-header {
+            border: none !important;
+            box-shadow: none !important;
+          }
+          
+          .custom-calendar .rbc-time-header-wrapper {
+            position: relative;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-view {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-header {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-header-content {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .custom-calendar .rbc-time-header-divider {
+            position: absolute;
+            bottom: 0;
+            left: calc(-50vw + 50%);
+            right: calc(-50vw + 50%);
+            height: 1px;
+            background-color: #e5e7eb;
+            z-index: 10;
+          }
+          
+          /* Remove all borders and backgrounds from calendar cells */
+          .custom-calendar .rbc-time-view .rbc-time-gutter,
+          .custom-calendar .rbc-time-view .rbc-time-content,
+          .custom-calendar .rbc-time-view .rbc-time-header,
+          .custom-calendar .rbc-time-view .rbc-time-header-content,
+          .custom-calendar .rbc-time-view .rbc-day-slot,
+          .custom-calendar .rbc-time-view .rbc-timeslot-group {
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          /* Remove any spacing between calendar elements */
+          .custom-calendar * {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .custom-calendar .rbc-header {
+            padding: 8px 4px !important;
+          }
+          
+           .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot {
+             padding: 2px 4px !important;
+           }
+           
+           /* Remove all-day events section to eliminate empty space */
+           .custom-calendar .rbc-allday-events {
+             display: none !important;
+             height: 0 !important;
+             min-height: 0 !important;
+           }
+           
+           .custom-calendar .rbc-allday-cell {
+             display: none !important;
+             height: 0 !important;
+             min-height: 0 !important;
+           }
+           
+           .custom-calendar .rbc-allday-section {
+             display: none !important;
+             height: 0 !important;
+             min-height: 0 !important;
+           }
+           
+           .custom-calendar .rbc-time-header-wrapper {
+             position: relative;
+             background: transparent !important;
+             border: none !important;
+             box-shadow: none !important;
+             border-radius: 0 !important;
+           }
+           
+           .custom-calendar .rbc-time-header::after {
+             content: '';
+             position: absolute;
+             bottom: 0;
+             left: calc(-50vw + 50% - 20px - 32px);
+             right: calc(-50vw + 50% - 20px - 32px);
+             height: 1px;
+             background-color: #e5e7eb;
+             z-index: 10;
+           }
+           
+           .custom-calendar .rbc-time-header {
+             position: relative;
+           }
+        `
+      }} />
+      
       {/* Seamless Calendar Component */}
-      <div className="flex-1">
-        <div className="h-full">
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: '100%' }}
-            defaultView={Views.WEEK}
-            date={currentDate}
-            onNavigate={handleNavigate}
-            onSelectEvent={handleSelectEvent}
-            onSelectSlot={handleSelectSlot}
-            selectable
-            eventPropGetter={eventStyleGetter}
-            toolbar={false}
-            components={{
-              event: EventComponent
-            }}
-            step={30}
-            timeslots={2}
-            min={new Date(2024, 0, 1, 6, 0)} // 6 AM
-            max={new Date(2024, 0, 1, 20, 0)} // 8 PM
-            showMultiDayTimes
-            allDayMaxRows={2}
-            popup
-            popupOffset={30}
-            className="rbc-calendar"
-          />
-        </div>
-      </div>
-
-      {/* Job Type Legend */}
-      <div className="px-8 py-4">
-        <div className="calendar-legend flex items-center justify-center space-x-6 text-sm">
-          <div className="flex items-center space-x-2">
-            <FileText className="w-4 h-4 text-sky-600" />
-            <span className="text-gray-600">CEP-5 Inspection</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Building2 className="w-4 h-4 text-emerald-600" />
-            <span className="text-gray-600">Installation</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Wrench className="w-4 h-4 text-amber-600" />
-            <span className="text-gray-600">Maintenance</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <AlertTriangle className="w-4 h-4 text-red-600" />
-            <span className="text-gray-600">Repair</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Droplets className="w-4 h-4 text-violet-600" />
-            <span className="text-gray-600">Pumping</span>
-          </div>
-        </div>
-      </div>
+      <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 'calc(100vh - 200px)' }}
+        defaultView={Views.WEEK}
+        date={currentDate}
+        onNavigate={handleNavigate}
+        onSelectEvent={handleSelectEvent}
+        onSelectSlot={handleSelectSlot}
+        selectable
+        eventPropGetter={eventStyleGetter}
+        toolbar={false}
+        components={{
+          event: EventComponent,
+          header: ({ date, localizer }) => {
+            const isToday = moment(date).isSame(moment(), 'day')
+            return (
+              <div className={`rbc-header ${isToday ? 'rbc-header-today' : ''}`}>
+                {localizer.format(date, 'MMM D', 'en')}
+              </div>
+            )
+          },
+          timeGutterWrapper: ({ children }) => {
+            return (
+              <div className="rbc-time-gutter">
+                {children}
+              </div>
+            )
+          }
+        }}
+        step={30}
+        timeslots={2}
+        min={new Date(2024, 0, 1, 6, 0)} // 6 AM
+        max={new Date(2024, 0, 1, 20, 0)} // 8 PM
+        showMultiDayTimes
+        allDayMaxRows={0}
+        popup
+        popupOffset={30}
+        className="rbc-calendar custom-calendar"
+      />
 
       {/* Event Dialog */}
       <EventDialog
@@ -642,7 +829,7 @@ const CalendarView = () => {
         selectedTimeSlot={selectedSlot || undefined}
         event={selectedEvent}
       />
-    </div>
+    </>
   )
 }
 
