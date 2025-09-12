@@ -410,17 +410,6 @@ const sampleJobs: JobEvent[] = [
 
 // Event Component for displaying job events
 const EventComponent = ({ event }: { event: JobEvent }) => {
-  const getJobTypeIcon = (jobType: string) => {
-    switch (jobType) {
-      case 'inspection': return <FileText className="w-3 h-3" />
-      case 'installation': return <Building2 className="w-3 h-3" />
-      case 'maintenance': return <Wrench className="w-3 h-3" />
-      case 'repair': return <AlertTriangle className="w-3 h-3" />
-      case 'pumping': return <Droplets className="w-3 h-3" />
-      default: return <FileText className="w-3 h-3" />
-    }
-  }
-
   const getJobTypeColor = (jobType: string) => {
     switch (jobType) {
       case 'inspection': return 'bg-sky-50 text-sky-700 border-sky-200'
@@ -433,23 +422,17 @@ const EventComponent = ({ event }: { event: JobEvent }) => {
   }
 
   return (
-    <div className={`p-2 rounded-lg border ${getJobTypeColor(event.jobType || 'inspection')} text-xs hover:shadow-sm transition-shadow`}>
-      <div className="flex items-center gap-1 mb-1">
-        {getJobTypeIcon(event.jobType || 'inspection')}
-        <span className="font-medium truncate">{event.title}</span>
-        {event.jobType === 'inspection' && event.cep5FormId && (
-          <Badge variant="outline" className="text-xs bg-sky-100 text-sky-700 border-sky-200 ml-1">
-            CEP-5
-          </Badge>
-        )}
+    <div className={`text-xs h-full rounded border ${getJobTypeColor(event.jobType || 'inspection')}`}>
+      <div className="flex flex-col justify-start h-full">
+        <div className="font-medium truncate">{event.title}</div>
+        <div className="text-xs opacity-70 mt-1">
+          {moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}
       </div>
       {event.customer && (
-        <div className="text-xs text-gray-600 truncate mb-1">{event.customer.name}</div>
+          <div className="truncate text-xs opacity-80 mt-1">{event.customer.name}</div>
       )}
-      <div className="flex items-center justify-between text-xs text-gray-500">
-        <span>{moment(event.start).format('h:mm A')}</span>
         {event.customer?.county && (
-          <span className="truncate ml-2">{event.customer.county}</span>
+          <div className="truncate text-xs opacity-70 mt-1">{event.customer.county}</div>
         )}
       </div>
     </div>
@@ -514,23 +497,23 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
   const eventStyleGetter = (event: JobEvent) => {
     const getJobTypeColor = (jobType: string) => {
       switch (jobType) {
-        case 'inspection': return { backgroundColor: '#dbeafe', borderColor: '#3b82f6' }
-        case 'installation': return { backgroundColor: '#dcfce7', borderColor: '#22c55e' }
-        case 'maintenance': return { backgroundColor: '#fef3c7', borderColor: '#f59e0b' }
-        case 'repair': return { backgroundColor: '#fee2e2', borderColor: '#ef4444' }
-        case 'pumping': return { backgroundColor: '#e9d5ff', borderColor: '#a855f7' }
-        default: return { backgroundColor: '#f3f4f6', borderColor: '#6b7280' }
+        case 'inspection': return 'bg-sky-50 text-sky-700 border-sky-200'
+        case 'installation': return 'bg-emerald-50 text-emerald-700 border-emerald-200'
+        case 'maintenance': return 'bg-amber-50 text-amber-700 border-amber-200'
+        case 'repair': return 'bg-red-50 text-red-700 border-red-200'
+        case 'pumping': return 'bg-violet-50 text-violet-700 border-violet-200'
+        default: return 'bg-gray-50 text-gray-700 border-gray-200'
       }
     }
 
     return {
+      className: `rounded border ${getJobTypeColor(event.jobType || 'inspection')}`,
       style: {
-        ...getJobTypeColor(event.jobType || 'inspection'),
-        borderRadius: '8px',
-        border: '1px solid',
-        color: '#1f2937',
-        fontSize: '12px',
-        fontWeight: '500'
+        backgroundColor: 'transparent',
+        border: 'none',
+        boxShadow: 'none',
+        borderRadius: '6px',
+        padding: '0',
       }
     }
   }
@@ -589,15 +572,29 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             background: transparent !important;
             border: none !important;
             padding: 8px 4px !important;
-            font-weight: 500 !important;
+            font-weight: 400 !important;
             color: #9ca3af !important;
             box-shadow: none !important;
             border-radius: 0 !important;
           }
           
-          .custom-calendar .rbc-header-today {
-            color: #3b82f6 !important;
-            font-weight: 600 !important;
+          .custom-calendar .rbc-header.rbc-header-today {
+            background-color: #2563eb !important;
+            color: white !important;
+            font-weight: 400 !important;
+            border-radius: 6px !important;
+            padding: 4px 12px !important;
+            margin: 2px !important;
+          }
+          
+          /* More specific selector to ensure it overrides */
+          .custom-calendar .rbc-time-header .rbc-header.rbc-header-today {
+            background-color: #2563eb !important;
+            color: white !important;
+            font-weight: 400 !important;
+            border-radius: 6px !important;
+            padding: 4px 12px !important;
+            margin: 2px !important;
           }
           
           .custom-calendar .rbc-time-gutter {
@@ -668,6 +665,34 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             box-shadow: none !important;
           }
           
+          .custom-calendar .rbc-event {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            z-index: 5 !important;
+            position: relative !important;
+          }
+          
+          .custom-calendar .rbc-event-label {
+            display: none !important;
+          }
+          
+          .custom-calendar .rbc-current-time-indicator {
+            background-color: #000000 !important;
+            height: 2px !important;
+            z-index: 20 !important;
+          }
+          
+          .custom-calendar .rbc-event-content {
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          
+          .custom-calendar .rbc-event-content > div {
+            padding: 12px 12px 8px 12px !important;
+          }
+          
           .custom-calendar .rbc-time-header-wrapper {
             position: relative;
             background: transparent !important;
@@ -678,10 +703,22 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             padding: 0 !important;
           }
           
+          .custom-calendar .rbc-time-slot {
+            position: relative;
+          }
+          
           .custom-calendar .rbc-time-view {
             margin: 0 !important;
             padding: 0 !important;
+            min-height: 100vh !important;
           }
+          
+          .custom-calendar .rbc-time-content {
+            min-height: 100vh !important;
+            position: relative;
+          }
+          
+          
           
           .custom-calendar .rbc-time-header {
             margin: 0 !important;
@@ -775,23 +812,24 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
            }
         `
       }} />
-      
+
       {/* Seamless Calendar Component */}
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
+          <Calendar
+        key="calendar-view-updated"
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
         style={{ height: 'calc(100vh - 200px)' }}
-        defaultView={Views.WEEK}
-        date={currentDate}
-        onNavigate={handleNavigate}
-        onSelectEvent={handleSelectEvent}
-        onSelectSlot={handleSelectSlot}
-        selectable
-        eventPropGetter={eventStyleGetter}
-        toolbar={false}
-        components={{
+            defaultView={Views.WEEK}
+            date={currentDate}
+            onNavigate={handleNavigate}
+            onSelectEvent={handleSelectEvent}
+            onSelectSlot={handleSelectSlot}
+            selectable
+        // eventPropGetter={eventStyleGetter}
+            toolbar={false}
+            components={{
           event: EventComponent,
           header: ({ date, localizer }) => {
             const isToday = moment(date).isSame(moment(), 'day')
@@ -808,15 +846,15 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
               </div>
             )
           }
-        }}
-        step={30}
-        timeslots={2}
-        min={new Date(2024, 0, 1, 6, 0)} // 6 AM
-        max={new Date(2024, 0, 1, 20, 0)} // 8 PM
-        showMultiDayTimes
+            }}
+            step={30}
+            timeslots={2}
+            min={new Date(2024, 0, 1, 6, 0)} // 6 AM
+            max={new Date(2024, 0, 1, 22, 0)} // 10 PM
+            showMultiDayTimes
         allDayMaxRows={0}
-        popup
-        popupOffset={30}
+            popup
+            popupOffset={30}
         className="rbc-calendar custom-calendar"
       />
 

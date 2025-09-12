@@ -79,6 +79,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import CalendarView from "@/components/calendar-view"
+import EventDialog from "@/components/event-dialog"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -892,6 +893,11 @@ const DashboardPage = () => {
   
   // Schedule View State
   const [currentDate, setCurrentDate] = useState(new Date())
+  
+  // EventDialog state
+  const [showEventDialog, setShowEventDialog] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [selectedSlot, setSelectedSlot] = useState<{ start: Date; end: Date } | null>(null)
 
   const handleFindCustomer = () => {
     // Navigate to customer search
@@ -901,6 +907,27 @@ const DashboardPage = () => {
   const handleImportData = () => {
     // Open import modal
     console.log("Import data")
+  }
+
+  // EventDialog handlers
+  const handleAddJob = () => {
+    setSelectedEvent(null)
+    setSelectedSlot(null)
+    setShowEventDialog(true)
+  }
+
+  const handleSaveEvent = (eventData: any) => {
+    // Handle saving the event - this would typically save to your backend
+    console.log("Saving event:", eventData)
+    setShowEventDialog(false)
+    setSelectedEvent(null)
+    setSelectedSlot(null)
+  }
+
+  const handleCloseEventDialog = () => {
+    setShowEventDialog(false)
+    setSelectedEvent(null)
+    setSelectedSlot(null)
   }
 
   const getStatusColor = (status: string) => {
@@ -3105,9 +3132,15 @@ const DashboardPage = () => {
                 </div>
                 
                 <div className="flex items-center space-x-3">
+                  <Search 
+                    className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
+                    onClick={handleSearchToggle}
+                    title="Search jobs"
+                  />
                   <Button 
                     variant="outline"
                     size="sm"
+                    onClick={handleAddJob}
                     className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
                   >
                     <Plus className="w-4 h-4 mr-2" />
@@ -4615,7 +4648,7 @@ const DashboardPage = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => handleSearchQueryChange(e.target.value)}
-                  placeholder="Search all pages, forms, customers, properties..."
+                  placeholder="Search jobs by name, type, customer, or status..."
                   className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                   autoFocus
                 />
@@ -4631,29 +4664,35 @@ const DashboardPage = () => {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto">
-              {/* Recent Activities */}
+              {/* Recent Jobs */}
               <div className="p-6 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Activities</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Jobs</h3>
                 <div className="space-y-3">
-                  {mockData.recentForms.slice(0, 5).map((form) => (
+                  {[
+                    { id: '1', title: 'Septic Tank Inspection', customer: 'John Smith', type: 'Inspection', status: 'Scheduled' },
+                    { id: '2', title: 'System Installation', customer: 'Sarah Johnson', type: 'Installation', status: 'In Progress' },
+                    { id: '3', title: 'Maintenance Check', customer: 'Mike Wilson', type: 'Maintenance', status: 'Completed' },
+                    { id: '4', title: 'Pump Repair', customer: 'Lisa Brown', type: 'Repair', status: 'Scheduled' },
+                    { id: '5', title: 'Tank Pumping', customer: 'David Davis', type: 'Pumping', status: 'Completed' }
+                  ].map((job) => (
                     <div
-                      key={form.id}
+                      key={job.id}
                       className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
                       onClick={() => {
-                        setActiveTab('cep5')
+                        setActiveTab('schedule')
                         setShowSearchPopup(false)
                         setSearchQuery("")
                       }}
                     >
                       <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
-                        <FileText className="h-4 w-4 text-sky-600" />
+                        <Calendar className="h-4 w-4 text-sky-600" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-900">{form.customer}</div>
-                        <div className="text-xs text-gray-500">{form.property}</div>
+                        <div className="text-sm font-medium text-gray-900">{job.title}</div>
+                        <div className="text-xs text-gray-500">{job.customer} • {job.type}</div>
                       </div>
-                      <Badge className={`${getStatusColor(form.status)}`}>
-                        {form.status}
+                      <Badge className={`${getStatusColor(job.status)}`}>
+                        {job.status}
                       </Badge>
                     </div>
                   ))}
@@ -4679,7 +4718,7 @@ const DashboardPage = () => {
                 <div className="p-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Popular Searches</h3>
                   <div className="flex flex-wrap gap-3">
-                    {['CEP-5', 'Jefferson County', 'Williams Property', 'Septic Tank', 'Installation'].map((term) => (
+                    {['Inspection', 'Installation', 'Maintenance', 'Repair', 'Pumping', 'Scheduled', 'Completed'].map((term) => (
                       <button
                         key={term}
                         onClick={() => handleSearchQueryChange(term)}
@@ -4695,6 +4734,16 @@ const DashboardPage = () => {
           </div>
         </div>
       )}
+
+      {/* Event Dialog */}
+      <EventDialog
+        isOpen={showEventDialog}
+        onClose={handleCloseEventDialog}
+        onSave={handleSaveEvent}
+        selectedDate={selectedSlot?.start}
+        selectedTimeSlot={selectedSlot || undefined}
+        event={selectedEvent}
+      />
     </div>
   )
 }

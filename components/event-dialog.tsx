@@ -1,14 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
-  DialogTitle 
-} from "@/components/ui/dialog"
+import moment from 'moment'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -21,7 +14,8 @@ import {
   User, 
   Phone, 
   FileText,
-  AlertCircle
+  AlertCircle,
+  X
 } from "lucide-react"
 
 interface JobEvent {
@@ -175,37 +169,43 @@ const EventDialog: React.FC<EventDialogProps> = ({
   ]
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="w-96 bg-white border-gray-200 shadow-xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="px-8 pt-8 pb-6">
-          <DialogTitle className="text-gray-900">
-            {event ? 'Edit CEP-5 Job' : 'Create New CEP-5 Job'}
-          </DialogTitle>
-          <DialogDescription className="text-gray-600 mt-2">
-            {event ? 'Update the Alabama CEP-5 job details' : 'Schedule a new Alabama CEP-5 inspection or service'}
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center pt-20">
+          <div className="bg-white rounded-lg shadow-2xl w-[600px] mx-4 max-h-[80vh] overflow-hidden">
+            <div className="px-8 pt-8 pb-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900">Job</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClose}
+                  className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-gray-600 mt-2">
+                {event ? 'Update the job details' : 'Create a new job'}
+              </p>
+            </div>
         
-        <div className="px-8 pb-8 space-y-6">
-          {/* Job Details */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <FileText className="w-5 h-5 mr-2 text-blue-600" />
-              Job Details
-            </h3>
-            
-            <div className="space-y-4">
+        <div className="px-8 pb-8 space-y-8">
+          <div className="grid grid-cols-2 gap-8">
+            {/* Left Column */}
+            <div className="space-y-6">
               <div>
                 <Label htmlFor="title" className="block text-sm font-medium mb-3">
                   Job Title *
                 </Label>
                 <Input
                   id="title"
-                  type="text"
                   value={formData.title}
                   onChange={(e) => handleInputChange('title', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                  placeholder="e.g., Smith Residence - CEP-5 Inspection"
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                    errors.title ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter job title"
                 />
                 {errors.title && (
                   <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -215,111 +215,46 @@ const EventDialog: React.FC<EventDialogProps> = ({
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="jobType" className="block text-sm font-medium mb-3">
-                    Job Type
-                  </Label>
-                  <Select value={formData.jobType} onValueChange={(value) => handleInputChange('jobType', value)}>
-                    <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
-                      <SelectValue placeholder="Select job type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-gray-200 shadow-lg">
-                      <SelectItem value="inspection" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        CEP-5 Inspection
-                      </SelectItem>
-                      <SelectItem value="installation" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        System Installation
-                      </SelectItem>
-                      <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Maintenance
-                      </SelectItem>
-                      <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Repair
-                      </SelectItem>
-                      <SelectItem value="pumping" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Tank Pumping
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="priority" className="block text-sm font-medium mb-3">
-                    Priority
-                  </Label>
-                  <Select value={formData.priority} onValueChange={(value) => handleInputChange('priority', value)}>
-                    <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
-                      <SelectValue placeholder="Select priority" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-gray-200 shadow-lg">
-                      <SelectItem value="low" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Low
-                      </SelectItem>
-                      <SelectItem value="medium" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Medium
-                      </SelectItem>
-                      <SelectItem value="high" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        High
-                      </SelectItem>
-                      <SelectItem value="urgent" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        Urgent
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div>
+                <Label htmlFor="customerName" className="block text-sm font-medium mb-3">
+                  Customer Name *
+                </Label>
+                <Input
+                  id="customerName"
+                  value={formData.customerName}
+                  onChange={(e) => handleInputChange('customerName', e.target.value)}
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                    errors.customerName ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter customer name"
+                />
+                {errors.customerName && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <AlertCircle className="w-4 h-4 mr-1" />
+                    {errors.customerName}
+                  </p>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Customer Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <User className="w-5 h-5 mr-2 text-green-600" />
-              Customer Information
-            </h3>
-            
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="customerName" className="block text-sm font-medium mb-3">
-                    Customer Name *
-                  </Label>
-                  <Input
-                    id="customerName"
-                    type="text"
-                    value={formData.customerName}
-                    onChange={(e) => handleInputChange('customerName', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                    placeholder="John Smith"
-                  />
-                  {errors.customerName && (
-                    <p className="text-red-500 text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {errors.customerName}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="customerPhone" className="block text-sm font-medium mb-3">
-                    Phone Number *
-                  </Label>
-                  <Input
-                    id="customerPhone"
-                    type="tel"
-                    value={formData.customerPhone}
-                    onChange={(e) => handleInputChange('customerPhone', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                    placeholder="(205) 555-0123"
-                  />
-                  {errors.customerPhone && (
-                    <p className="text-red-500 text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {errors.customerPhone}
-                    </p>
-                  )}
-                </div>
+              <div>
+                <Label htmlFor="customerPhone" className="block text-sm font-medium mb-3">
+                  Phone Number *
+                </Label>
+                <Input
+                  id="customerPhone"
+                  value={formData.customerPhone}
+                  onChange={(e) => handleInputChange('customerPhone', e.target.value)}
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                    errors.customerPhone ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter phone number"
+                />
+                {errors.customerPhone && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <AlertCircle className="w-4 h-4 mr-1" />
+                    {errors.customerPhone}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -328,11 +263,12 @@ const EventDialog: React.FC<EventDialogProps> = ({
                 </Label>
                 <Input
                   id="customerAddress"
-                  type="text"
                   value={formData.customerAddress}
                   onChange={(e) => handleInputChange('customerAddress', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                  placeholder="123 Oak Street, Birmingham, AL"
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                    errors.customerAddress ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter full address"
                 />
                 {errors.customerAddress && (
                   <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -341,65 +277,115 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   </p>
                 )}
               </div>
+            </div>
 
+            {/* Right Column */}
+            <div className="space-y-6">
               <div>
-                <Label htmlFor="customerCounty" className="block text-sm font-medium mb-3">
-                  Alabama County *
+                <Label htmlFor="jobType" className="block text-sm font-medium mb-3">
+                  Job Type *
                 </Label>
-                <Select value={formData.customerCounty} onValueChange={(value) => handleInputChange('customerCounty', value)}>
+                <Select
+                  value={formData.jobType}
+                  onValueChange={(value) => handleInputChange('jobType', value)}
+                >
                   <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
-                    <SelectValue placeholder="Select county" />
+                    <SelectValue placeholder="Select job type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-gray-200 shadow-lg max-h-60">
-                    {alabamaCounties.map((county) => (
-                      <SelectItem key={county} value={county} className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
-                        {county} County
-                      </SelectItem>
-                    ))}
+                  <SelectContent className="bg-white border-gray-200 shadow-lg">
+                    <SelectItem value="inspection" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      CEP-5 Inspection
+                    </SelectItem>
+                    <SelectItem value="installation" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      System Installation
+                    </SelectItem>
+                    <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Maintenance
+                    </SelectItem>
+                    <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Repair
+                    </SelectItem>
+                    <SelectItem value="pumping" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Tank Pumping
+                    </SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.customerCounty && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors.customerCounty}
-                  </p>
-                )}
               </div>
-            </div>
-          </div>
 
-          {/* Schedule */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Clock className="w-5 h-5 mr-2 text-purple-600" />
-              Schedule
-            </h3>
-            
-            <div className="space-y-4">
+              <div>
+                <Label htmlFor="status" className="block text-sm font-medium mb-3">
+                  Status *
+                </Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => handleInputChange('status', value)}
+                >
+                  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-gray-200 shadow-lg">
+                    <SelectItem value="scheduled" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Scheduled
+                    </SelectItem>
+                    <SelectItem value="in-progress" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      In Progress
+                    </SelectItem>
+                    <SelectItem value="completed" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Completed
+                    </SelectItem>
+                    <SelectItem value="cancelled" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                      Cancelled
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="startDate" className="block text-sm font-medium mb-3">
+                  Date *
+                </Label>
+                <DatePicker
+                  date={formData.startDate}
+                  onDateChange={(date) => handleInputChange('startDate', date)}
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="startTime" className="block text-sm font-medium mb-3">
-                    Start Time
+                    Start Time *
                   </Label>
                   <Input
                     id="startTime"
-                    type="datetime-local"
-                    value={formData.startTime.toISOString().slice(0, 16)}
-                    onChange={(e) => handleInputChange('startTime', new Date(e.target.value))}
+                    type="time"
+                    value={moment(formData.startTime).format('HH:mm')}
+                    onChange={(e) => {
+                      const [hours, minutes] = e.target.value.split(':')
+                      const newTime = new Date(formData.startDate)
+                      newTime.setHours(parseInt(hours), parseInt(minutes))
+                      handleInputChange('startTime', newTime)
+                    }}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="endTime" className="block text-sm font-medium mb-3">
-                    End Time
+                    End Time *
                   </Label>
                   <Input
                     id="endTime"
-                    type="datetime-local"
-                    value={formData.endTime.toISOString().slice(0, 16)}
-                    onChange={(e) => handleInputChange('endTime', new Date(e.target.value))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                    type="time"
+                    value={moment(formData.endTime).format('HH:mm')}
+                    onChange={(e) => {
+                      const [hours, minutes] = e.target.value.split(':')
+                      const newTime = new Date(formData.startDate)
+                      newTime.setHours(parseInt(hours), parseInt(minutes))
+                      handleInputChange('endTime', newTime)
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                      errors.endTime ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   />
                   {errors.endTime && (
                     <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -411,62 +397,29 @@ const EventDialog: React.FC<EventDialogProps> = ({
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Additional Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Additional Information</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="notes" className="block text-sm font-medium mb-3">
-                  Notes
-                </Label>
-                <Textarea
-                  id="notes"
-                  value={formData.notes}
-                  onChange={(e) => handleInputChange('notes', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                  placeholder="Additional notes about this job..."
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="cep5FormId" className="block text-sm font-medium mb-3">
-                  CEP-5 Form ID (Optional)
-                </Label>
-                <Input
-                  id="cep5FormId"
-                  type="text"
-                  value={formData.cep5FormId}
-                  onChange={(e) => handleInputChange('cep5FormId', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
-                  placeholder="CEP5-2024-001"
-                />
+            <div className="px-8 pb-8">
+              <div className="flex space-x-4">
+                <Button 
+                  variant="outline" 
+                  onClick={handleClose}
+                  className="px-6"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleSave}
+                  className="px-6 bg-sky-500 hover:bg-sky-600 text-white"
+                >
+                  {event ? 'Update Job' : 'Create Job'}
+                </Button>
               </div>
             </div>
           </div>
         </div>
-
-        <DialogFooter className="px-8 pb-8">
-          <div className="flex space-x-4">
-            <Button 
-              variant="outline" 
-              onClick={handleClose}
-              className="px-6"
-            >
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleSave}
-              className="px-6 bg-sky-500 hover:bg-sky-600 text-white"
-            >
-              {event ? 'Update CEP-5 Job' : 'Create CEP-5 Job'}
-            </Button>
-          </div>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   )
 }
 
