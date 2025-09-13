@@ -520,296 +520,124 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
 
   return (
     <>
-      {/* Custom Calendar Styles */}
+      {/* Minimal CSS overrides for react-big-calendar */}
       <style dangerouslySetInnerHTML={{
         __html: `
-          .custom-calendar {
-            background: transparent !important;
-            border: none !important;
-            height: calc(100vh - 200px) !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            padding: 20px !important;
+          .seamless-calendar {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            height: calc(100vh - 200px);
+            padding: 20px;
           }
           
-          .custom-calendar .rbc-calendar {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
+          .seamless-calendar .rbc-calendar,
+          .seamless-calendar .rbc-time-view,
+          .seamless-calendar .rbc-time-content,
+          .seamless-calendar .rbc-time-header,
+          .seamless-calendar .rbc-time-header-content {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
           }
           
-          .custom-calendar .rbc-time-view {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
+          .seamless-calendar .rbc-header {
+            background: transparent;
+            border: none;
+            padding: 8px 4px;
+            font-weight: 400;
+            color: #9ca3af;
           }
           
-          .custom-calendar .rbc-time-content {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
+          .seamless-calendar .rbc-header.rbc-header-today {
+            background-color: #2563eb;
+            color: white;
+            font-weight: 400;
+            border-radius: 6px;
+            padding: 4px 12px;
+            margin: 2px;
           }
           
-          .custom-calendar .rbc-time-header {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
+          .seamless-calendar .rbc-time-gutter {
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            font-size: 12px;
+            padding: 2px 4px;
           }
           
-          .custom-calendar .rbc-time-header-content {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
+          .seamless-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot:first-child {
+            font-weight: 500;
           }
           
-          .custom-calendar .rbc-header {
-            background: transparent !important;
-            border: none !important;
-            padding: 8px 4px !important;
-            font-weight: 400 !important;
-            color: #9ca3af !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-header.rbc-header-today {
-            background-color: #2563eb !important;
-            color: white !important;
-            font-weight: 400 !important;
-            border-radius: 6px !important;
-            padding: 4px 12px !important;
-            margin: 2px !important;
-          }
-          
-          /* More specific selector to ensure it overrides */
-          .custom-calendar .rbc-time-header .rbc-header.rbc-header-today {
-            background-color: #2563eb !important;
-            color: white !important;
-            font-weight: 400 !important;
-            border-radius: 6px !important;
-            padding: 4px 12px !important;
-            margin: 2px !important;
-          }
-          
-          .custom-calendar .rbc-time-gutter {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-gutter .rbc-timeslot-group {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot {
-            background: transparent !important;
-            border: none !important;
-            color: #9ca3af !important;
-            font-size: 12px !important;
-            padding: 2px 4px !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot:first-child {
-            font-weight: 500 !important;
-          }
-          
-          .custom-calendar .rbc-day-slot {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-day-slot .rbc-timeslot-group {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-content .rbc-timeslot-group {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-content .rbc-timeslot-group .rbc-time-slot {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-view .rbc-header {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-view .rbc-header + .rbc-header {
-            border: none !important;
-            box-shadow: none !important;
-          }
-          
-          .custom-calendar .rbc-event {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            z-index: 5 !important;
-            position: relative !important;
-          }
-          
-          .custom-calendar .rbc-event-label {
-            display: none !important;
-          }
-          
-          .custom-calendar .rbc-current-time-indicator {
-            background-color: #000000 !important;
-            height: 2px !important;
-            z-index: 20 !important;
-          }
-          
-          .custom-calendar .rbc-event-content {
-            padding: 0 !important;
-            margin: 0 !important;
-          }
-          
-          .custom-calendar .rbc-event-content > div {
-            padding: 12px 12px 8px 12px !important;
-          }
-          
-          .custom-calendar .rbc-time-header-wrapper {
-            position: relative;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          
-          .custom-calendar .rbc-time-slot {
+          .seamless-calendar .rbc-event {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            z-index: 5;
             position: relative;
           }
           
-          .custom-calendar .rbc-time-view {
-            margin: 0 !important;
-            padding: 0 !important;
-            min-height: 100vh !important;
+          .seamless-calendar .rbc-event-label {
+            display: none;
           }
           
-          .custom-calendar .rbc-time-content {
-            min-height: 100vh !important;
-            position: relative;
+          .seamless-calendar .rbc-current-time-indicator {
+            background-color: #000000;
+            height: 2px;
+            z-index: 20;
           }
           
-          
-          
-          .custom-calendar .rbc-time-header {
-            margin: 0 !important;
-            padding: 0 !important;
+          .seamless-calendar .rbc-event-content {
+            padding: 0;
+            margin: 0;
           }
           
-          .custom-calendar .rbc-time-header-content {
-            margin: 0 !important;
-            padding: 0 !important;
+          .seamless-calendar .rbc-event-content > div {
+            padding: 12px 12px 8px 12px;
           }
           
-          .custom-calendar .rbc-time-header-divider {
+          .seamless-calendar .rbc-time-header::after {
+            content: '';
             position: absolute;
             bottom: 0;
-            left: calc(-50vw + 50%);
-            right: calc(-50vw + 50%);
+            left: calc(-50vw + 50% - 20px - 32px);
+            right: calc(-50vw + 50% - 20px - 32px);
             height: 1px;
             background-color: #e5e7eb;
             z-index: 10;
           }
           
-          /* Remove all borders and backgrounds from calendar cells */
-          .custom-calendar .rbc-time-view .rbc-time-gutter,
-          .custom-calendar .rbc-time-view .rbc-time-content,
-          .custom-calendar .rbc-time-view .rbc-time-header,
-          .custom-calendar .rbc-time-view .rbc-time-header-content,
-          .custom-calendar .rbc-time-view .rbc-day-slot,
-          .custom-calendar .rbc-time-view .rbc-timeslot-group {
-            border: none !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
+          .seamless-calendar .rbc-time-header {
+            position: relative;
           }
           
-          /* Remove any spacing between calendar elements */
-          .custom-calendar * {
-            margin: 0 !important;
-            padding: 0 !important;
+          .seamless-calendar .rbc-allday-events,
+          .seamless-calendar .rbc-allday-cell,
+          .seamless-calendar .rbc-allday-section {
+            display: none;
+            height: 0;
+            min-height: 0;
           }
           
-          .custom-calendar .rbc-header {
-            padding: 8px 4px !important;
+          /* Grid lines aligned with time slots */
+          .seamless-calendar .rbc-time-slot {
+            position: relative;
+            border-bottom: 1px solid #e5e7eb;
           }
           
-           .custom-calendar .rbc-time-gutter .rbc-timeslot-group .rbc-time-slot {
-             padding: 2px 4px !important;
-           }
-           
-           /* Remove all-day events section to eliminate empty space */
-           .custom-calendar .rbc-allday-events {
-             display: none !important;
-             height: 0 !important;
-             min-height: 0 !important;
-           }
-           
-           .custom-calendar .rbc-allday-cell {
-             display: none !important;
-             height: 0 !important;
-             min-height: 0 !important;
-           }
-           
-           .custom-calendar .rbc-allday-section {
-             display: none !important;
-             height: 0 !important;
-             min-height: 0 !important;
-           }
-           
-           .custom-calendar .rbc-time-header-wrapper {
-             position: relative;
-             background: transparent !important;
-             border: none !important;
-             box-shadow: none !important;
-             border-radius: 0 !important;
-           }
-           
-           .custom-calendar .rbc-time-header::after {
-             content: '';
-             position: absolute;
-             bottom: 0;
-             left: calc(-50vw + 50% - 20px - 32px);
-             right: calc(-50vw + 50% - 20px - 32px);
-             height: 1px;
-             background-color: #e5e7eb;
-             z-index: 10;
-           }
-           
-           .custom-calendar .rbc-time-header {
-             position: relative;
-           }
+          /* Hourly grid lines - darker */
+          .seamless-calendar .rbc-time-slot:nth-child(4n) {
+            border-bottom: 2px solid #d1d5db;
+          }
+          
+          /* 15-minute grid lines - lighter */
+          .seamless-calendar .rbc-time-slot:nth-child(2n):not(:nth-child(4n)) {
+            border-bottom: 1px solid #f3f4f6;
+          }
         `
       }} />
 
@@ -835,7 +663,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             const isToday = moment(date).isSame(moment(), 'day')
             return (
               <div className={`rbc-header ${isToday ? 'rbc-header-today' : ''}`}>
-                {localizer.format(date, 'MMM D', 'en')}
+                {moment(date).format('ddd D')}
               </div>
             )
           },
@@ -855,7 +683,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
         allDayMaxRows={0}
             popup
             popupOffset={30}
-        className="rbc-calendar custom-calendar"
+        className="rbc-calendar seamless-calendar"
       />
 
       {/* Event Dialog */}
@@ -864,7 +692,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
         onClose={handleCloseDialog}
         onSave={handleSaveEvent}
         selectedDate={selectedSlot?.start}
-        selectedTimeSlot={selectedSlot || undefined}
+        selectedTimeSlot={selectedSlot}
         event={selectedEvent}
       />
     </>

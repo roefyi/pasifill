@@ -1747,6 +1747,44 @@ const DashboardPage = () => {
               </CardContent>
             </Card>
           </div>
+          
+          {/* Form Actions */}
+          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                if (hasUnsavedChanges) {
+                  setShowLeaveConfirmDialog(true)
+                  setPendingNavigation(() => () => {
+                    setShowNewForm(false)
+                    setActiveTab(formSource)
+                    setHasUnsavedChanges(false)
+                    setShowLeaveConfirmDialog(false)
+                    setPendingNavigation(null)
+                  })
+                } else {
+                  handleBackToSource()
+                }
+              }}
+              className="h-12 px-6 text-base font-medium border-gray-300 hover:bg-gray-50 hover:border-gray-400"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                // Here you would implement the actual form submission logic
+                console.log("Submitting CEP-5 form...")
+                setHasUnsavedChanges(false)
+                handleBackToSource()
+              }}
+              className="h-12 px-6 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
+            >
+              <Save className="w-4 h-4 mr-2" />
+              Submit CEP-5 Form
+            </Button>
+          </div>
         </div>
       )
     } else if (activeTab === 'dashboard') {
@@ -2014,46 +2052,9 @@ const DashboardPage = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="text-lg font-semibold">Add New Customer</h2>
-                <p className="text-gray-600">Create a new customer profile for your business</p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Button 
-                  onClick={() => {
-                    if (hasUnsavedChanges) {
-                      setShowLeaveConfirmDialog(true)
-                      setPendingNavigation(() => () => {
-                        setShowAddCustomer(false)
-                        setActiveTab(formSource)
-                        setHasUnsavedChanges(false)
-                        setShowLeaveConfirmDialog(false)
-                        setPendingNavigation(null)
-                      })
-                    } else {
-                      handleBackToSource()
-                    }
-                  }}
-                  variant="slate"
-                  size="sm"
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  onClick={() => {
-                    // Here you would implement the actual create customer logic
-                    console.log("Creating customer...")
-                    setHasUnsavedChanges(false)
-                    handleBackToSource()
-                  }}
-                  size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Customer
-                </Button>
-              </div>
+            <div>
+              <h2 className="text-lg font-semibold">Add New Customer</h2>
+              <p className="text-gray-600">Create a new customer profile for your business</p>
             </div>
           </div>
           
@@ -2328,6 +2329,43 @@ const DashboardPage = () => {
               </CardContent>
             </Card>
           </div>
+          
+          {/* Action Buttons */}
+          <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+            <Button 
+              onClick={() => {
+                if (hasUnsavedChanges) {
+                  setShowLeaveConfirmDialog(true)
+                  setPendingNavigation(() => () => {
+                    setShowAddCustomer(false)
+                    setActiveTab(formSource)
+                    setHasUnsavedChanges(false)
+                    setShowLeaveConfirmDialog(false)
+                    setPendingNavigation(null)
+                  })
+                } else {
+                  handleBackToSource()
+                }
+              }}
+              variant="slate"
+              size="sm"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => {
+                // Here you would implement the actual create customer logic
+                console.log("Creating customer...")
+                setHasUnsavedChanges(false)
+                handleBackToSource()
+              }}
+              size="sm"
+              className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create Customer
+            </Button>
+          </div>
         </div>
       )
     }
@@ -2368,8 +2406,8 @@ const DashboardPage = () => {
             </Button>
             <Button 
               onClick={handleAddCustomer}
-              variant="slate"
               size="sm"
+              className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
             >
               <Users className="w-4 h-4 mr-2" />
               New Customer
@@ -2885,8 +2923,8 @@ const DashboardPage = () => {
                 </Button>
                 <Button 
                   onClick={handleAddCustomer}
-                  variant="slate"
                   size="sm"
+                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Customer
@@ -4225,7 +4263,11 @@ const DashboardPage = () => {
 
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto">
-          {activeTab === 'schedule' ? (
+          {showAddCustomer ? (
+            <div className="px-8 py-8">
+              {renderContent()}
+            </div>
+          ) : activeTab === 'schedule' ? (
             <div className="h-full">
               {renderContent()}
             </div>
