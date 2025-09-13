@@ -600,6 +600,12 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             padding: 12px 12px 8px 12px;
           }
           
+          /* Remove padding outside event containers */
+          .seamless-calendar .rbc-event {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
           .seamless-calendar .rbc-time-header::after {
             content: '';
             position: absolute;
@@ -623,21 +629,44 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
             min-height: 0;
           }
           
-          /* Grid lines aligned with time slots */
+          /* Remove grid lines from time slots */
           .seamless-calendar .rbc-time-slot {
             position: relative;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: none;
           }
           
-          /* Hourly grid lines - darker */
-          .seamless-calendar .rbc-time-slot:nth-child(4n) {
-            border-bottom: 2px solid #d1d5db;
+          /* Remove event selection highlight and hover animations */
+          .seamless-calendar .rbc-event:focus,
+          .seamless-calendar .rbc-event:active,
+          .seamless-calendar .rbc-event.rbc-selected,
+          .seamless-calendar .rbc-event:hover {
+            outline: none !important;
+            box-shadow: none !important;
+            background: inherit !important;
+            border: inherit !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
           }
           
-          /* 15-minute grid lines - lighter */
-          .seamless-calendar .rbc-time-slot:nth-child(2n):not(:nth-child(4n)) {
-            border-bottom: 1px solid #f3f4f6;
+          .seamless-calendar .rbc-event:focus > div,
+          .seamless-calendar .rbc-event:active > div,
+          .seamless-calendar .rbc-event.rbc-selected > div,
+          .seamless-calendar .rbc-event:hover > div {
+            background: inherit !important;
+            border: inherit !important;
+            color: inherit !important;
+            transition: none !important;
+            animation: none !important;
           }
+          
+          /* Disable all transitions and animations on events */
+          .seamless-calendar .rbc-event,
+          .seamless-calendar .rbc-event * {
+            transition: none !important;
+            animation: none !important;
+          }
+          
         `
       }} />
 
