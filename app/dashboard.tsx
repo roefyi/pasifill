@@ -685,12 +685,26 @@ const DashboardPage = () => {
     setHasUnsavedChanges(true)
   }
 
+  // Reset unsaved changes when not on form pages
+  useEffect(() => {
+    if (!showNewForm && !showAddCustomer) {
+      setHasUnsavedChanges(false)
+    }
+  }, [showNewForm, showAddCustomer])
+
   const handleTabChange = (newTab: string) => {
+    // Only block navigation if we're currently on a form page with unsaved changes
     if (hasUnsavedChanges && (showNewForm || showAddCustomer)) {
       setPendingTabChange(newTab)
       setShowNavigationConfirmDialog(true)
     } else {
       setActiveTab(newTab)
+      // Reset form states when navigating away from forms
+      if (showNewForm || showAddCustomer) {
+        setShowNewForm(false)
+        setShowAddCustomer(false)
+        setHasUnsavedChanges(false)
+      }
     }
   }
 
@@ -2889,9 +2903,7 @@ const DashboardPage = () => {
         )
       case 'customers':
         return (
-          <div className="space-y-6">
-
-
+          <div className="space-y-6 h-full flex flex-col">
             {/* Search and Filter Controls */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -2945,92 +2957,92 @@ const DashboardPage = () => {
               </div>
             )}
 
-            <Card className="bg-white border-gray-200">
-              <CardContent className="p-0">
+            <Card className="bg-white border-gray-200 flex-1">
+              <CardContent className="p-0 flex flex-col h-full">
                 {/* Column Headers */}
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-                  <div className="flex items-center space-x-6">
+                <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex-shrink-0">
+                  <div className="grid grid-cols-7 gap-4 w-full">
                     <div 
-                      className="min-w-[180px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('name')}
                     >
                       <span>Customer Name</span>
                       {getSortIcon('name')}
                     </div>
                     <div 
-                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('contact')}
                     >
                       <span>Contact</span>
                       {getSortIcon('contact')}
                     </div>
                     <div 
-                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('properties')}
                     >
-                      <span>Property</span>
+                      <span>Properties</span>
                       {getSortIcon('properties')}
                     </div>
                     <div 
-                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('forms')}
                     >
                       <span>Forms</span>
                       {getSortIcon('forms')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('county')}
                     >
                       <span>County</span>
                       {getSortIcon('county')}
                     </div>
                     <div 
-                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('status')}
                     >
                       <span>Status</span>
                       {getSortIcon('status')}
                     </div>
-                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
+                    <div className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 p-2">Actions</div>
                   </div>
                 </div>
                 
-                <Accordion type="single" collapsible className="w-full">
-                  {(sortField && sortDirection ? sortData(mockData.customers, sortField, sortDirection) : mockData.customers).map((customer) => (
-                    <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
-                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                        <div className="flex items-center w-full">
-                          {/* Customer Info Section - Column Layout */}
-                          <div className="flex items-center space-x-6">
-                            {/* Customer Name and ID */}
-                            <div className="min-w-[180px] text-left flex flex-col justify-center">
+                {/* Table Rows - Scrollable with Accordion */}
+                <div className="flex-1 overflow-y-auto">
+                  <Accordion type="single" collapsible className="w-full">
+                    {(sortField && sortDirection ? sortData(mockData.customers, sortField, sortDirection) : mockData.customers).map((customer) => (
+                      <AccordionItem key={customer.id} value={customer.id} className="border-b border-gray-200">
+                        <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                          <div className="grid grid-cols-7 gap-4 w-full items-center">
+                            {/* Customer Name */}
+                            <div className="text-left">
                               <div className="text-sm font-medium text-gray-900">{customer.name}</div>
-                              <div className="text-sm text-gray-600">{customer.id}</div>
+                              <div className="text-xs text-gray-600">{customer.id}</div>
                             </div>
                             
-                            {/* Contact Person */}
-                            <div className="min-w-[140px] text-left flex items-center justify-start">
+                            {/* Contact */}
+                            <div className="text-left">
                               <span className="text-sm font-medium text-gray-900">{customer.contact}</span>
                             </div>
                             
-                            {/* Property Count */}
-                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                            {/* Properties */}
+                            <div className="text-left">
                               <span className="text-sm font-medium text-gray-900">{customer.properties}</span>
                             </div>
                             
-                            {/* Forms Count */}
-                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                            {/* Forms */}
+                            <div className="text-left">
                               <span className="text-sm font-medium text-gray-900">{customer.forms}</span>
                             </div>
                             
                             {/* County */}
-                            <div className="min-w-[100px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <span className="text-sm font-medium text-gray-900">{customer.county}</span>
                             </div>
                             
                             {/* Status */}
-                            <div className="min-w-[120px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <Badge 
                                 variant="outline" 
                                 className={`${getCustomerStatusColor(customer.status)} border text-xs`}
@@ -3043,93 +3055,93 @@ const DashboardPage = () => {
                             </div>
                             
                             {/* Actions */}
-                            <div className="min-w-[80px] text-left flex items-center justify-start space-x-1">
-                              <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <div className="text-left flex items-center space-x-2">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
                                 <Mail className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
                                 <FileText className="h-4 w-4" />
                               </Button>
                             </div>
                           </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="px-6 pb-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          {/* Contact Information */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Mail className="h-4 w-4 mr-2 text-gray-500" />
-                              Contact Information
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Email:</span>
-                                <span className="text-gray-900 truncate ml-2 max-w-[200px]">{customer.email}</span>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-6 pb-6">
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {/* Contact Information */}
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                                <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                                Contact Information
+                              </h4>
+                              <div className="space-y-3 text-sm">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Email:</span>
+                                  <span className="text-gray-900 truncate ml-2 max-w-[200px]">{customer.email}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Phone:</span>
+                                  <span className="text-gray-900">{customer.phone}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Contact:</span>
+                                  <span className="text-gray-900">{customer.contact}</span>
+                                </div>
                               </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Phone:</span>
-                                <span className="text-gray-900">{customer.phone}</span>
+                            </div>
+                            
+                            {/* Business Details */}
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                                <Building2 className="h-4 w-4 mr-2 text-gray-500" />
+                                Business Details
+                              </h4>
+                              <div className="space-y-3 text-sm">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">County:</span>
+                                  <span className="text-gray-900">{customer.county}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Properties:</span>
+                                  <span className="text-gray-900 font-medium">{customer.properties}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Total Forms:</span>
+                                  <span className="text-gray-900 font-medium">{customer.forms}</span>
+                                </div>
                               </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Contact:</span>
-                                <span className="text-gray-900">{customer.contact}</span>
+                            </div>
+                            
+                            {/* Activity & Status */}
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                                <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                                Activity & Status
+                              </h4>
+                              <div className="space-y-3 text-sm">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Last Contact:</span>
+                                  <span className="text-gray-900">{customer.lastContact}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="font-medium text-gray-600">Status:</span>
+                                  <Badge 
+                                    variant="outline" 
+                                    className={`${getCustomerStatusColor(customer.status)} border`}
+                                  >
+                                    <span className="flex items-center space-x-1">
+                                      {getCustomerStatusIcon(customer.status)}
+                                      <span className="capitalize">{customer.status}</span>
+                                    </span>
+                                  </Badge>
+                                </div>
                               </div>
                             </div>
                           </div>
-                          
-                          {/* Business Details */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Building2 className="h-4 w-4 mr-2 text-gray-500" />
-                              Business Details
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">County:</span>
-                                <span className="text-gray-900">{customer.county}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Properties:</span>
-                                <span className="text-gray-900 font-medium">{customer.properties}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Total Forms:</span>
-                                <span className="text-gray-900 font-medium">{customer.forms}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Activity & Status */}
-                          <div className="bg-gray-50 rounded-lg p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
-                              <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                              Activity & Status
-                            </h4>
-                            <div className="space-y-3 text-sm">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Last Contact:</span>
-                                <span className="text-gray-900">{customer.lastContact}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-gray-600">Status:</span>
-                                <Badge 
-                                  variant="outline" 
-                                  className={`${getCustomerStatusColor(customer.status)} border`}
-                                >
-                                  <span className="flex items-center space-x-1">
-                                    {getCustomerStatusIcon(customer.status)}
-                                    <span className="capitalize">{customer.status}</span>
-                                  </span>
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -3172,7 +3184,6 @@ const DashboardPage = () => {
                   <Search 
                     className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
                     onClick={handleSearchToggle}
-                    title="Search jobs"
                   />
                   <Button 
                     variant="outline"
@@ -3328,9 +3339,7 @@ const DashboardPage = () => {
         )
       case 'properties':
         return (
-          <div className="space-y-6">
-
-
+          <div className="space-y-6 h-full flex flex-col">
             {/* Search and Filter Controls */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -3384,90 +3393,90 @@ const DashboardPage = () => {
               </div>
             )}
 
-            <Card className="bg-white border-gray-200">
-              <CardContent className="p-0">
+            <Card className="bg-white border-gray-200 flex-1">
+              <CardContent className="p-0 flex flex-col h-full">
                 {/* Column Headers */}
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-                  <div className="flex items-center space-x-6">
+                <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex-shrink-0">
+                  <div className="grid grid-cols-7 gap-4 w-full">
                     <div 
-                      className="w-[200px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('address')}
                     >
                       <span>Property Address</span>
                       {getSortIcon('address')}
                     </div>
                     <div 
-                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('customer')}
                     >
                       <span>Customer</span>
                       {getSortIcon('customer')}
                     </div>
                     <div 
-                      className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('county')}
                     >
                       <span>County</span>
                       {getSortIcon('county')}
                     </div>
                     <div 
-                      className="w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('systemType')}
                     >
                       <span>System</span>
                       {getSortIcon('systemType')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('status')}
                     >
                       <span>Status</span>
                       {getSortIcon('status')}
                     </div>
                     <div 
-                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('lastInspection')}
                     >
                       <span>Last Inspection</span>
                       {getSortIcon('lastInspection')}
                     </div>
-                    <div className="min-w-[80px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
+                    <div className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 p-2">Actions</div>
                   </div>
                 </div>
                 
-                <Accordion type="single" collapsible className="w-full">
-                  {(sortField && sortDirection ? sortData(mockData.properties, sortField, sortDirection) : mockData.properties).map((property) => (
-                    <AccordionItem key={property.id} value={property.id} className="border-b border-gray-200">
-                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                        <div className="flex items-center w-full">
-                          {/* Property Info Section - Column Layout */}
-                          <div className="flex items-center space-x-6">
+                {/* Table Rows - Scrollable with Accordion */}
+                <div className="flex-1 overflow-y-auto">
+                  <Accordion type="single" collapsible className="w-full">
+                    {(sortField && sortDirection ? sortData(mockData.properties, sortField, sortDirection) : mockData.properties).map((property) => (
+                      <AccordionItem key={property.id} value={property.id} className="border-b border-gray-200">
+                        <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                          <div className="grid grid-cols-7 gap-4 w-full items-center">
                             {/* Property Address */}
-                            <div className="w-[200px] text-left flex flex-col justify-center">
+                            <div className="text-left">
                               <div className="text-sm font-medium text-gray-900 break-words">{property.address}</div>
-                              <div className="text-sm text-gray-600">{property.id}</div>
+                              <div className="text-xs text-gray-600">{property.id}</div>
                             </div>
                             
                             {/* Customer */}
-                            <div className="min-w-[140px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <span className="text-sm font-medium text-gray-900">{property.customer}</span>
                             </div>
                             
                             {/* County */}
-                            <div className="min-w-[80px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <span className="text-sm text-gray-600">{property.county}</span>
                             </div>
                             
                             {/* System Type */}
-                            <div className="w-[100px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <span className="text-sm text-gray-600 break-words">{property.systemType}</span>
                             </div>
                             
                             {/* Status */}
-                            <div className="min-w-[100px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <Badge 
                                 variant="outline" 
-                                className={`${getStatusColor(property.status)} border`}
+                                className={`${getStatusColor(property.status)} border text-xs`}
                               >
                                 <span className="flex items-center space-x-1">
                                   {getStatusIcon(property.status)}
@@ -3477,12 +3486,12 @@ const DashboardPage = () => {
                             </div>
                             
                             {/* Last Inspection */}
-                            <div className="min-w-[120px] text-left flex items-center justify-start">
+                            <div className="text-left">
                               <span className="text-sm text-gray-600">{property.lastInspection}</span>
                             </div>
                             
                             {/* Actions */}
-                            <div className="min-w-[80px] text-left flex items-center justify-start space-x-1">
+                            <div className="text-left flex items-center space-x-2">
                               <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
                                 <MapPin className="h-4 w-4" />
                               </Button>
@@ -3491,8 +3500,7 @@ const DashboardPage = () => {
                               </Button>
                             </div>
                           </div>
-                        </div>
-                      </AccordionTrigger>
+                        </AccordionTrigger>
                       <AccordionContent className="px-6 pb-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                           {/* Property Details */}
@@ -3583,6 +3591,7 @@ const DashboardPage = () => {
                     </AccordionItem>
                   ))}
                 </Accordion>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -4219,6 +4228,7 @@ const DashboardPage = () => {
               >
                 <Menu className="h-4 w-4" />
               </Button>
+              
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 capitalize">
                   {activeTab === 'dashboard' ? 'Dashboard' : 

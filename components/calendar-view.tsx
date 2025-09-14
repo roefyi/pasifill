@@ -32,7 +32,7 @@ interface JobEvent {
     county: string
   }
   jobType?: 'inspection' | 'installation' | 'maintenance' | 'repair' | 'pumping'
-  status?: 'scheduled' | 'completed' | 'cancelled'
+  status?: 'scheduled' | 'in-progress' | 'completed' | 'cancelled'
   priority?: 'low' | 'medium' | 'high' | 'urgent'
   notes?: string
   cep5FormId?: string
@@ -696,7 +696,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
               </div>
             )
           },
-          timeGutterWrapper: ({ children }) => {
+          timeGutterWrapper: ({ children }: any) => {
             return (
               <div className="rbc-time-gutter">
                 {children}
@@ -721,7 +721,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
         onClose={handleCloseDialog}
         onSave={handleSaveEvent}
         selectedDate={selectedSlot?.start}
-        selectedTimeSlot={selectedSlot}
+        selectedTimeSlot={selectedSlot || undefined}
         event={selectedEvent}
       />
     </>
