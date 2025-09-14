@@ -4201,6 +4201,52 @@ const DashboardPage = () => {
           </button>
         </div>
 
+        {/* CEP-5 Forms Table - Only show when sidebar is expanded */}
+        {!isSidebarCollapsed && (
+          <div className="px-6 pb-6">
+            <div className="border-t border-gray-200 pt-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-gray-900">Recent CEP-5 Forms</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleTabChange('cep5')}
+                  className="h-6 px-2 text-xs text-sky-600 hover:text-sky-700 hover:bg-sky-50"
+                >
+                  View All
+                </Button>
+              </div>
+              
+              {/* Compact Forms List */}
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {mockData.cep5Forms.slice(0, 5).map((form) => (
+                  <div
+                    key={form.id}
+                    onClick={() => handleTabChange('cep5')}
+                    className="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-medium text-gray-900">{form.id}</span>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${getStatusColor(form.status)} border`}
+                      >
+                        {form.status}
+                      </Badge>
+                    </div>
+                    <div className="text-xs text-gray-600 mb-1 truncate">{form.customer}</div>
+                    <div className="text-xs text-gray-500 truncate">{form.property}</div>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-gray-500">{form.county}</span>
+                      <span className="text-xs text-gray-500">{form.date}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         
       </nav>
 
