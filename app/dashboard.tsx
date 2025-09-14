@@ -2704,9 +2704,7 @@ const DashboardPage = () => {
         )
       case 'cep5':
         return (
-          <div className="space-y-6">
-
-
+          <div className="space-y-6 h-full flex flex-col">
             {/* Search and Filter Controls */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -2763,97 +2761,97 @@ const DashboardPage = () => {
                 </div>
               </div>
             )}
-            <Card className="bg-white border-gray-200">
-              <CardContent className="p-0">
+            <Card className="bg-white border-gray-200 flex-1">
+              <CardContent className="p-0 flex flex-col h-full">
                 {/* Column Headers */}
-                <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-                  <div className="flex items-center space-x-6">
+                <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex-shrink-0">
+                  <div className="grid grid-cols-8 gap-4 w-full">
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('id')}
                     >
                       <span>Form ID</span>
                       {getSortIcon('id')}
                     </div>
                     <div 
-                      className="min-w-[140px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('customer')}
                     >
                       <span>Customer</span>
                       {getSortIcon('customer')}
                     </div>
                     <div 
-                      className="min-w-[200px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('property')}
                     >
                       <span>Property</span>
                       {getSortIcon('property')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('county')}
                     >
                       <span>County</span>
                       {getSortIcon('county')}
                     </div>
                     <div 
-                      className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('type')}
                     >
                       <span>Type</span>
                       {getSortIcon('type')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('status')}
                     >
                       <span>Status</span>
                       {getSortIcon('status')}
                     </div>
                     <div 
-                      className="min-w-[100px] text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1"
+                      className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('date')}
                     >
                       <span>Date</span>
                       {getSortIcon('date')}
                     </div>
-                    <div className="min-w-[120px] text-sm font-medium uppercase tracking-wider text-left text-gray-700">Actions</div>
+                    <div className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 p-2">Actions</div>
                   </div>
                 </div>
                 
-                {/* Table Rows */}
-                <div className="divide-y divide-gray-200">
-                  {(sortField && sortDirection ? sortData(mockData.cep5Forms, sortField, sortDirection) : mockData.cep5Forms).map((form) => (
-                    <div key={form.id} className="px-6 py-4 hover:bg-gray-50">
-                      <div className="flex items-center w-full">
-                        <div className="flex items-center space-x-6">
+                {/* Table Rows - Scrollable */}
+                <div className="flex-1 overflow-y-auto">
+                  <div className="divide-y divide-gray-200">
+                    {(sortField && sortDirection ? sortData(mockData.cep5Forms, sortField, sortDirection) : mockData.cep5Forms).map((form) => (
+                      <div key={form.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
+                        <div className="grid grid-cols-8 gap-4 w-full items-center">
                           {/* Form ID */}
-                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <span className="text-sm font-medium text-gray-900">{form.id}</span>
                           </div>
                           
                           {/* Customer */}
-                          <div className="min-w-[140px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <span className="text-sm font-medium text-gray-900">{form.customer}</span>
                           </div>
                           
                           {/* Property */}
-                          <div className="min-w-[200px] text-left flex items-center justify-start">
-                            <span className="text-sm text-gray-600 truncate">{form.property}</span>
+                          <div className="text-left">
+                            <span className="text-sm text-gray-600 truncate block">{form.property}</span>
                           </div>
                           
                           {/* County */}
-                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <span className="text-sm text-gray-600">{form.county}</span>
                           </div>
                           
                           {/* Type */}
-                          <div className="min-w-[120px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <span className="text-sm text-gray-600">{form.type}</span>
                           </div>
                           
                           {/* Status */}
-                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <Badge 
                               variant="outline" 
                               className={`${getStatusColor(form.status)} border`}
@@ -2866,12 +2864,12 @@ const DashboardPage = () => {
                           </div>
                           
                           {/* Date */}
-                          <div className="min-w-[100px] text-left flex items-center justify-start">
+                          <div className="text-left">
                             <span className="text-sm text-gray-600">{form.date}</span>
                           </div>
                           
                           {/* Actions */}
-                          <div className="min-w-[120px] text-left flex items-center justify-start space-x-2">
+                          <div className="text-left flex items-center space-x-2">
                             <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
                               <Download className="h-4 w-4" />
                             </Button>
@@ -2881,11 +2879,12 @@ const DashboardPage = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
+
           </div>
         )
       case 'customers':
@@ -4200,52 +4199,6 @@ const DashboardPage = () => {
             {!isSidebarCollapsed && <span className="text-sm">Settings</span>}
           </button>
         </div>
-
-        {/* CEP-5 Forms Table - Only show when sidebar is expanded */}
-        {!isSidebarCollapsed && (
-          <div className="px-6 pb-6">
-            <div className="border-t border-gray-200 pt-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-900">Recent CEP-5 Forms</h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleTabChange('cep5')}
-                  className="h-6 px-2 text-xs text-sky-600 hover:text-sky-700 hover:bg-sky-50"
-                >
-                  View All
-                </Button>
-              </div>
-              
-              {/* Compact Forms List */}
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {mockData.cep5Forms.slice(0, 5).map((form) => (
-                  <div
-                    key={form.id}
-                    onClick={() => handleTabChange('cep5')}
-                    className="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-gray-900">{form.id}</span>
-                      <Badge 
-                        variant="outline" 
-                        className={`text-xs ${getStatusColor(form.status)} border`}
-                      >
-                        {form.status}
-                      </Badge>
-                    </div>
-                    <div className="text-xs text-gray-600 mb-1 truncate">{form.customer}</div>
-                    <div className="text-xs text-gray-500 truncate">{form.property}</div>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs text-gray-500">{form.county}</span>
-                      <span className="text-xs text-gray-500">{form.date}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         
       </nav>
