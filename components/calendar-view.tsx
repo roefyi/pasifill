@@ -412,7 +412,7 @@ const sampleJobs: JobEvent[] = [
 const EventComponent = ({ event }: { event: JobEvent }) => {
   const getJobTypeColor = (jobType: string) => {
     switch (jobType) {
-      case 'inspection': return 'bg-sky-50 text-sky-700 border-sky-200'
+      case 'inspection': return 'bg-blue-50 text-blue-700 border-blue-200'
       case 'installation': return 'bg-emerald-50 text-emerald-700 border-emerald-200'
       case 'maintenance': return 'bg-amber-50 text-amber-700 border-amber-200'
       case 'repair': return 'bg-red-50 text-red-700 border-red-200'
@@ -497,7 +497,7 @@ const CalendarView = ({ currentDate, onDateChange }: CalendarViewProps) => {
   const eventStyleGetter = (event: JobEvent) => {
     const getJobTypeColor = (jobType: string) => {
       switch (jobType) {
-        case 'inspection': return 'bg-sky-50 text-sky-700 border-sky-200'
+        case 'inspection': return 'bg-blue-50 text-blue-700 border-blue-200'
         case 'installation': return 'bg-emerald-50 text-emerald-700 border-emerald-200'
         case 'maintenance': return 'bg-amber-50 text-amber-700 border-amber-200'
         case 'repair': return 'bg-red-50 text-red-700 border-red-200'

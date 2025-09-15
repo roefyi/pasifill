@@ -153,7 +153,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Button 
             onClick={form.handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="h-12 px-6 text-base font-medium bg-sky-500 hover:bg-sky-600 shadow-sm"
+            className="h-12 px-6 text-base font-medium bg-blue-500 hover:bg-blue-600 shadow-sm"
           >
             <Save className="w-4 h-4 mr-2" />
             {isSubmitting ? "Saving..." : "Save Form"}
@@ -192,7 +192,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <FileText className="w-6 h-6 text-sky-600" />
+                <FileText className="w-6 h-6 text-blue-600" />
                 Basic Information
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">LHD permit and owner details</CardDescription>
@@ -209,7 +209,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="Enter permit number" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -248,7 +248,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="Full name" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -266,7 +266,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="Street address" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -286,7 +286,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="City, State, ZIP" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -304,7 +304,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="Subdivision name" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -323,7 +323,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                           <Input 
                             placeholder="Lot #" 
                             {...field} 
-                            className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                            className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                           />
                         </FormControl>
                         <FormMessage />
@@ -341,7 +341,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                           <Input 
                             placeholder="Block #" 
                             {...field} 
-                            className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                            className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                           />
                         </FormControl>
                         <FormMessage />
@@ -357,7 +357,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <MapPin className="w-6 h-6 text-sky-600" />
+                <MapPin className="w-6 h-6 text-blue-600" />
                 Property Details
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Location and environmental characteristics</CardDescription>
@@ -372,7 +372,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                       <FormLabel className="text-sm font-semibold text-gray-700">County *</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500">
+                          <SelectTrigger className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                             <SelectValue placeholder="Select county" />
                           </SelectTrigger>
                         </FormControl>
@@ -397,7 +397,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                       <FormLabel className="text-sm font-semibold text-gray-700">Soil Type *</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500">
+                          <SelectTrigger className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                             <SelectValue placeholder="Select soil type" />
                           </SelectTrigger>
                         </FormControl>
@@ -426,7 +426,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="e.g., 6 feet" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -444,7 +444,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="e.g., 5%" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -459,7 +459,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <Building2 className="w-6 h-6 text-sky-600" />
+                <Building2 className="w-6 h-6 text-blue-600" />
                 System Information
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Septic system specifications</CardDescription>
@@ -513,7 +513,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="e.g., 1000 gallons" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -531,7 +531,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="e.g., 300 sq ft" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -546,7 +546,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <User className="w-6 h-6 text-sky-600" />
+                <User className="w-6 h-6 text-blue-600" />
                 Inspection Details
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Inspector information and certification</CardDescription>
@@ -582,7 +582,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="Full name" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -600,7 +600,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="License number" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -615,7 +615,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <TreePine className="w-6 h-6 text-sky-600" />
+                <TreePine className="w-6 h-6 text-blue-600" />
                 Soil Profile
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Soil characteristics and restrictive layers</CardDescription>
@@ -632,7 +632,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                         <Input 
                           placeholder="e.g., 24 inches" 
                           {...field} 
-                          className="h-12 text-base border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                          className="h-12 text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         />
                       </FormControl>
                       <FormMessage />
@@ -670,7 +670,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <Droplets className="w-6 h-6 text-sky-600" />
+                <Droplets className="w-6 h-6 text-blue-600" />
                 Environmental Factors
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Flood zones and wetland considerations</CardDescription>
@@ -730,7 +730,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <FileText className="w-6 h-6 text-sky-600" />
+                <FileText className="w-6 h-6 text-blue-600" />
                 Additional Notes
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Additional observations and recommendations</CardDescription>
@@ -745,7 +745,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                     <FormControl>
                       <Textarea
                         placeholder="Enter any additional observations, special conditions, or notes..."
-                        className="min-h-[100px] border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                        className="min-h-[100px] border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         {...field}
                       />
                     </FormControl>
@@ -760,7 +760,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
           <Card className="border-2 border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-200">
               <CardTitle className="flex items-center gap-3 text-xl text-gray-900">
-                <Thermometer className="w-6 h-6 text-sky-600" />
+                <Thermometer className="w-6 h-6 text-blue-600" />
                 Compliance Assessment
               </CardTitle>
               <CardDescription className="text-gray-600 text-base">Final evaluation and recommendations</CardDescription>
@@ -798,7 +798,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
                     <FormControl>
                       <Textarea
                         placeholder="Enter any recommendations for system improvements or maintenance..."
-                        className="min-h-[100px] border-gray-300 focus:border-sky-500 focus:ring-sky-500"
+                        className="min-h-[100px] border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         {...field}
                       />
                     </FormControl>
@@ -822,7 +822,7 @@ export function CEP5Form({ onSave, onPrint, initialData }: CEP5FormProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="h-12 px-6 text-base font-medium bg-sky-500 hover:bg-sky-600 shadow-sm"
+              className="h-12 px-6 text-base font-medium bg-blue-500 hover:bg-blue-600 shadow-sm"
             >
               <Save className="w-4 h-4 mr-2" />
               {isSubmitting ? "Saving..." : "Save CEP-5 Form"}

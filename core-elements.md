@@ -262,11 +262,11 @@ Loading
 ```
 Select (Standardized Picker Component)
 - Consistent height: h-12 (48px) for all pickers
-- Standardized styling: px-4 padding, focus:ring-2 focus:ring-sky-500
+- Standardized styling: px-4 padding, focus:ring-2 focus:ring-blue-500
 - Hover effects: hover:bg-gray-50 transition-colors
 - Background: bg-white text-gray-900
 - Shadow: shadow-lg for dropdown content
-- Interactive states: hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700
+- Interactive states: hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700
 
 Usage Examples:
 - Primary Service County (Jefferson, Shelby, Tuscaloosa, Madison, Baldwin)
@@ -276,11 +276,11 @@ Usage Examples:
 
 Standard Select Structure:
 <Select onValueChange={handleChange}>
-  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
     <SelectValue placeholder="Select option" />
   </SelectTrigger>
   <SelectContent className="bg-white border-gray-200 shadow-lg">
-    <SelectItem value="option" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+    <SelectItem value="option" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
       Option Label
     </SelectItem>
   </SelectContent>
@@ -328,7 +328,7 @@ Standard Button Usage:
 ```
 Standardized Input Styling
 - Consistent dimensions: px-4 py-3 (16px × 12px)
-- Focus states: focus:ring-2 focus:ring-sky-500 focus:border-transparent
+- Focus states: focus:ring-2 focus:ring-blue-500 focus:border-transparent
 - Background: bg-white text-gray-900
 - Border: border-gray-300 rounded-lg
 - Labels: block text-sm font-medium mb-3 (24px margin)
@@ -336,7 +336,7 @@ Standardized Input Styling
 Input Structure:
 <input 
   type="text" 
-  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
   placeholder="Enter text"
   onChange={handleChange}
 />

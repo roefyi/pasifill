@@ -1087,7 +1087,7 @@ const DashboardPage = () => {
                 </Button>
                 <Button 
                   size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   <Printer className="w-4 h-4 mr-2" />
                   Print Form
@@ -1111,7 +1111,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">LHD Permit #</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter permit number"
                         onChange={handleFormInputChange}
                       />
@@ -1130,7 +1130,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Owner/Applicant's Name</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Full name"
                         onChange={handleFormInputChange}
                       />
@@ -1139,7 +1139,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Property (911) Address</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Street address"
                         onChange={handleFormInputChange}
                       />
@@ -1151,7 +1151,7 @@ const DashboardPage = () => {
                     <label className="block text-sm font-medium mb-3">City, State, Zip</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="City, State, Zip"
                       onChange={handleFormInputChange}
                     />
@@ -1160,7 +1160,7 @@ const DashboardPage = () => {
                     <label className="block text-sm font-medium mb-3">Subdivision Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Subdivision name"
                       onChange={handleFormInputChange}
                     />
@@ -1170,7 +1170,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Lot</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Lot #"
                         onChange={handleFormInputChange}
                       />
@@ -1179,7 +1179,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Block</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Block #"
                         onChange={handleFormInputChange}
                       />
@@ -1209,14 +1209,14 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Installation Type</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select installation type" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="new" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="new" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             New
                           </SelectItem>
-                          <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Repair
                           </SelectItem>
                         </SelectContent>
@@ -1226,7 +1226,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Septic Tank Size (Gallons)</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="e.g., 1000, 1500"
                         onChange={handleFormInputChange}
                       />
@@ -1235,7 +1235,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Manufacturer's #</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Manufacturer serial number"
                         onChange={handleFormInputChange}
                       />
@@ -1245,14 +1245,14 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Septic Tank Filter (NSF 46)</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select filter status" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="yes" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="yes" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Yes
                           </SelectItem>
-                          <SelectItem value="no" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="no" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             No/Not Required
                           </SelectItem>
                         </SelectContent>
@@ -1265,7 +1265,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Make</label>
                           <input 
                             type="text" 
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Manufacturer"
                             onChange={handleFormInputChange}
                           />
@@ -1274,7 +1274,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Model</label>
                           <input 
                             type="text" 
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Model number"
                             onChange={handleFormInputChange}
                           />
@@ -1284,20 +1284,20 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Type of Distribution System</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select distribution system type" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="level-header" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="level-header" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Level Header
                           </SelectItem>
-                          <SelectItem value="serial-distribution" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="serial-distribution" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Serial Distribution
                           </SelectItem>
-                          <SelectItem value="distribution-box" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="distribution-box" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Distribution Box
                           </SelectItem>
-                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Other
                           </SelectItem>
                         </SelectContent>
@@ -1320,38 +1320,38 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">System Type</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select system type" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="gravel" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="gravel" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Gravel
                           </SelectItem>
-                          <SelectItem value="equivalent-product" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="equivalent-product" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Equivalent Product
                           </SelectItem>
-                          <SelectItem value="control-fill" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="control-fill" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Control Fill
                           </SelectItem>
-                          <SelectItem value="lpp" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="lpp" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             LPP
                           </SelectItem>
-                          <SelectItem value="drip" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="drip" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Drip
                           </SelectItem>
-                          <SelectItem value="bed" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="bed" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Bed
                           </SelectItem>
-                          <SelectItem value="combined-treatment-disposal" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="combined-treatment-disposal" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Combined Treatment/Disposal
                           </SelectItem>
-                          <SelectItem value="pad" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="pad" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Pad
                           </SelectItem>
-                          <SelectItem value="eds" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="eds" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             EDS
                           </SelectItem>
-                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Other
                           </SelectItem>
                         </SelectContent>
@@ -1363,7 +1363,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Product Manufacturer(s)</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Manufacturer name"
                         onChange={handleFormInputChange}
                       />
@@ -1372,7 +1372,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Model/Configuration</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Model number or configuration"
                         onChange={handleFormInputChange}
                       />
@@ -1395,7 +1395,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">EDF Depth/Height (Inches)</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Depth in inches"
                         onChange={handleFormInputChange}
                       />
@@ -1403,14 +1403,14 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Below/Above NGS</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select NGS position" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="below-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="below-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Below NGS
                           </SelectItem>
-                          <SelectItem value="above-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-500 focus:text-sky-700">
+                          <SelectItem value="above-ngs" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-500 focus:text-blue-700">
                             Above NGS
                           </SelectItem>
                         </SelectContent>
@@ -1420,7 +1420,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Fill (if applicable) - Inches</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Fill depth in inches"
                         onChange={handleFormInputChange}
                       />
@@ -1430,21 +1430,21 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">EDF Size</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select size type" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="linear-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="linear-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Linear Feet
                           </SelectItem>
-                          <SelectItem value="square-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="square-feet" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Square Feet
                           </SelectItem>
                         </SelectContent>
                       </Select>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent mt-2"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-2"
                         placeholder="Size value"
                         onChange={handleFormInputChange}
                       />
@@ -1453,7 +1453,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Trench Width (if applicable) - Inches</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Trench width in inches"
                         onChange={handleFormInputChange}
                       />
@@ -1465,7 +1465,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Width</label>
                           <input 
                             type="text" 
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Width in inches"
                             onChange={handleFormInputChange}
                           />
@@ -1474,7 +1474,7 @@ const DashboardPage = () => {
                           <label className="block text-xs text-gray-600 mb-1">Length (Linear Feet)</label>
                           <input 
                             type="text" 
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Length in feet"
                             onChange={handleFormInputChange}
                           />
@@ -1499,7 +1499,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Installer Name / Company</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Company or installer name"
                         onChange={handleFormInputChange}
                       />
@@ -1508,7 +1508,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Business Address</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Street address"
                         onChange={handleFormInputChange}
                       />
@@ -1519,7 +1519,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Telephone</label>
                       <input 
                         type="tel" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Phone number"
                         onChange={handleFormInputChange}
                       />
@@ -1529,7 +1529,7 @@ const DashboardPage = () => {
                         <label className="block text-sm font-medium mb-3">City</label>
                         <input 
                           type="text" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="City"
                           onChange={handleFormInputChange}
                         />
@@ -1538,7 +1538,7 @@ const DashboardPage = () => {
                         <label className="block text-sm font-medium mb-3">State</label>
                         <input 
                           type="text" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="State"
                           onChange={handleFormInputChange}
                         />
@@ -1547,7 +1547,7 @@ const DashboardPage = () => {
                         <label className="block text-sm font-medium mb-3">Zip</label>
                         <input 
                           type="text" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Zip code"
                           onChange={handleFormInputChange}
                         />
@@ -1575,7 +1575,7 @@ const DashboardPage = () => {
                         <label className="block text-sm font-medium mb-3">Installer Name</label>
                         <input 
                           type="text" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Installer name"
                           onChange={handleFormInputChange}
                         />
@@ -1592,7 +1592,7 @@ const DashboardPage = () => {
                         <label className="block text-sm font-medium mb-3">License #</label>
                         <input 
                           type="text" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="License number"
                           onChange={handleFormInputChange}
                         />
@@ -1607,7 +1607,7 @@ const DashboardPage = () => {
                       <div className="flex space-x-2">
                         <Button 
                           size="sm"
-                          className="h-8 px-3 bg-sky-500 hover:bg-sky-600 text-white text-xs"
+                          className="h-8 px-3 bg-blue-500 hover:bg-blue-600 text-white text-xs"
                           onClick={() => setShowAddElementDialog(true)}
                         >
                           <Plus className="w-3 h-3 mr-1" />
@@ -1637,7 +1637,7 @@ const DashboardPage = () => {
                         <div className="absolute inset-0 flex items-center justify-center">
                           <input 
                             type="text" 
-                            className="w-48 px-3 py-1.5 text-sm bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 shadow-lg"
+                            className="w-48 px-3 py-1.5 text-sm bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 shadow-lg"
                             placeholder="Road Name"
                             onChange={handleFormInputChange}
                           />
@@ -1655,7 +1655,7 @@ const DashboardPage = () => {
                         <div
                           key={element.id}
                           className={`absolute cursor-move select-none z-10 ${
-                            selectedElement?.id === element.id ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+                            selectedElement?.id === element.id ? 'ring-2 ring-blue-500 ring-offset-2' : ''
                           }`}
                           style={{
                             top: element.y,
@@ -1770,7 +1770,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">License Number</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Contractor license number"
                         onChange={handleFormInputChange}
                       />
@@ -1818,7 +1818,7 @@ const DashboardPage = () => {
                 setHasUnsavedChanges(false)
                 handleBackToSource()
               }}
-              className="h-12 px-6 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
+              className="h-12 px-6 text-base font-medium bg-blue-500 hover:bg-blue-600 text-white"
             >
               <Save className="w-4 h-4 mr-2" />
               Submit CEP-5 Form
@@ -1844,7 +1844,7 @@ const DashboardPage = () => {
                 <Button 
                   onClick={handleNewForm}
                   size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   New CEP-5 Form
@@ -1967,7 +1967,7 @@ const DashboardPage = () => {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Pending CEP-5 Forms</h3>
-              <Button variant="slate" size="sm">
+              <Button variant="slate" size="sm" onClick={() => handleTabChange('cep5')}>
                 <FileText className="w-4 h-4 mr-2" />
                 View All Pending
               </Button>
@@ -1977,8 +1977,8 @@ const DashboardPage = () => {
                 <Card key={form.id} className="bg-white border-gray-200 hover:shadow-sm transition-shadow">
                   <CardContent className="px-6 py-4">
                     <div className="flex items-center space-x-3 mb-3">
-                      <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                        <FileText className="w-4 h-4 text-amber-600" />
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-blue-600" />
                       </div>
                       <div>
                         <div className="text-sm font-medium text-gray-900">{form.customer}</div>
@@ -1986,7 +1986,7 @@ const DashboardPage = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                      <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
                         {form.status}
                       </Badge>
                       <span className="text-gray-500">{form.county} County</span>
@@ -2001,7 +2001,7 @@ const DashboardPage = () => {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Recent CEP-5 Forms</h3>
-              <Button variant="slate" size="sm">
+              <Button variant="slate" size="sm" onClick={() => handleTabChange('cep5')}>
                 View All
               </Button>
             </div>
@@ -2113,7 +2113,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Business Name</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="Enter business name"
                         onChange={handleFormInputChange}
                       />
@@ -2122,7 +2122,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Contact Person</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="Full name"
                         onChange={handleFormInputChange}
                       />
@@ -2133,7 +2133,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Phone Number</label>
                       <input 
                         type="tel" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="(205) 555-0000"
                         onChange={handleFormInputChange}
                       />
@@ -2142,7 +2142,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Email Address</label>
                       <input 
                         type="email" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="contact@business.com"
                         onChange={handleFormInputChange}
                       />
@@ -2164,7 +2164,7 @@ const DashboardPage = () => {
                     <label className="block text-sm font-medium mb-3">Business Address</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Street address"
                       onChange={handleFormInputChange}
                     />
@@ -2174,7 +2174,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">City</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="City"
                         onChange={handleFormInputChange}
                       />
@@ -2183,7 +2183,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">State</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="State"
                         defaultValue="AL"
                         onChange={handleFormInputChange}
@@ -2193,7 +2193,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">ZIP Code</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="ZIP code"
                         onChange={handleFormInputChange}
                       />
@@ -2202,23 +2202,23 @@ const DashboardPage = () => {
                   <div>
                     <label className="block text-sm font-medium mb-3">Primary Service County</label>
                     <Select onValueChange={handleFormInputChange}>
-                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                         <SelectValue placeholder="Select county" />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200 shadow-lg">
-                        <SelectItem value="Jefferson" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Jefferson" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Jefferson County
                         </SelectItem>
-                        <SelectItem value="Shelby" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Shelby" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Shelby County
                         </SelectItem>
-                        <SelectItem value="Tuscaloosa" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Tuscaloosa" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Tuscaloosa County
                         </SelectItem>
-                        <SelectItem value="Madison" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Madison" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Madison County
                         </SelectItem>
-                        <SelectItem value="Baldwin" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Baldwin" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Baldwin County
                         </SelectItem>
                       </SelectContent>
@@ -2240,23 +2240,23 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Business Type</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select business type" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="contractor" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="contractor" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Contractor
                           </SelectItem>
-                          <SelectItem value="installer" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="installer" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Installer
                           </SelectItem>
-                          <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Maintenance
                           </SelectItem>
-                          <SelectItem value="consultant" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="consultant" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Consultant
                           </SelectItem>
-                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Other
                           </SelectItem>
                         </SelectContent>
@@ -2266,7 +2266,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">License Number</label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="Enter license number"
                         onChange={handleFormInputChange}
                       />
@@ -2277,7 +2277,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Years in Business</label>
                       <input 
                         type="number" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="Number of years"
                         min="0"
                         onChange={handleFormInputChange}
@@ -2287,7 +2287,7 @@ const DashboardPage = () => {
                       <label className="block text-sm font-medium mb-3">Website</label>
                       <input 
                         type="url" 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         placeholder="https://example.com"
                         onChange={handleFormInputChange}
                       />
@@ -2297,7 +2297,7 @@ const DashboardPage = () => {
                 <div className="mt-8">
                   <label className="block text-sm font-medium mb-3">Services Offered</label>
                   <textarea 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                     rows={3}
                     placeholder="Describe the services your business offers..."
                     onChange={handleFormInputChange}
@@ -2318,17 +2318,17 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Customer Status</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="active" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="active" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Active
                           </SelectItem>
-                          <SelectItem value="inactive" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="inactive" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Inactive
                           </SelectItem>
-                          <SelectItem value="prospect" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="prospect" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Prospect
                           </SelectItem>
                         </SelectContent>
@@ -2337,7 +2337,7 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Notes</label>
                       <textarea 
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         rows={3}
                         placeholder="Additional notes about this customer..."
                         onChange={handleFormInputChange}
@@ -2348,17 +2348,17 @@ const DashboardPage = () => {
                     <div>
                       <label className="block text-sm font-medium mb-3">Preferred Contact Method</label>
                       <Select onValueChange={handleFormInputChange}>
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select contact method" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="email" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="email" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Email
                           </SelectItem>
-                          <SelectItem value="phone" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="phone" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Phone
                           </SelectItem>
-                          <SelectItem value="text" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                          <SelectItem value="text" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                             Text Message
                           </SelectItem>
                         </SelectContent>
@@ -2400,7 +2400,7 @@ const DashboardPage = () => {
                 handleBackToSource()
               }}
               size="sm"
-              className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+              className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Customer
@@ -2439,7 +2439,7 @@ const DashboardPage = () => {
             <Button 
               onClick={handleNewForm}
                       size="sm"
-                      className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                      className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
             >
                       <Plus className="w-4 h-4 mr-2" />
                       New CEP-5 Form
@@ -2447,7 +2447,7 @@ const DashboardPage = () => {
             <Button 
               onClick={handleAddCustomer}
               size="sm"
-              className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+              className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
             >
               <Users className="w-4 h-4 mr-2" />
               New Customer
@@ -2562,7 +2562,7 @@ const DashboardPage = () => {
             <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Pending CEP-5 Forms</h3>
-                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400" onClick={() => handleTabChange('cep5')}>
                   <FileText className="w-4 h-4 mr-2" />
                   View All Pending
                 </Button>
@@ -2581,7 +2581,7 @@ const DashboardPage = () => {
                     </div>
                       </div>
                       <div className="flex items-center justify-between text-xs">
-                        <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                        <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
                           {form.status}
                     </Badge>
                         <span className="text-gray-500">{form.county} County</span>
@@ -2596,7 +2596,7 @@ const DashboardPage = () => {
             <div className="mb-4">
           <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold">Recent CEP-5 Forms</h3>
-                                  <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400">
+                                  <Button variant="outline" size="sm" className="h-9 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400" onClick={() => handleTabChange('cep5')}>
               View All
             </Button>
           </div>
@@ -2780,7 +2780,7 @@ const DashboardPage = () => {
                 <Button 
                   onClick={handleNewForm}
                   size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New CEP-5 Form
@@ -2796,7 +2796,7 @@ const DashboardPage = () => {
                   <input
                     type="text"
                     placeholder="Search forms by customer, property, or ID..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -2961,7 +2961,7 @@ const DashboardPage = () => {
                 <Button 
                   onClick={handleAddCustomer}
                   size="sm"
-                  className="h-9 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Customer
@@ -2977,7 +2977,7 @@ const DashboardPage = () => {
                   <input
                     type="text"
                     placeholder="Search customers by name, contact, or email..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -3188,9 +3188,9 @@ const DashboardPage = () => {
       case 'schedule':
         return (
           <div className="space-y-6">
-            {/* Header - Only show breadcrumb if coming from dashboard */}
-            <div className="flex items-center justify-between mb-6 px-8 pt-8">
-              {scheduleSource === 'dashboard' ? (
+            {/* Breadcrumbs - Only show if coming from dashboard */}
+            {scheduleSource === 'dashboard' && (
+              <div className="px-8 pt-8">
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -3205,31 +3205,57 @@ const DashboardPage = () => {
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
-              ) : (
-                <div></div>
-              )}
-              <div className="flex items-center justify-between w-full">
-                {/* Date Information - aligned to left */}
-                <div className="flex items-center space-x-4">
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    {moment(currentDate).format('MMMM YYYY')}
-                  </h1>
+              </div>
+            )}
+
+            {/* Calendar Header - Date and Actions */}
+            <div className="flex items-center justify-between mb-4 px-8">
+              {/* Date Information - aligned to left */}
+              <div className="flex items-center space-x-4">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {moment(currentDate).format('MMMM YYYY')}
+                </h1>
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <Search 
+                  className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
+                  onClick={handleSearchToggle}
+                />
+                <Button 
+                  size="sm"
+                  onClick={handleAddJob}
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Job
+                </Button>
+              </div>
+            </div>
+
+            {/* Color Legend */}
+            <div className="px-8 mb-4">
+              <div className="flex items-center space-x-6 text-sm">
+                <span className="text-gray-600 font-medium">Job Types:</span>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 rounded bg-blue-100 border border-blue-200"></div>
+                  <span className="text-gray-600">Inspection</span>
                 </div>
-                
-                <div className="flex items-center space-x-3">
-                  <Search 
-                    className="h-5 w-5 text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
-                    onClick={handleSearchToggle}
-                  />
-                  <Button 
-                    variant="outline"
-                    size="sm"
-                    onClick={handleAddJob}
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Job
-                  </Button>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 rounded bg-emerald-100 border border-emerald-200"></div>
+                  <span className="text-gray-600">Installation</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 rounded bg-amber-100 border border-amber-200"></div>
+                  <span className="text-gray-600">Maintenance</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 rounded bg-red-100 border border-red-200"></div>
+                  <span className="text-gray-600">Repair</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 rounded bg-violet-100 border border-violet-200"></div>
+                  <span className="text-gray-600">Pumping</span>
                 </div>
               </div>
             </div>
@@ -3406,8 +3432,8 @@ const DashboardPage = () => {
                 </Button>
                 <Button 
                   onClick={() => setShowAddCustomer(true)}
-                  variant="slate"
                   size="sm"
+                  className="h-9 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Property
@@ -3423,7 +3449,7 @@ const DashboardPage = () => {
                   <input
                     type="text"
                     placeholder="Search properties by address, customer, or county..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -3654,7 +3680,7 @@ const DashboardPage = () => {
                         <Input 
                           id="company-name" 
                           defaultValue="Alabama Septic Solutions" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         />
                       </div>
                       <div>
@@ -3662,7 +3688,7 @@ const DashboardPage = () => {
                         <Input 
                           id="license-number" 
                           defaultValue="AL-12345" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         />
                       </div>
                     </div>
@@ -3672,7 +3698,7 @@ const DashboardPage = () => {
                         <Input 
                           id="contact-name" 
                           defaultValue="John Williams" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         />
                       </div>
                       <div>
@@ -3681,7 +3707,7 @@ const DashboardPage = () => {
                           id="email" 
                           type="email" 
                           defaultValue="john@alabamaseptic.com" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         />
                       </div>
                     </div>
@@ -3699,7 +3725,7 @@ const DashboardPage = () => {
                               type="checkbox" 
                               id={county} 
                               defaultChecked={['Jefferson', 'Shelby', 'Tuscaloosa'].includes(county)}
-                              className="rounded border-gray-300 text-sky-600 focus:ring-sky-500"
+                              className="rounded border-gray-300 text-sky-600 focus:ring-blue-500"
                             />
                             <Label htmlFor={county} className="text-sm text-gray-700">{county} County</Label>
                           </div>
@@ -3708,7 +3734,7 @@ const DashboardPage = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-sky-500 hover:bg-sky-600 text-white">
+                  <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
                     <Save className="w-4 h-4 mr-2" />
                     Save Profile Changes
                   </Button>
@@ -3808,21 +3834,21 @@ const DashboardPage = () => {
                           <Label className="text-sm font-medium text-gray-700">Auto-fill customer data</Label>
                           <p className="text-xs text-gray-500">Automatically populate customer information from database</p>
                         </div>
-                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium text-gray-700">Remember soil classifications</Label>
                           <p className="text-xs text-gray-500">Save soil types for properties to speed up future forms</p>
                         </div>
-                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium text-gray-700">Auto-save drafts</Label>
                           <p className="text-xs text-gray-500">Automatically save form progress every 30 seconds</p>
                         </div>
-                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                       </div>
                     </div>
                   </div>
@@ -3834,14 +3860,14 @@ const DashboardPage = () => {
                       <div>
                         <Label className="text-sm font-medium text-gray-700">Default soil type</Label>
                         <Select defaultValue="clay">
-                          <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                          <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                             <SelectValue placeholder="Select soil type" />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-200 shadow-lg">
-                            <SelectItem value="clay" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Clay</SelectItem>
-                            <SelectItem value="sandy-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Sandy Loam</SelectItem>
-                            <SelectItem value="silt-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Silt Loam</SelectItem>
-                            <SelectItem value="sandy-clay" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Sandy Clay</SelectItem>
+                            <SelectItem value="clay" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">Clay</SelectItem>
+                            <SelectItem value="sandy-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">Sandy Loam</SelectItem>
+                            <SelectItem value="silt-loam" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">Silt Loam</SelectItem>
+                            <SelectItem value="sandy-clay" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">Sandy Clay</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -3851,7 +3877,7 @@ const DashboardPage = () => {
                           type="text" 
                           placeholder="e.g., 6 feet" 
                           defaultValue="6 feet"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                         />
                       </div>
                       <div className="flex items-center justify-between">
@@ -3859,7 +3885,7 @@ const DashboardPage = () => {
                           <Label className="text-sm font-medium text-gray-700">Include ADPH compliance check</Label>
                           <p className="text-xs text-gray-500">Validate forms against current ADPH requirements</p>
                         </div>
-                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                        <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                       </div>
                     </div>
                   </div>
@@ -3893,7 +3919,7 @@ const DashboardPage = () => {
                         <input 
                           type="checkbox" 
                           defaultChecked 
-                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-blue-500 focus:ring-2 ml-4 flex-shrink-0" 
                         />
                       </div>
                     </div>
@@ -3914,7 +3940,7 @@ const DashboardPage = () => {
                         <input 
                           type="checkbox" 
                           defaultChecked 
-                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-blue-500 focus:ring-2 ml-4 flex-shrink-0" 
                         />
                       </div>
                     </div>
@@ -3935,7 +3961,7 @@ const DashboardPage = () => {
                         <input 
                           type="checkbox" 
                           defaultChecked 
-                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-blue-500 focus:ring-2 ml-4 flex-shrink-0" 
                         />
                       </div>
                     </div>
@@ -3955,7 +3981,7 @@ const DashboardPage = () => {
                         </div>
                         <input 
                           type="checkbox" 
-                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 focus:ring-2 ml-4 flex-shrink-0" 
+                          className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-blue-500 focus:ring-2 ml-4 flex-shrink-0" 
                         />
                       </div>
                     </div>
@@ -3976,26 +4002,26 @@ const DashboardPage = () => {
                         <Label className="text-sm font-medium text-gray-700">Auto-backup to cloud</Label>
                         <p className="text-xs text-gray-500">Automatically backup forms to secure cloud storage</p>
                       </div>
-                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
                         <Label className="text-sm font-medium text-gray-700">Offline data sync</Label>
                         <p className="text-xs text-gray-500">Sync data when connection is restored</p>
                       </div>
-                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-sky-500" />
+                      <input type="checkbox" defaultChecked className="rounded border-gray-300 text-sky-600 focus:ring-blue-500" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">Data retention period</Label>
                       <Select defaultValue="7-years">
-                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                        <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                           <SelectValue placeholder="Select retention period" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          <SelectItem value="1-year" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">1 Year</SelectItem>
-                          <SelectItem value="3-years" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">3 Years</SelectItem>
-                          <SelectItem value="7-years" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">7 Years</SelectItem>
-                          <SelectItem value="indefinite" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">Indefinite</SelectItem>
+                          <SelectItem value="1-year" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">1 Year</SelectItem>
+                          <SelectItem value="3-years" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">3 Years</SelectItem>
+                          <SelectItem value="7-years" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">7 Years</SelectItem>
+                          <SelectItem value="indefinite" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">Indefinite</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -4343,7 +4369,7 @@ const DashboardPage = () => {
             </Button>
             <Button
               onClick={handleSaveDraft}
-              className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
+              className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white"
             >
               Save
             </Button>
@@ -4379,7 +4405,7 @@ const DashboardPage = () => {
             </Button>
             <Button
               onClick={handleSaveDraft}
-              className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
+              className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white"
             >
               Save
             </Button>
@@ -4446,26 +4472,26 @@ const DashboardPage = () => {
                 const height = type === 'house' ? 112 : type === 'distribution-lines' ? 8 : type === 'drip-field' ? 32 : 48
                 handleAddElement(type, label, width, height)
               }}>
-                <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                   <SelectValue placeholder="Select element type" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border-gray-200 shadow-lg">
-                  <SelectItem value="house" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                  <SelectItem value="house" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                     House
                   </SelectItem>
-                  <SelectItem value="septic-tank" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                  <SelectItem value="septic-tank" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                     Septic Tank
                   </SelectItem>
                   <SelectItem value="distribution-lines" className="cursor-pointer hover:bg-gray-50 focus:bg-gray-50 focus:text-sky-700">
                     Distribution Lines
                   </SelectItem>
-                  <SelectItem value="drip-field" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                  <SelectItem value="drip-field" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                     Drip Field
                   </SelectItem>
-                  <SelectItem value="well" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                  <SelectItem value="well" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                     Well
                   </SelectItem>
-                  <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                  <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                     Other
                   </SelectItem>
                 </SelectContent>
@@ -4516,7 +4542,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={() => setShowLayoutHelp(false)} className="bg-sky-500 hover:bg-sky-600 text-white">
+            <Button onClick={() => setShowLayoutHelp(false)} className="bg-blue-500 hover:bg-blue-600 text-white">
               Got it!
             </Button>
           </DialogFooter>
@@ -4538,7 +4564,7 @@ const DashboardPage = () => {
                 <label className="block text-sm font-medium mb-3">Label</label>
                 <input 
                   type="text" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                   value={editingElement.label}
                   onChange={(e) => setEditingElement({...editingElement, label: e.target.value})}
                 />
@@ -4548,7 +4574,7 @@ const DashboardPage = () => {
                   <label className="block text-sm font-medium mb-3">Width</label>
                   <input 
                     type="number" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                     value={editingElement.width}
                     onChange={(e) => setEditingElement({...editingElement, width: parseInt(e.target.value) || 64})}
                 />
@@ -4557,7 +4583,7 @@ const DashboardPage = () => {
                   <label className="block text-sm font-medium mb-3">Height</label>
                   <input 
                     type="number" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                     value={editingElement.height}
                     onChange={(e) => setEditingElement({...editingElement, height: parseInt(e.target.value) || 48})}
                   />
@@ -4575,7 +4601,7 @@ const DashboardPage = () => {
             </Button>
             <Button 
               onClick={() => handleUpdateElement(editingElement.id, editingElement)}
-              className="bg-sky-500 hover:bg-sky-600 text-white"
+              className="bg-blue-500 hover:bg-blue-600 text-white"
             >
               Update Element
             </Button>
@@ -4736,13 +4762,13 @@ const DashboardPage = () => {
                   value={searchQuery}
                   onChange={(e) => handleSearchQueryChange(e.target.value)}
                   placeholder="Search jobs by name, type, customer, or status..."
-                  className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   autoFocus
                 />
                 <Button
                   type="submit"
                   size="sm"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-10 px-4 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-10 px-4 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   Search
                 </Button>

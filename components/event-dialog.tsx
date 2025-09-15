@@ -202,7 +202,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   id="title"
                   value={formData.title}
                   onChange={(e) => handleInputChange('title', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${
                     errors.title ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter job title"
@@ -223,7 +223,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   id="customerName"
                   value={formData.customerName}
                   onChange={(e) => handleInputChange('customerName', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${
                     errors.customerName ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter customer name"
@@ -244,7 +244,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   id="customerPhone"
                   value={formData.customerPhone}
                   onChange={(e) => handleInputChange('customerPhone', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${
                     errors.customerPhone ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter phone number"
@@ -265,7 +265,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   id="customerAddress"
                   value={formData.customerAddress}
                   onChange={(e) => handleInputChange('customerAddress', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${
                     errors.customerAddress ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter full address"
@@ -289,23 +289,23 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   value={formData.jobType}
                   onValueChange={(value) => handleInputChange('jobType', value)}
                 >
-                  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                     <SelectValue placeholder="Select job type" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200 shadow-lg">
-                    <SelectItem value="inspection" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="inspection" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       CEP-5 Inspection
                     </SelectItem>
-                    <SelectItem value="installation" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="installation" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       System Installation
                     </SelectItem>
-                    <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Maintenance
                     </SelectItem>
-                    <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="repair" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Repair
                     </SelectItem>
-                    <SelectItem value="pumping" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="pumping" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Tank Pumping
                     </SelectItem>
                   </SelectContent>
@@ -320,20 +320,20 @@ const EventDialog: React.FC<EventDialogProps> = ({
                   value={formData.status}
                   onValueChange={(value) => handleInputChange('status', value)}
                 >
-                  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                  <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200 shadow-lg">
-                    <SelectItem value="scheduled" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="scheduled" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Scheduled
                     </SelectItem>
-                    <SelectItem value="in-progress" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="in-progress" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       In Progress
                     </SelectItem>
-                    <SelectItem value="completed" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="completed" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Completed
                     </SelectItem>
-                    <SelectItem value="cancelled" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                    <SelectItem value="cancelled" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                       Cancelled
                     </SelectItem>
                   </SelectContent>
@@ -365,7 +365,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                       newTime.setHours(parseInt(hours), parseInt(minutes))
                       handleInputChange('startTime', newTime)
                     }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                   />
                 </div>
 
@@ -383,7 +383,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                       newTime.setHours(parseInt(hours), parseInt(minutes))
                       handleInputChange('endTime', newTime)
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${
                       errors.endTime ? 'border-red-500' : 'border-gray-300'
                     }`}
                   />
@@ -410,7 +410,7 @@ const EventDialog: React.FC<EventDialogProps> = ({
                 </Button>
                 <Button 
                   onClick={handleSave}
-                  className="px-6 bg-sky-500 hover:bg-sky-600 text-white"
+                  className="px-6 bg-blue-500 hover:bg-blue-600 text-white"
                 >
                   {event ? 'Update Job' : 'Create Job'}
                 </Button>

@@ -96,7 +96,7 @@ export default function CustomerProfilePopup({
         {children}
       </DialogTrigger>
       
-      <DialogContent className="w-[1200px] max-w-[95vw] bg-white border-gray-200 shadow-xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="w-[1200px] max-w-[95vw] bg-white border-gray-200 shadow-xl max-h-[90vh] overflow-hidden [&>button]:hidden">
         <DialogHeader className="px-8 pt-8 pb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -177,7 +177,7 @@ export default function CustomerProfilePopup({
                       id="name"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter full name"
                     />
                   ) : (
@@ -197,7 +197,7 @@ export default function CustomerProfilePopup({
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter email address"
                     />
                   ) : (
@@ -217,7 +217,7 @@ export default function CustomerProfilePopup({
                       id="phone"
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter phone number"
                     />
                   ) : (
@@ -240,7 +240,7 @@ export default function CustomerProfilePopup({
                       id="company"
                       value={formData.company || ''}
                       onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter company name"
                     />
                   ) : (
@@ -270,7 +270,7 @@ export default function CustomerProfilePopup({
                       id="address"
                       value={formData.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter street address"
                     />
                   ) : (
@@ -293,7 +293,7 @@ export default function CustomerProfilePopup({
                         const value = e.target.value.replace(/[^a-zA-Z\s'-]/g, '')
                         handleInputChange('city', value)
                       }}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter city name"
                     />
                   ) : (
@@ -312,38 +312,38 @@ export default function CustomerProfilePopup({
                   </Label>
                   {isEditing ? (
                     <Select value={formData.state} onValueChange={(value) => handleInputChange('state', value)}>
-                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200 shadow-lg">
-                        <SelectItem value="AL" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="AL" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Alabama (AL)
                         </SelectItem>
-                        <SelectItem value="FL" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="FL" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Florida (FL)
                         </SelectItem>
-                        <SelectItem value="GA" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="GA" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Georgia (GA)
                         </SelectItem>
-                        <SelectItem value="MS" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="MS" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Mississippi (MS)
                         </SelectItem>
-                        <SelectItem value="TN" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="TN" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Tennessee (TN)
                         </SelectItem>
-                        <SelectItem value="LA" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="LA" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Louisiana (LA)
                         </SelectItem>
-                        <SelectItem value="AR" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="AR" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Arkansas (AR)
                         </SelectItem>
-                        <SelectItem value="SC" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="SC" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           South Carolina (SC)
                         </SelectItem>
-                        <SelectItem value="NC" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="NC" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           North Carolina (NC)
                         </SelectItem>
-                        <SelectItem value="TX" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="TX" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Texas (TX)
                         </SelectItem>
                       </SelectContent>
@@ -367,7 +367,7 @@ export default function CustomerProfilePopup({
                         const value = e.target.value.replace(/\D/g, '').slice(0, 5)
                         handleInputChange('zipCode', value)
                       }}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="12345"
                       maxLength={5}
                     />
@@ -384,53 +384,53 @@ export default function CustomerProfilePopup({
                   </Label>
                   {isEditing ? (
                     <Select value={formData.county} onValueChange={(value) => handleInputChange('county', value)}>
-                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                      <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
                         <SelectValue placeholder="Select county" />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200 shadow-lg">
-                        <SelectItem value="Jefferson" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Jefferson" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Jefferson County
                         </SelectItem>
-                        <SelectItem value="Shelby" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Shelby" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Shelby County
                         </SelectItem>
-                        <SelectItem value="Tuscaloosa" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Tuscaloosa" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Tuscaloosa County
                         </SelectItem>
-                        <SelectItem value="Madison" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Madison" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Madison County
                         </SelectItem>
-                        <SelectItem value="Mobile" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Mobile" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Mobile County
                         </SelectItem>
-                        <SelectItem value="Montgomery" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Montgomery" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Montgomery County
                         </SelectItem>
-                        <SelectItem value="Baldwin" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Baldwin" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Baldwin County
                         </SelectItem>
-                        <SelectItem value="Lee" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Lee" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Lee County
                         </SelectItem>
-                        <SelectItem value="Calhoun" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Calhoun" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Calhoun County
                         </SelectItem>
-                        <SelectItem value="Marshall" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Marshall" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Marshall County
                         </SelectItem>
-                        <SelectItem value="Walker" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Walker" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Walker County
                         </SelectItem>
-                        <SelectItem value="Lauderdale" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Lauderdale" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Lauderdale County
                         </SelectItem>
-                        <SelectItem value="Cullman" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Cullman" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Cullman County
                         </SelectItem>
-                        <SelectItem value="Morgan" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Morgan" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Morgan County
                         </SelectItem>
-                        <SelectItem value="Etowah" className="cursor-pointer hover:bg-gray-50 focus:bg-sky-50 focus:text-sky-700">
+                        <SelectItem value="Etowah" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
                           Etowah County
                         </SelectItem>
                       </SelectContent>
@@ -457,7 +457,7 @@ export default function CustomerProfilePopup({
                   onChange={(e) => handleInputChange('notes', e.target.value)}
                   placeholder="Enter any notes about this customer..."
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent bg-white text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                 />
               ) : (
                 <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 min-h-[100px]">
