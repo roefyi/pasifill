@@ -80,6 +80,7 @@ import {
 } from "@/components/ui/accordion"
 import CalendarView from "@/components/calendar-view"
 import EventDialog from "@/components/event-dialog"
+import CustomerProfilePopup from "@/components/customer-profile-popup"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -270,39 +271,63 @@ const mockData = {
   customers: [
     {
       id: "CUST-001",
-      name: "Williams Property",
+      name: "John Williams",
       contact: "John Williams",
       phone: "(205) 555-0101",
       email: "john@williamsproperty.com",
+      address: "123 Oak Street",
+      city: "Birmingham",
+      state: "AL",
+      zipCode: "35244",
       county: "Jefferson",
+      company: "Williams Property",
       properties: 3,
       forms: 8,
       status: "active",
-      lastContact: "2024-01-15"
+      lastContact: "2024-01-15",
+      notes: "Regular customer with multiple properties. Prefers morning appointments.",
+      createdAt: "2024-01-15",
+      lastUpdated: "2024-01-15"
     },
     {
       id: "CUST-002",
-      name: "Johnson Farm",
+      name: "Sarah Johnson",
       contact: "Sarah Johnson",
       phone: "(205) 555-0102",
       email: "sarah@johnsonfarm.com",
+      address: "456 Pine Ave",
+      city: "Hoover",
+      state: "AL",
+      zipCode: "35242",
       county: "Shelby",
+      company: "Johnson Farm",
       properties: 1,
       forms: 2,
       status: "active",
-      lastContact: "2024-01-14"
+      lastContact: "2024-01-14",
+      notes: "New customer with single property. Very responsive to communications.",
+      createdAt: "2024-01-14",
+      lastUpdated: "2024-01-14"
     },
     {
       id: "CUST-003",
-      name: "Davis Property",
+      name: "Mike Davis",
       contact: "Mike Davis",
       phone: "(205) 555-0103",
       email: "mike@davisproperty.com",
+      address: "789 Elm Road",
+      city: "Tuscaloosa",
+      state: "AL",
+      zipCode: "35401",
       county: "Tuscaloosa",
+      company: "Davis Property",
       properties: 2,
       forms: 5,
       status: "active",
-      lastContact: "2024-01-13"
+      lastContact: "2024-01-13",
+      notes: "Established customer with multiple properties. Always pays on time.",
+      createdAt: "2024-01-13",
+      lastUpdated: "2024-01-13"
     },
     {
       id: "CUST-004",
@@ -1825,6 +1850,7 @@ const DashboardPage = () => {
                   New CEP-5 Form
                 </Button>
                 <Button 
+                  onClick={handleAddCustomer}
                   variant="slate"
                   size="sm"
                 >
@@ -2966,7 +2992,7 @@ const DashboardPage = () => {
                       className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('name')}
                     >
-                      <span>Customer Name</span>
+                      <span>Customer</span>
                       {getSortIcon('name')}
                     </div>
                     <div 
@@ -3056,6 +3082,16 @@ const DashboardPage = () => {
                             
                             {/* Actions */}
                             <div className="text-left flex items-center space-x-2">
+                              <CustomerProfilePopup customer={customer}>
+                                <Button
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                  title="View Profile"
+                                >
+                                  <User className="h-4 w-4" />
+                                </Button>
+                              </CustomerProfilePopup>
                               <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
                                 <Mail className="h-4 w-4" />
                               </Button>
@@ -3402,7 +3438,7 @@ const DashboardPage = () => {
                       className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('address')}
                     >
-                      <span>Property Address</span>
+                      <span>Property</span>
                       {getSortIcon('address')}
                     </div>
                     <div 
@@ -3437,7 +3473,7 @@ const DashboardPage = () => {
                       className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
                       onClick={() => handleSort('lastInspection')}
                     >
-                      <span>Last Inspection</span>
+                      <span>Last Insp</span>
                       {getSortIcon('lastInspection')}
                     </div>
                     <div className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 p-2">Actions</div>

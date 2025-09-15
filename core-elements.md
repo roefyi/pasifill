@@ -342,6 +342,62 @@ Input Structure:
 />
 ```
 
+**Table System**
+```
+Standardized Table Layout
+- Full space utilization: flex-1 to fill available height
+- CSS Grid layout: grid-cols-{n} for equal column distribution
+- Fixed headers: flex-shrink-0 to prevent header scrolling
+- Scrollable content: overflow-y-auto for table body
+- Consistent spacing: gap-4 between columns
+- Hover effects: hover:bg-gray-50 transition-colors
+- Professional styling: bg-white border-gray-200
+
+Standard Table Structure:
+<Card className="bg-white border-gray-200 flex-1">
+  <CardContent className="p-0 flex flex-col h-full">
+    {/* Fixed Headers */}
+    <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex-shrink-0">
+      <div className="grid grid-cols-{n} gap-4 w-full">
+        {headers.map((header) => (
+          <div 
+            key={header.key}
+            className="text-sm font-medium uppercase tracking-wider text-left text-gray-700 cursor-pointer hover:bg-gray-100 select-none flex items-center space-x-1 p-2 rounded"
+            onClick={() => handleSort(header.key)}
+          >
+            <span>{header.label}</span>
+            {getSortIcon(header.key)}
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Scrollable Content */}
+    <div className="flex-1 overflow-y-auto">
+      <div className="divide-y divide-gray-200">
+        {data.map((item) => (
+          <div key={item.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
+            <div className="grid grid-cols-{n} gap-4 w-full items-center">
+              {/* Table cells with consistent styling */}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+Table Implementation Guidelines:
+1. Use flex-1 on Card to fill available space
+2. Use CSS Grid with equal column distribution
+3. Fixed headers with flex-shrink-0
+4. Scrollable body with overflow-y-auto
+5. Consistent hover states and transitions
+6. Proper spacing using gap-4
+7. Professional color scheme (gray-50 headers, white content)
+8. Responsive design with proper column sizing
+```
+
 **Spacing System (8px Grid)**
 ```
 Standardized Spacing Values

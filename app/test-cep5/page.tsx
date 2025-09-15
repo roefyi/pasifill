@@ -21,3 +21,5 @@ export default function TestCEP5Page() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'

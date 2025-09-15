@@ -24,3 +24,5 @@ export default function TestCalendarPage() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
