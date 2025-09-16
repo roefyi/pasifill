@@ -2231,8 +2231,24 @@ const DashboardPage = () => {
             {/* Business Information */}
             <Card className="bg-white border-gray-200">
               <CardHeader className="px-8 pt-8 pb-6">
-                <CardTitle className="text-gray-900">Business Information</CardTitle>
-                <CardDescription className="text-gray-600">Business type, services, and additional details</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-gray-900">Business Information</CardTitle>
+                    <CardDescription className="text-gray-600">Business type, services, and additional details</CardDescription>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="ml-4 h-8 px-3 text-sm border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300"
+                    onClick={() => {
+                      // Add business functionality for new customer form
+                      console.log('Add business clicked')
+                    }}
+                  >
+                    <Building2 className="h-4 w-4 mr-1" />
+                    Add Business
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

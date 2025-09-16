@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -8,6 +8,16 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { X, Edit2, Save, User, Mail, Phone, MapPin, Building2 } from 'lucide-react'
+
+interface Business {
+  id: string
+  company: string
+  businessType: string
+  licenseNumber: string
+  yearsInBusiness?: number
+  website?: string
+  servicesOffered?: string
+}
 
 interface Customer {
   id: string
@@ -19,7 +29,7 @@ interface Customer {
   state: string
   zipCode: string
   county: string
-  company?: string
+  businesses: Business[]
   notes?: string
   createdAt: string
   lastUpdated: string
@@ -41,7 +51,17 @@ const defaultCustomer: Customer = {
   state: 'AL',
   zipCode: '35244',
   county: 'Jefferson',
-  company: 'Smith Properties LLC',
+  businesses: [
+    {
+      id: '1',
+      company: 'Smith Properties LLC',
+      businessType: 'contractor',
+      licenseNumber: 'AL-12345',
+      yearsInBusiness: 15,
+      website: 'https://smithproperties.com',
+      servicesOffered: 'Septic system installation, maintenance, and repair services'
+    }
+  ],
   notes: 'Regular customer with multiple properties. Prefers morning appointments.',
   createdAt: '2024-01-15',
   lastUpdated: '2024-01-15'
@@ -55,6 +75,66 @@ export default function CustomerProfilePopup({
   const [isOpen, setIsOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState(customer)
+
+  // Ensure businesses array is always initialized
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      businesses: prev.businesses || []
+    }))
+  }, [])
+
+
+  // Update form data when customer prop changes
+  useEffect(() => {
+    setFormData(customer)
+  }, [customer])
+
+  // Add new business
+  const addBusiness = () => {
+    try {
+      const newBusiness: Business = {
+        id: Date.now().toString(),
+        company: '',
+        businessType: '',
+        licenseNumber: '',
+        yearsInBusiness: undefined,
+        website: '',
+        servicesOffered: ''
+      }
+      setFormData(prev => ({
+        ...prev,
+        businesses: [...(prev.businesses || []), newBusiness]
+      }))
+    } catch (error) {
+      console.error('Error adding business:', error)
+    }
+  }
+
+  // Remove business
+  const removeBusiness = (businessId: string) => {
+    setFormData(prev => {
+      const filteredBusinesses = prev.businesses.filter(b => b.id !== businessId)
+      // Ensure we always have at least one business
+      if (filteredBusinesses.length === 0) {
+        return prev
+      }
+      return {
+        ...prev,
+        businesses: filteredBusinesses
+      }
+    })
+  }
+
+  // Update business field
+  const updateBusiness = (businessId: string, field: keyof Business, value: string | number) => {
+    setFormData(prev => ({
+      ...prev,
+      businesses: prev.businesses.map(b => 
+        b.id === businessId ? { ...b, [field]: value } : b
+      )
+    }))
+  }
 
   const handleInputChange = (field: keyof Customer, value: string) => {
     setFormData(prev => ({
@@ -166,8 +246,9 @@ export default function CustomerProfilePopup({
             <h3 className="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">
               Basic Information
             </h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
+            <div className="space-y-6">
+              {/* Name and Email on the same line */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="name" className="block text-sm font-medium mb-3">
                     Full Name
@@ -177,11 +258,11 @@ export default function CustomerProfilePopup({
                       id="name"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter full name"
                     />
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center">
                       {formData.name}
                     </div>
                   )}
@@ -197,59 +278,37 @@ export default function CustomerProfilePopup({
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter email address"
                     />
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
                       <Mail className="h-4 w-4 text-gray-500 flex-shrink-0" />
                       <span className="break-all">{formData.email}</span>
                     </div>
                   )}
                 </div>
-
-                <div>
-                  <Label htmlFor="phone" className="block text-sm font-medium mb-3">
-                    Phone
-                  </Label>
-                  {isEditing ? (
-                    <Input
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-                      placeholder="Enter phone number"
-                    />
-                  ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                      <span className="break-all">{formData.phone}</span>
-                    </div>
-                  )}
-                </div>
               </div>
 
-              {/* Right Column */}
-              <div className="space-y-6">
-                <div>
-                  <Label htmlFor="company" className="block text-sm font-medium mb-3">
-                    Company (Optional)
-                  </Label>
-                  {isEditing ? (
-                    <Input
-                      id="company"
-                      value={formData.company || ''}
-                      onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-                      placeholder="Enter company name"
-                    />
-                  ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                      <span className="break-all">{formData.company || 'N/A'}</span>
-                    </div>
-                  )}
-                </div>
+              {/* Phone field below */}
+              <div>
+                <Label htmlFor="phone" className="block text-sm font-medium mb-3">
+                  Phone
+                </Label>
+                {isEditing ? (
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                    placeholder="Enter phone number"
+                  />
+                ) : (
+                  <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                    <span className="break-all">{formData.phone}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -270,11 +329,11 @@ export default function CustomerProfilePopup({
                       id="address"
                       value={formData.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter street address"
                     />
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-gray-500 flex-shrink-0" />
                       <span className="break-all">{formData.address}</span>
                     </div>
@@ -293,11 +352,11 @@ export default function CustomerProfilePopup({
                         const value = e.target.value.replace(/[^a-zA-Z\s'-]/g, '')
                         handleInputChange('city', value)
                       }}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="Enter city name"
                     />
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center">
                       {formData.city}
                     </div>
                   )}
@@ -349,7 +408,7 @@ export default function CustomerProfilePopup({
                       </SelectContent>
                     </Select>
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center">
                       {formData.state}
                     </div>
                   )}
@@ -367,12 +426,12 @@ export default function CustomerProfilePopup({
                         const value = e.target.value.replace(/\D/g, '').slice(0, 5)
                         handleInputChange('zipCode', value)
                       }}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                      className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                       placeholder="12345"
                       maxLength={5}
                     />
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center">
                       {formData.zipCode}
                     </div>
                   )}
@@ -436,13 +495,183 @@ export default function CustomerProfilePopup({
                       </SelectContent>
                     </Select>
                   ) : (
-                    <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900">
+                    <div className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 flex items-center">
                       {formData.county}
                     </div>
                   )}
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Business Information */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2 flex-1">
+                Business Information
+              </h3>
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-4 h-8 px-3 text-sm border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300"
+                onClick={addBusiness}
+              >
+                <Building2 className="h-4 w-4 mr-1" />
+                Add Business
+              </Button>
+            </div>
+            
+            {/* Multiple Businesses Display */}
+            {formData.businesses && formData.businesses.length > 0 ? formData.businesses.map((business, index) => (
+              <div key={business.id} className="border border-gray-200 rounded-lg p-6 space-y-6">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-md font-medium text-gray-900">
+                    Business {index + 1}
+                  </h4>
+                  {formData.businesses.length > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                      onClick={() => removeBusiness(business.id)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+
+                {!isEditing ? (
+                  /* Compact View - Business Name, Type, License in a row */
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-lg h-20">
+                      <Building2 className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Business Name</div>
+                        <div className="text-sm font-medium text-gray-900 truncate">{business.company || 'N/A'}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-lg h-20">
+                      <Building2 className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">Business Type</div>
+                        <div className="text-sm font-medium text-gray-900 truncate capitalize">{business.businessType || 'N/A'}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-lg h-20">
+                      <Building2 className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">License Number</div>
+                        <div className="text-sm font-medium text-gray-900 truncate">{business.licenseNumber || 'N/A'}</div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* Expanded View - All fields when editing */
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          Business Name
+                        </Label>
+                        <Input
+                          value={business.company}
+                          onChange={(e) => updateBusiness(business.id, 'company', e.target.value)}
+                          className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                          placeholder="Enter business name"
+                        />
+                      </div>
+
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          Business Type
+                        </Label>
+                        <Select value={business.businessType} onValueChange={(value) => updateBusiness(business.id, 'businessType', value)}>
+                          <SelectTrigger className="w-full h-12 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 hover:bg-gray-50 transition-colors">
+                            <SelectValue placeholder="Select business type" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-200 shadow-lg">
+                            <SelectItem value="contractor" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
+                              Contractor
+                            </SelectItem>
+                            <SelectItem value="installer" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
+                              Installer
+                            </SelectItem>
+                            <SelectItem value="maintenance" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
+                              Maintenance
+                            </SelectItem>
+                            <SelectItem value="consultant" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
+                              Consultant
+                            </SelectItem>
+                            <SelectItem value="other" className="cursor-pointer hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-700">
+                              Other
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          License Number
+                        </Label>
+                        <Input
+                          value={business.licenseNumber}
+                          onChange={(e) => updateBusiness(business.id, 'licenseNumber', e.target.value)}
+                          className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                          placeholder="Enter license number"
+                        />
+                      </div>
+
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          Years in Business
+                        </Label>
+                        <Input
+                          type="number"
+                          value={business.yearsInBusiness || ''}
+                          onChange={(e) => updateBusiness(business.id, 'yearsInBusiness', parseInt(e.target.value) || 0)}
+                          className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                          placeholder="Number of years"
+                          min="0"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          Website
+                        </Label>
+                        <Input
+                          type="url"
+                          value={business.website || ''}
+                          onChange={(e) => updateBusiness(business.id, 'website', e.target.value)}
+                          className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                          placeholder="https://example.com"
+                        />
+                      </div>
+
+                      <div>
+                        <Label className="block text-sm font-medium mb-3">
+                          Services Offered
+                        </Label>
+                        <Textarea
+                          value={business.servicesOffered || ''}
+                          onChange={(e) => updateBusiness(business.id, 'servicesOffered', e.target.value)}
+                          placeholder="Describe the services offered..."
+                          rows={4}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 min-h-[48px]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )) : (
+              <div className="text-center py-8 text-gray-500">
+                <Building2 className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                <p>No businesses added yet. Click "Add Business" to get started.</p>
+              </div>
+            )}
           </div>
 
           {/* Notes */}
