@@ -31,6 +31,7 @@ import {
   Clock as ClockIcon,
   Download,
   Mail,
+  Phone,
   LayoutDashboard,
   Home,
   Building2,
@@ -81,6 +82,8 @@ import {
 import CalendarView from "@/components/calendar-view"
 import EventDialog from "@/components/event-dialog"
 import CustomerProfilePopup from "@/components/customer-profile-popup"
+import ProfileEditDialog from "@/components/profile-edit-dialog"
+import UserProfileEditDialog from "@/components/user-profile-edit-dialog"
 
 // Mock data - replace with actual data from your backend
 const mockData = {
@@ -937,10 +940,72 @@ const DashboardPage = () => {
   const [showEventDialog, setShowEventDialog] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const [selectedSlot, setSelectedSlot] = useState<{ start: Date; end: Date } | null>(null)
+  
+  // Profile editing state
+  const [showProfileEditDialog, setShowProfileEditDialog] = useState(false)
+  const [showUserProfileEditDialog, setShowUserProfileEditDialog] = useState(false)
+  const [contractorProfile, setContractorProfile] = useState({
+    name: "Alabama Septic Solutions",
+    license: "AL-12345",
+    counties: ["Jefferson", "Shelby", "Tuscaloosa"],
+    address: "123 Business Street",
+    city: "Birmingham",
+    state: "AL",
+    zipCode: "35201",
+    phone: "(205) 555-0100",
+    email: "contact@alabamaseptic.com",
+    licenseExpiration: "December 31, 2025",
+    insuranceStatus: "Current",
+    adphRegistration: "Registered",
+    lastInspection: "November 15, 2024",
+    nextRenewal: "November 15, 2025"
+  })
+  
+  // User profile state
+  const [userProfile, setUserProfile] = useState({
+    id: '1',
+    firstName: 'John',
+    lastName: 'Smith',
+    email: 'john.smith@alabamaseptic.com',
+    phone: '(205) 555-0123',
+    avatar: '',
+    role: 'Contractor',
+    department: 'Field Operations',
+    jobTitle: 'Senior Septic Inspector',
+    address: '123 Oak Street',
+    city: 'Birmingham',
+    state: 'AL',
+    zipCode: '35244',
+    country: 'United States',
+    bio: 'Experienced septic system inspector with 10+ years in the field. Specializing in CEP-5 inspections and compliance management.',
+    preferences: {
+      theme: 'light',
+      notifications: true,
+      language: 'en',
+      timezone: 'America/Chicago'
+    },
+    security: {
+      twoFactorEnabled: false,
+      lastPasswordChange: '2024-01-15',
+      loginAttempts: 0
+    },
+    createdAt: '2024-01-01',
+    lastUpdated: '2024-01-15'
+  })
 
   const handleFindCustomer = () => {
     // Navigate to customer search
     console.log("Find customer")
+  }
+
+  const handleProfileSave = (updatedProfile: any) => {
+    setContractorProfile(updatedProfile)
+    console.log("Profile saved:", updatedProfile)
+  }
+
+  const handleUserProfileSave = (updatedProfile: any) => {
+    setUserProfile(updatedProfile)
+    console.log("User profile saved:", updatedProfile)
   }
 
   const handleImportData = () => {
@@ -2713,11 +2778,23 @@ const DashboardPage = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                              <Download className="h-4 w-4" />
-                            </Button>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                              onClick={() => window.open(`mailto:?subject=CEP-5 Form ${form.id}&body=Please find attached the CEP-5 form for ${form.customer} - ${form.property}`)}
+                              title="Email Form"
+                            >
                               <Mail className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                              onClick={() => window.print()}
+                              title="Print Form"
+                            >
+                              <Printer className="h-4 w-4" />
                             </Button>
                           </div>
                         </td>
@@ -2926,11 +3003,23 @@ const DashboardPage = () => {
                           
                           {/* Actions */}
                           <div className="text-left flex items-center space-x-2">
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                              <Download className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                              onClick={() => window.open(`mailto:?subject=CEP-5 Form ${form.id}&body=Please find attached the CEP-5 form for ${form.customer} - ${form.property}`)}
+                              title="Email Form"
+                            >
                               <Mail className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                              onClick={() => window.print()}
+                              title="Print Form"
+                            >
+                              <Printer className="h-4 w-4" />
                             </Button>
                           </div>
                         </div>
@@ -3108,11 +3197,23 @@ const DashboardPage = () => {
                                   <User className="h-4 w-4" />
                                 </Button>
                               </CustomerProfilePopup>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                onClick={() => window.open(`mailto:${customer.email}?subject=Customer Information - ${customer.name}&body=Customer Details:%0D%0AName: ${customer.name}%0D%0AEmail: ${customer.email}%0D%0APhone: ${customer.phone}%0D%0AAddress: ${customer.address}%0D%0ACity: ${customer.city}%0D%0AState: ${customer.state}%0D%0AZip: ${customer.zipCode}%0D%0ACounty: ${customer.county}%0D%0AProperties: ${customer.properties}%0D%0AForms: ${customer.forms}%0D%0AStatus: ${customer.status}%0D%0ALast Contact: ${customer.lastContact}`)}
+                                title="Email Customer"
+                              >
                                 <Mail className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <FileText className="h-4 w-4" />
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                onClick={() => window.print()}
+                                title="Print Customer Info"
+                              >
+                                <Printer className="h-4 w-4" />
                               </Button>
                             </div>
                           </div>
@@ -3206,7 +3307,7 @@ const DashboardPage = () => {
           <div className="space-y-6">
             {/* Breadcrumbs - Only show if coming from dashboard */}
             {scheduleSource === 'dashboard' && (
-              <div className="px-8 pt-8">
+              <div>
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -3225,7 +3326,7 @@ const DashboardPage = () => {
             )}
 
             {/* Calendar Header - Date and Actions */}
-            <div className="flex items-center justify-between mb-4 px-8">
+            <div className="flex items-center justify-between mb-4">
               {/* Date Information - aligned to left */}
               <div className="flex items-center space-x-4">
                 <h1 className="text-2xl font-bold text-gray-900">
@@ -3250,7 +3351,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Color Legend */}
-            <div className="px-8 mb-4">
+            <div className="mb-4">
               <div className="flex items-center space-x-6 text-sm">
                 <span className="text-gray-600 font-medium">Job Types:</span>
                 <div className="flex items-center space-x-1">
@@ -3291,100 +3392,189 @@ const DashboardPage = () => {
                 variant="outline"
                 size="sm"
                 className="bg-slate-200 hover:bg-slate-300 text-slate-700 border-slate-300 hover:border-slate-400"
+                onClick={() => setShowUserProfileEditDialog(true)}
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>
             </div>
 
-            {/* Company Information */}
+            {/* User Profile Header */}
             <Card className="bg-white border-gray-200">
-              <CardHeader className="px-8 pt-8 pb-6">
-                <CardTitle className="text-gray-900">Company Information</CardTitle>
-              </CardHeader>
-              <CardContent className="px-8 pb-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-                      <div className="text-sm text-gray-900">{mockData.contractor.name}</div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">License Number</label>
-                      <div className="text-sm text-gray-900">{mockData.contractor.license}</div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Counties</label>
-                      <div className="flex flex-wrap gap-2">
-                        {mockData.contractor.counties.map((county) => (
-                          <Badge key={county} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                            {county} County
-                          </Badge>
-                        ))}
+              <CardContent className="px-8 py-8">
+                <div className="flex items-start gap-6">
+                  <Avatar className="h-20 w-20">
+                    <AvatarImage src={userProfile.avatar} alt={`${userProfile.firstName} ${userProfile.lastName}`} />
+                    <AvatarFallback className="text-lg">
+                      {userProfile.firstName[0]}{userProfile.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <h1 className="text-2xl font-bold text-gray-900">{userProfile.firstName} {userProfile.lastName}</h1>
+                    <p className="text-lg text-gray-600">{userProfile.jobTitle}</p>
+                    <p className="text-sm text-gray-500">{userProfile.department} • {userProfile.role}</p>
+                    <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4" />
+                        {userProfile.email}
                       </div>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
-                      <div className="text-sm text-gray-900">123 Business Street</div>
-                      <div className="text-sm text-gray-900">Birmingham, AL 35201</div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <div className="text-sm text-gray-900">(205) 555-0100</div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <div className="text-sm text-gray-900">contact@alabamaseptic.com</div>
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        {userProfile.phone}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        {userProfile.city}, {userProfile.state}
+                      </div>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Compliance & Licensing */}
+            {/* Personal Information */}
             <Card className="bg-white border-gray-200">
               <CardHeader className="px-8 pt-8 pb-6">
-                <CardTitle className="text-gray-900">Compliance & Licensing</CardTitle>
+                <CardTitle className="text-gray-900">Personal Information</CardTitle>
               </CardHeader>
               <CardContent className="px-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">License Status</label>
-                      <Badge className="bg-green-100 text-green-800 border-green-200">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Active
-                      </Badge>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                      <div className="text-sm text-gray-900">{userProfile.firstName} {userProfile.lastName}</div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">License Expiration</label>
-                      <div className="text-sm text-gray-900">December 31, 2025</div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                      <div className="text-sm text-gray-900">{userProfile.email}</div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Insurance Status</label>
-                      <Badge className="bg-green-100 text-green-800 border-green-200">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Current
-                      </Badge>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                      <div className="text-sm text-gray-900">{userProfile.phone}</div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">ADPH Registration</label>
-                      <Badge className="bg-green-100 text-green-800 border-green-200">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Registered
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                      <div className="text-sm text-gray-900">{userProfile.role}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                      <div className="text-sm text-gray-900">{userProfile.department}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+                      <div className="text-sm text-gray-900">{userProfile.jobTitle}</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Address Information */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-8 pt-8 pb-6">
+                <CardTitle className="text-gray-900">Address Information</CardTitle>
+              </CardHeader>
+              <CardContent className="px-8 pb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
+                      <div className="text-sm text-gray-900">{userProfile.address}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                      <div className="text-sm text-gray-900">{userProfile.city}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                      <div className="text-sm text-gray-900">{userProfile.state}</div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
+                      <div className="text-sm text-gray-900">{userProfile.zipCode}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                      <div className="text-sm text-gray-900">{userProfile.country}</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Bio */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-8 pt-8 pb-6">
+                <CardTitle className="text-gray-900">About</CardTitle>
+              </CardHeader>
+              <CardContent className="px-8 pb-8">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                  <div className="text-sm text-gray-900 leading-relaxed">{userProfile.bio}</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Preferences */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-8 pt-8 pb-6">
+                <CardTitle className="text-gray-900">Preferences</CardTitle>
+              </CardHeader>
+              <CardContent className="px-8 pb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
+                      <div className="text-sm text-gray-900 capitalize">{userProfile.preferences.theme}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                      <div className="text-sm text-gray-900">{userProfile.preferences.language === 'en' ? 'English' : userProfile.preferences.language}</div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+                      <div className="text-sm text-gray-900">{userProfile.preferences.timezone}</div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Notifications</label>
+                      <Badge className={userProfile.preferences.notifications ? "bg-green-100 text-green-800 border-green-200" : "bg-gray-100 text-gray-800 border-gray-200"}>
+                        {userProfile.preferences.notifications ? 'Enabled' : 'Disabled'}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Security */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="px-8 pt-8 pb-6">
+                <CardTitle className="text-gray-900">Security</CardTitle>
+              </CardHeader>
+              <CardContent className="px-8 pb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Two-Factor Authentication</label>
+                      <Badge className={userProfile.security.twoFactorEnabled ? "bg-green-100 text-green-800 border-green-200" : "bg-gray-100 text-gray-800 border-gray-200"}>
+                        {userProfile.security.twoFactorEnabled ? 'Enabled' : 'Disabled'}
                       </Badge>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Inspection</label>
-                      <div className="text-sm text-gray-900">November 15, 2024</div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Password Change</label>
+                      <div className="text-sm text-gray-900">{userProfile.security.lastPasswordChange}</div>
                     </div>
+                  </div>
+                  <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Next Renewal Due</label>
-                      <div className="text-sm text-gray-900">November 15, 2025</div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Failed Login Attempts</label>
+                      <div className="text-sm text-gray-900">{userProfile.security.loginAttempts}</div>
                     </div>
                   </div>
                 </div>
@@ -3570,11 +3760,23 @@ const DashboardPage = () => {
                             
                             {/* Actions */}
                             <div className="text-left flex items-center space-x-2">
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <MapPin className="h-4 w-4" />
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                onClick={() => window.open(`mailto:?subject=Property Information - ${property.address}&body=Property Details:%0D%0AAddress: ${property.address}%0D%0ACustomer: ${property.customer}%0D%0ACounty: ${property.county}%0D%0ASystem Type: ${property.systemType}%0D%0AStatus: ${property.status}%0D%0ALast Inspection: ${property.lastInspection}`)}
+                                title="Email Property Info"
+                              >
+                                <Mail className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                                <FileText className="h-4 w-4" />
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                onClick={() => window.print()}
+                                title="Print Property Info"
+                              >
+                                <Printer className="h-4 w-4" />
                               </Button>
                             </div>
                           </div>
@@ -3767,16 +3969,16 @@ const DashboardPage = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button variant="slate" size="sm" className="w-full justify-start">
-                    <Download className="w-4 h-4 mr-2" />
-                    Export Customer Data
+                    <Printer className="w-4 h-4 mr-2" />
+                    Print Customer Data
                   </Button>
                   <Button variant="slate" size="sm" className="w-full justify-start">
                     <Upload className="w-4 h-4 mr-2" />
                     Import Customer Data
                   </Button>
                   <Button variant="slate" size="sm" className="w-full justify-start">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Download All CEP-5 Forms
+                    <Printer className="w-4 h-4 mr-2" />
+                    Print All CEP-5 Forms
                   </Button>
                   <Button variant="slate" size="sm" className="w-full justify-start text-red-600 hover:text-red-700">
                     <X className="w-4 h-4 mr-2" />
@@ -4043,8 +4245,8 @@ const DashboardPage = () => {
                     </div>
                     <div className="pt-2">
                       <Button variant="slate" size="sm" className="w-full">
-                        <Download className="w-4 h-4 mr-2" />
-                        Download All Data
+                        <Printer className="w-4 h-4 mr-2" />
+                        Print All Data
                       </Button>
                     </div>
                   </div>
@@ -4355,7 +4557,7 @@ const DashboardPage = () => {
               {renderContent()}
             </div>
           ) : activeTab === 'schedule' ? (
-            <div className="h-full">
+            <div className="px-8 py-8 h-full">
               {renderContent()}
             </div>
           ) : (
@@ -4872,6 +5074,22 @@ const DashboardPage = () => {
         selectedDate={selectedSlot?.start}
         selectedTimeSlot={selectedSlot || undefined}
         event={selectedEvent}
+      />
+
+      {/* Profile Edit Dialog */}
+      <ProfileEditDialog
+        isOpen={showProfileEditDialog}
+        onClose={() => setShowProfileEditDialog(false)}
+        onSave={handleProfileSave}
+        initialData={contractorProfile}
+      />
+
+      {/* User Profile Edit Dialog */}
+      <UserProfileEditDialog
+        isOpen={showUserProfileEditDialog}
+        onClose={() => setShowUserProfileEditDialog(false)}
+        onSave={handleUserProfileSave}
+        initialData={userProfile}
       />
     </div>
   )

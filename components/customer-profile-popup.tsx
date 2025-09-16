@@ -84,7 +84,6 @@ export default function CustomerProfilePopup({
     }))
   }, [])
 
-
   // Update form data when customer prop changes
   useEffect(() => {
     setFormData(customer)
